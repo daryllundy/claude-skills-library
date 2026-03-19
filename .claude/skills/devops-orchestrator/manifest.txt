@@ -1,0 +1,4 @@
+assets/templates/.gitkeep
+references/legacy-agent.md
+scripts/.gitkeep
+skill.md

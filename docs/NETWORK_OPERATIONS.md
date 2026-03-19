@@ -1,6 +1,6 @@
 # Network Operations & Caching
 
-This document provides comprehensive information about the network operations, retry logic, and caching mechanisms in the agent recommendation script.
+This document provides comprehensive information about the network operations, retry logic, and caching mechanisms in the skill recommendation script.
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@ This document provides comprehensive information about the network operations, r
 
 ## Overview
 
-The agent recommendation script (`scripts/recommend_agents.sh`) implements robust network handling to ensure reliability across various network conditions:
+The skill recommendation script (`scripts/recommend_agents.sh`) implements robust network handling to ensure reliability across various network conditions:
 
 - **Automatic Retry**: All network operations retry on failure with exponential backoff
 - **Intelligent Caching**: Downloaded files are cached locally to reduce network requests

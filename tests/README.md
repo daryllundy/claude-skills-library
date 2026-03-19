@@ -1,6 +1,6 @@
 # Agent Recommendation Tests
 
-Comprehensive test suite for the agent recommendation script enhancements.
+Comprehensive test suite for the skill recommendation script enhancements.
 
 ## Test Structure
 
@@ -90,13 +90,13 @@ Tests export/import functionality:
 
 #### Update Detection (`test_update_detection.sh`)
 Tests update checking and installation:
-- No agents installed handling
+- No skills installed handling
 - Up-to-date agent detection
 - Modified agent detection
 - Backup directory creation
 - Skipping current agents
 - Update count reporting
-- AGENTS_REGISTRY exclusion
+- SKILLS_REGISTRY exclusion
 - Network error handling
 - Backup directory timestamp naming
 - Content comparison accuracy

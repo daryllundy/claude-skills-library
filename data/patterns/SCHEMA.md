@@ -52,7 +52,7 @@ agents:                     # Required: Array of agent definitions
 - **Type**: String
 - **Format**: kebab-case (lowercase with hyphens)
 - **Description**: Unique identifier for the agent
-- **Must Match**: Agent markdown filename in `.claude/agents/`
+- **Must Match**: Agent markdown filename in `.claude/skills/`
 - **Example**: `name: "terraform-specialist"`
 
 #### `description` (optional)

@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+if [[ -x /opt/homebrew/bin/bash ]]; then
+  export PATH="/opt/homebrew/bin:$PATH"
+fi
 set -uo pipefail
 
 # Master test runner for all agent recommendation tests

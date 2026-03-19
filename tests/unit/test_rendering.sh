@@ -77,17 +77,17 @@ assert_equals() {
   local actual="$2"
   local test_name="$3"
   
-  ((TESTS_RUN++))
+  ((++TESTS_RUN))
   
   if [[ "$expected" == "$actual" ]]; then
     echo "✓ PASS: $test_name"
-    ((TESTS_PASSED++))
+    ((++TESTS_PASSED))
     return 0
   else
     echo "✗ FAIL: $test_name"
     echo "  Expected: $expected"
     echo "  Actual:   $actual"
-    ((TESTS_FAILED++))
+    ((++TESTS_FAILED))
     return 1
   fi
 }
@@ -97,17 +97,17 @@ assert_contains() {
   local needle="$2"
   local test_name="$3"
   
-  ((TESTS_RUN++))
+  ((++TESTS_RUN))
   
   if [[ "$haystack" == *"$needle"* ]]; then
     echo "✓ PASS: $test_name"
-    ((TESTS_PASSED++))
+    ((++TESTS_PASSED))
     return 0
   else
     echo "✗ FAIL: $test_name"
     echo "  Expected to contain: $needle"
     echo "  Actual: $haystack"
-    ((TESTS_FAILED++))
+    ((++TESTS_FAILED))
     return 1
   fi
 }
@@ -117,17 +117,17 @@ assert_matches() {
   local pattern="$2"
   local test_name="$3"
   
-  ((TESTS_RUN++))
+  ((++TESTS_RUN))
   
   if [[ "$actual" =~ $pattern ]]; then
     echo "✓ PASS: $test_name"
-    ((TESTS_PASSED++))
+    ((++TESTS_PASSED))
     return 0
   else
     echo "✗ FAIL: $test_name"
     echo "  Expected to match: $pattern"
     echo "  Actual: $actual"
-    ((TESTS_FAILED++))
+    ((++TESTS_FAILED))
     return 1
   fi
 }
@@ -204,12 +204,12 @@ test_render_agent_item_not_current() {
   # Should not show description when not current
   if [[ "$output" != *"Test description"* ]]; then
     echo "✓ PASS: render_agent_item hides description when not current"
-    ((TESTS_PASSED++))
+    ((++TESTS_PASSED))
   else
     echo "✗ FAIL: render_agent_item hides description when not current"
-    ((TESTS_FAILED++))
+    ((++TESTS_FAILED))
   fi
-  ((TESTS_RUN++))
+  ((++TESTS_RUN))
 }
 
 # Test render_navigation_footer

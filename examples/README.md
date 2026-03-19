@@ -203,4 +203,4 @@ This directory contains real-world examples of using the specialized agents in C
 See the main documentation:
 - [GETTING_STARTED.md](../GETTING_STARTED.md)
 - [CLAUDE_CODE_USAGE.md](../CLAUDE_CODE_USAGE.md)
-- [.claude/agents/AGENTS_REGISTRY.md](../.claude/agents/AGENTS_REGISTRY.md)
+- [.claude/skills/SKILLS_REGISTRY.md](../.claude/skills/SKILLS_REGISTRY.md)
