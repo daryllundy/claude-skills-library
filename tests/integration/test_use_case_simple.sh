@@ -17,12 +17,12 @@ TESTS_FAILED=0
 test_start() {
   local test_name="$1"
   echo -n "  $test_name ... "
-  ((TESTS_RUN++))
+  ((++TESTS_RUN))
 }
 
 test_pass() {
   echo -e "${GREEN}PASS${NC}"
-  ((TESTS_PASSED++))
+  ((++TESTS_PASSED))
 }
 
 test_fail() {
@@ -31,7 +31,7 @@ test_fail() {
   if [[ -n "$reason" ]]; then
     echo "    Reason: $reason"
   fi
-  ((TESTS_FAILED++))
+  ((++TESTS_FAILED))
 }
 
 echo "================================"

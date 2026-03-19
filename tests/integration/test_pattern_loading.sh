@@ -17,7 +17,8 @@ TESTS_FAILED=0
 
 # Source the main script functions
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${SCRIPT_DIR}/scripts/recommend_agents.sh" 2>/dev/null || true
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+source "${REPO_ROOT}/scripts/recommend_agents.sh" 2>/dev/null || true
 
 # Override log function for tests
 log() {
@@ -28,12 +29,12 @@ log() {
 test_start() {
   local test_name="$1"
   echo -n "Testing: $test_name ... "
-  ((TESTS_RUN++))
+  ((++TESTS_RUN))
 }
 
 test_pass() {
   echo -e "${GREEN}PASS${NC}"
-  ((TESTS_PASSED++))
+  ((++TESTS_PASSED))
 }
 
 test_fail() {
@@ -42,7 +43,7 @@ test_fail() {
   if [[ -n "$reason" ]]; then
     echo "  Reason: $reason"
   fi
-  ((TESTS_FAILED++))
+  ((++TESTS_FAILED))
 }
 
 # Create test directory

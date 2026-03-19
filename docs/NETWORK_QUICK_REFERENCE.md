@@ -1,6 +1,6 @@
 # Network Operations Quick Reference
 
-Quick reference for network operations, retry logic, and caching in the agent recommendation script.
+Quick reference for network operations, retry logic, and caching in the skill recommendation script.
 
 ## Common Commands
 
@@ -14,10 +14,10 @@ bash scripts/recommend_agents.sh --force-refresh
 # Clear all cached files
 bash scripts/recommend_agents.sh --clear-cache
 
-# Check for agent updates
+# Check for skill updates
 bash scripts/recommend_agents.sh --check-updates
 
-# Update all agents (with automatic backup)
+# Update all skills (with automatic backup)
 bash scripts/recommend_agents.sh --update-all
 
 # Verbose output (see network operations)
@@ -67,7 +67,7 @@ ls -lh ~/.cache/claude-agents
 ping -c 5 raw.githubusercontent.com
 
 # Test URL directly
-curl -I https://raw.githubusercontent.com/daryllundy/claude-agents/main/.claude/agents/AGENTS_REGISTRY.md
+curl -I https://raw.githubusercontent.com/daryllundy/claude-agents/main/.claude/skills/SKILLS_REGISTRY.md
 
 # Use verbose mode
 bash scripts/recommend_agents.sh --verbose

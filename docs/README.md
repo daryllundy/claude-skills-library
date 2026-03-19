@@ -52,7 +52,7 @@ For general usage documentation, see:
 - **[../README.md](../README.md)** - Project overview and quick start
 - **[../GETTING_STARTED.md](../GETTING_STARTED.md)** - Beginner's guide
 - **[../CLAUDE_CODE_USAGE.md](../CLAUDE_CODE_USAGE.md)** - Comprehensive usage guide
-- **[../.claude/agents/AGENTS_REGISTRY.md](../.claude/agents/AGENTS_REGISTRY.md)** - Complete agent catalog
+- **[../.claude/skills/SKILLS_REGISTRY.md](../.claude/skills/SKILLS_REGISTRY.md)** - Complete skills catalog
 
 ## Contributing
 

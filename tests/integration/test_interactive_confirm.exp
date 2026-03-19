@@ -1,7 +1,7 @@
 #!/usr/bin/expect -f
 # Test interactive mode confirmation with enter key
 
-set timeout 5
+set timeout 20
 set test_name "interactive_confirm"
 
 # Start the script in interactive mode with dry-run

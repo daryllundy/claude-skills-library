@@ -1,6 +1,6 @@
 # Testing Interactive Mode
 
-This document describes how to test the interactive selection mode of the agent recommendation script.
+This document describes how to test the interactive selection mode of the skill recommendation script.
 
 ## Overview
 
@@ -96,7 +96,7 @@ expect tests/integration/test_interactive_navigation.exp
 
 Tests the core selection logic:
 - ✓ Initializing selection state with confidence threshold
-- ✓ Toggling individual agent selection
+- ✓ Toggling individual skill selection
 - ✓ Selecting all agents
 - ✓ Selecting none
 - ✓ Getting selected agents list

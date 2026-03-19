@@ -114,7 +114,7 @@ agents:
 - **Categorized Display**: Agents grouped by category (Infrastructure, Development, Quality, Operations, Productivity, Business, Specialized)
 - **Visual Progress Bars**: ASCII progress bars showing confidence levels (█ for filled, ░ for empty)
 - **Confidence Symbols**: ✓ for recommended (50%+), ~ for suggested (25-49%)
-- **Agent Descriptions**: Display descriptions from AGENTS_REGISTRY.md
+- **Agent Descriptions**: Display descriptions from SKILLS_REGISTRY.md
 - **Matched Patterns**: Show which patterns triggered each recommendation
 - **Professional Layout**: Box-drawing characters for clean, organized output
 - **Legend**: Clear explanation of symbols and confidence tiers
@@ -202,7 +202,7 @@ agents:
   - `-h, --help`: Show help message
 
 #### Agent Registry Integration
-- **Metadata Parsing**: Extracts agent categories, descriptions, and use cases from AGENTS_REGISTRY.md
+- **Metadata Parsing**: Extracts agent categories, descriptions, and use cases from SKILLS_REGISTRY.md
 - **Automatic Fetching**: Downloads registry if not present locally
 - **Fallback Support**: Works with built-in metadata if registry unavailable
 - **Category Organization**: Uses registry categories for output grouping

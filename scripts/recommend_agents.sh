@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
+if [[ -z "${BASH_VERSINFO:-}" || "${BASH_VERSINFO[0]}" -lt 4 ]]; then
+  if [[ -x /opt/homebrew/bin/bash ]]; then
+    exec /opt/homebrew/bin/bash "$0" "$@"
+  fi
+  echo "Error: recommend_agents.sh requires bash 4+." >&2
+  exit 1
+fi
 set -euo pipefail
 
-# Script to scan a project and download recommended Claude Code agent prompts.
+# Script to scan a project and download recommended Claude Code skills.
 # Intended usage:
 #   curl -sSL https://raw.githubusercontent.com/daryllundy/claude-agents/main/scripts/recommend_agents.sh | bash
 # If you clone the claude-agents repository locally you can also run the script directly.
@@ -11,9 +18,12 @@ DEFAULT_BRANCH="main"
 
 CLAUDE_AGENTS_BRANCH="${CLAUDE_AGENTS_BRANCH:-$DEFAULT_BRANCH}"
 CLAUDE_AGENTS_REPO="${CLAUDE_AGENTS_REPO:-https://raw.githubusercontent.com/${REPO_SLUG}}"
-BASE_URL="${CLAUDE_AGENTS_REPO}/${CLAUDE_AGENTS_BRANCH}/.claude/agents"
+BASE_URL="${CLAUDE_AGENTS_REPO}/${CLAUDE_AGENTS_BRANCH}/.claude/skills"
 
-AGENTS_DIR=".claude/agents"
+AGENTS_DIR=".claude/skills"
+REGISTRY_FILENAME="SKILLS_REGISTRY.md"
+ENTRYPOINT_FILENAME="skill.md"
+MANIFEST_FILENAME="manifest.txt"
 DRY_RUN=false
 
 # Agent metadata storage
@@ -26,27 +36,27 @@ declare -A AGENT_PATTERNS
 
 print_help() {
   cat <<'USAGE'
-Claude Code Agent Recommender
+Claude Code Skill Recommender
 =============================
 
-Scans the current project and downloads Claude Code agent prompt files that
+Scans the current project and downloads Claude Code skill directories that
 match the detected technologies.
 
 Usage:
   recommend_agents.sh [options]
 
 Options:
-  --dry-run              Only print recommended agents without downloading.
-  --force                Redownload agent files even if they already exist locally.
-  --min-confidence NUM   Only recommend agents with confidence >= NUM (0-100).
+  --dry-run              Only print recommended skills without downloading.
+  --force                Redownload skill files even if they already exist locally.
+  --min-confidence NUM   Only recommend skills with confidence >= NUM (0-100).
   --verbose              Display detailed detection results with all patterns checked.
-  --debug-confidence [AGENT]  Show detailed confidence calculation for agent(s).
-  --show-max-weights     Display maximum possible weights for all agents.
-  --interactive          Enter interactive mode to manually select agents.
+  --debug-confidence [SKILL]  Show detailed confidence calculation for skill(s).
+  --show-max-weights     Display maximum possible weights for all detected skills.
+  --interactive          Enter interactive mode to manually select skills.
   --export FILE          Export detection profile to JSON file.
-  --import FILE          Import and install agents from a profile JSON file.
-  --check-updates        Check for updates to locally installed agents.
-  --update-all           Update all locally installed agents to latest versions.
+  --import FILE          Import and install skills from a profile JSON file.
+  --check-updates        Check for updates to locally installed skills.
+  --update-all           Update all locally installed skills to latest versions.
   --force-refresh        Bypass cache and fetch fresh content from network.
   --clear-cache          Remove all cached files and exit.
   --cache-dir DIR        Specify custom cache directory location.
@@ -179,14 +189,14 @@ while [[ $# -gt 0 ]]; do
       shift
       [[ $# -gt 0 ]] || { echo "Missing value for --branch" >&2; exit 1; }
       CLAUDE_AGENTS_BRANCH="$1"
-      BASE_URL="${CLAUDE_AGENTS_REPO}/${CLAUDE_AGENTS_BRANCH}/.claude/agents"
+      BASE_URL="${CLAUDE_AGENTS_REPO}/${CLAUDE_AGENTS_BRANCH}/.claude/skills"
       shift
       ;;
     --repo)
       shift
       [[ $# -gt 0 ]] || { echo "Missing value for --repo" >&2; exit 1; }
       CLAUDE_AGENTS_REPO="$1"
-      BASE_URL="${CLAUDE_AGENTS_REPO}/${CLAUDE_AGENTS_BRANCH}/.claude/agents"
+      BASE_URL="${CLAUDE_AGENTS_REPO}/${CLAUDE_AGENTS_BRANCH}/.claude/skills"
       shift
       ;;
     --patterns-dir)
@@ -366,7 +376,7 @@ fetch_with_retry() {
       log "Attempt $attempt/$max_attempts failed (HTTP $http_code). Retrying in ${backoff}s..."
       sleep $backoff
       ((backoff *= 2))  # Exponential backoff
-      ((attempt++))
+      ((++attempt))
     else
       echo "Error: Failed to download from $url after $max_attempts attempts (HTTP $http_code)" >&2
 
@@ -400,9 +410,9 @@ fetch_with_retry() {
 validate_arguments() {
   # Check for mutually exclusive flags
   local mode_count=0
-  [[ -n "$IMPORT_FILE" ]] && ((mode_count++))
-  [[ $CHECK_UPDATES == true ]] && ((mode_count++))
-  [[ $UPDATE_ALL == true ]] && ((mode_count++))
+  [[ -n "$IMPORT_FILE" ]] && ((++mode_count))
+  [[ $CHECK_UPDATES == true ]] && ((++mode_count))
+  [[ $UPDATE_ALL == true ]] && ((++mode_count))
 
   if [[ $mode_count -gt 1 ]]; then
     echo "Error: --import, --check-updates, and --update-all are mutually exclusive" >&2
@@ -575,7 +585,7 @@ display_categorized_results() {
       IFS=' ' read -ra agents <<< "${category_agents[$category]}"
 
       echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-      echo "$category (${#agents[@]} agent(s))"
+      echo "$category (${#agents[@]} skill(s))"
       echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
       echo ""
 
@@ -589,7 +599,7 @@ display_categorized_results() {
   if [[ -n "${category_agents[Uncategorized]:-}" ]]; then
     IFS=' ' read -ra agents <<< "${category_agents[Uncategorized]}"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "Other (${#agents[@]} agent(s))"
+    echo "Other (${#agents[@]} skill(s))"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
 
@@ -701,11 +711,11 @@ validate_use_cases() {
 
   # Check all agents that have patterns
   for agent in "${!AGENT_PATTERNS[@]}"; do
-    ((total_count++))
+    ((++total_count))
     local use_case="${AGENT_USE_CASES[$agent]:-}"
 
     if [[ -z "$use_case" ]]; then
-      ((missing_count++))
+      ((++missing_count))
       missing_agents+=("$agent")
     fi
   done
@@ -732,7 +742,7 @@ render_category_header() {
   local count="$2"
 
   echo ""
-  echo "━━ $category ($count agent(s)) ━━"
+  echo "━━ $category ($count skill(s)) ━━"
   echo ""
 }
 
@@ -795,7 +805,7 @@ render_agent_list() {
   local -n categories_ref=$5
   local -n use_cases_ref=$6
   
-  clear
+  clear 2>/dev/null || printf '\033[2J\033[H'
   echo "═══════════════════════════════════════════════════════════════════════"
   echo "            Agent Recommendation - Interactive Mode"
   echo "═══════════════════════════════════════════════════════════════════════"
@@ -807,7 +817,7 @@ render_agent_list() {
   declare -A category_agents
   for agent in "${agents_ref[@]}"; do
     local category="${categories_ref[$agent]:-Uncategorized}"
-    if [[ -z "${category_agents[$category]}" ]]; then
+    if [[ -z "${category_agents[$category]:-}" ]]; then
       category_agents[$category]="$agent"
     else
       category_agents[$category]="${category_agents[$category]} $agent"
@@ -818,9 +828,9 @@ render_agent_list() {
   local -a categories=("Infrastructure (Cloud)" "Infrastructure (IaC)" "Infrastructure (Platform)" "Infrastructure (Containers)" "Infrastructure (Monitoring)" "Development" "Quality" "Operations" "Productivity" "Business" "Specialized" "Uncategorized")
   
   for category in "${categories[@]}"; do
-    if [[ -n "${category_agents[$category]}" ]]; then
+    if [[ -n "${category_agents[$category]:-}" ]]; then
       # Count agents in category
-      IFS=' ' read -ra agents <<< "${category_agents[$category]}"
+      IFS=' ' read -ra agents <<< "${category_agents[$category]:-}"
       local category_count=${#agents[@]}
       
       render_category_header "$category" "$category_count"
@@ -841,7 +851,7 @@ render_agent_list() {
         
         render_agent_item "$agent" "$confidence" "$description" "$is_selected" "$is_current" "$use_case"
         
-        ((display_index++))
+        ((++display_index))
       done
     fi
   done
@@ -923,7 +933,7 @@ get_selection_count() {
   
   for agent in "${!SELECTION_STATE[@]}"; do
     if [[ ${SELECTION_STATE[$agent]} -eq 1 ]]; then
-      ((count++))
+      ((++count))
     fi
   done
   
@@ -1024,7 +1034,7 @@ handle_keyboard_input() {
         ;;
       '[B')  # Down arrow
         if [[ $current_index -lt $max_index ]]; then
-          ((current_index++))
+          ((++current_index))
         fi
         ;;
     esac
@@ -1085,7 +1095,7 @@ interactive_selection() {
     esac
   done
 
-  clear
+  clear 2>/dev/null || printf '\033[2J\033[H'
 
   # Return selected agents by updating recommended_agents array using new function
   recommended_agents=()
@@ -1146,7 +1156,8 @@ EOF
     fi
 
     # Escape use case for JSON
-    local use_case_escaped=$(echo "$use_case" | sed 's/"/\\"/g' | sed 's/\\/\\\\/g')
+    local use_case_escaped
+    use_case_escaped=$(printf '%s' "$use_case" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
     cat >> "$output_file" <<EOF
       {
@@ -1210,16 +1221,16 @@ import_profile() {
       exit 1
     fi
 
-    # Download each agent
+    # Download each skill
     local count=0
     while IFS= read -r agent; do
       [[ -z "$agent" ]] && continue
-      log "Installing agent: $agent"
+      log "Installing skill: $agent"
       fetch_agent "$agent"
-      ((count++))
+      ((++count))
     done <<< "$agents_json"
 
-    log "Successfully installed $count agents from profile"
+    log "Successfully installed $count skills from profile"
   else
     # Use jq for proper JSON parsing
     # Validate JSON
@@ -1233,70 +1244,125 @@ import_profile() {
     mapfile -t agents < <(jq -r '.selected_agents[]?' "$input_file")
 
     if [[ ${#agents[@]} -eq 0 ]]; then
-      echo "Error: No agents found in profile" >&2
+      echo "Error: No skills found in profile" >&2
       exit 1
     fi
 
-    log "Found ${#agents[@]} agents in profile"
+    log "Found ${#agents[@]} skills in profile"
 
-    # Fetch agent registry to validate agents exist
+    # Fetch skills registry to validate skills exist
     parse_agent_registry
 
-    # Download agents
+    # Download skills
     local count=0
     for agent in "${agents[@]}"; do
       [[ -z "$agent" ]] && continue
 
-      # Validate agent exists in registry (if registry was parsed)
+      # Validate skill exists in registry (if registry was parsed)
       if [[ ${#AGENT_DESCRIPTIONS[@]} -gt 0 ]] && [[ -z "${AGENT_DESCRIPTIONS[$agent]}" ]]; then
-        log "Warning: Agent '$agent' not found in registry, attempting to download anyway"
+        log "Warning: Skill '$agent' not found in registry, attempting to download anyway"
       fi
 
-      log "Installing agent: $agent"
+      log "Installing skill: $agent"
       fetch_agent "$agent"
-      ((count++))
+      ((++count))
     done
 
-    log "Successfully installed $count agents from profile"
+    log "Successfully installed $count skills from profile"
   fi
 }
 
 # Update detection functionality (Task 10)
+get_skill_dir() {
+  local agent="$1"
+  echo "${AGENTS_DIR}/${agent}"
+}
+
+get_skill_entrypoint_path() {
+  local agent="$1"
+  echo "$(get_skill_dir "$agent")/${ENTRYPOINT_FILENAME}"
+}
+
+get_skill_entrypoint_url() {
+  local agent="$1"
+  echo "${BASE_URL}/${agent}/${ENTRYPOINT_FILENAME}"
+}
+
+get_skill_manifest_url() {
+  local agent="$1"
+  echo "${BASE_URL}/${agent}/${MANIFEST_FILENAME}"
+}
+
+download_skill() {
+  local agent="$1"
+  local destination_root="$2"
+  local fetch_function="${3:-fetch_with_retry}"
+  local skill_dir="${destination_root}/${agent}"
+  local manifest_file
+  manifest_file=$(mktemp)
+  mkdir -p "$skill_dir"
+
+  if ! "$fetch_function" "$(get_skill_manifest_url "$agent")" "$manifest_file"; then
+    echo "${ENTRYPOINT_FILENAME}" > "$manifest_file"
+  fi
+
+  while IFS= read -r relative_path; do
+    [[ -z "$relative_path" ]] && continue
+    local destination="${skill_dir}/${relative_path}"
+    mkdir -p "$(dirname "$destination")"
+    if ! "$fetch_function" "${BASE_URL}/${agent}/${relative_path}" "$destination"; then
+      rm -f "$manifest_file"
+      return 1
+    fi
+  done < "$manifest_file"
+
+  cp "$manifest_file" "${skill_dir}/${MANIFEST_FILENAME}"
+  rm -f "$manifest_file"
+  return 0
+}
+
+list_local_agents() {
+  local -a local_agents=()
+  if [[ -d "$AGENTS_DIR" ]]; then
+    while IFS= read -r dir; do
+      [[ -z "$dir" ]] && continue
+      local agent
+      agent=$(basename "$dir")
+      [[ "$agent" == .* ]] && continue
+      [[ -f "${dir}/${ENTRYPOINT_FILENAME}" ]] || continue
+      local_agents+=("$agent")
+    done < <(find "$AGENTS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
+  fi
+  printf '%s\n' "${local_agents[@]}"
+}
+
 check_updates() {
-  # Find all local agent files
   local -a local_agents
   if [[ ! -d "$AGENTS_DIR" ]]; then
-    log "No agents directory found. No agents to check."
+    log "No skills directory found. No skills to check."
     return 0
   fi
 
-  while IFS= read -r file; do
-    [[ -z "$file" ]] && continue
-    local agent=$(basename "$file" .md)
-    [[ "$agent" == "AGENTS_REGISTRY" ]] && continue
-    local_agents+=("$agent")
-  done < <(find "$AGENTS_DIR" -name "*.md" -type f)
+  while IFS= read -r agent; do
+    [[ -n "$agent" ]] && local_agents+=("$agent")
+  done < <(list_local_agents)
 
   if [[ ${#local_agents[@]} -eq 0 ]]; then
-    log "No agents installed locally"
+    log "No skills installed locally"
     return 0
   fi
 
-  log "Checking for updates to ${#local_agents[@]} locally installed agents..."
+  log "Checking for updates to ${#local_agents[@]} locally installed skills..."
 
   local -a updates_available=()
 
   for agent in "${local_agents[@]}"; do
-    local local_file="${AGENTS_DIR}/${agent}.md"
-    local remote_url="${BASE_URL}/${agent}.md"
-    
-    # Create temporary file for remote content
+    local local_file
+    local_file=$(get_skill_entrypoint_path "$agent")
     local temp_file
     temp_file=$(mktemp)
-    
-    # Use fetch_with_cache with 1-hour expiry for update checks
-    if fetch_with_cache "$remote_url" "$temp_file" 3600; then
-      # Compare content
+
+    if fetch_with_cache "$(get_skill_entrypoint_url "$agent")" "$temp_file" 3600; then
       local local_content
       local_content=$(cat "$local_file")
       local remote_content
@@ -1306,116 +1372,105 @@ check_updates() {
         updates_available+=("$agent")
       fi
       
-      # Clean up temporary file
       rm -f "$temp_file"
     else
       log "Warning: Could not fetch remote version of $agent"
-      # Clean up temporary file on failure
       rm -f "$temp_file"
       continue
     fi
   done
 
   if [[ ${#updates_available[@]} -eq 0 ]]; then
-    log "All agents are up to date ✓"
+    log "All skills are up to date ✓"
   else
-    log "Updates available for ${#updates_available[@]} agent(s):"
+    log "Updates available for ${#updates_available[@]} skill(s):"
     for agent in "${updates_available[@]}"; do
       log "  - $agent"
     done
     log ""
-    log "Run with --update-all to update all agents"
+    log "Run with --update-all to update all skills"
   fi
 
-  # Return count of updates
   echo "${#updates_available[@]}"
 }
 
 update_all_agents() {
-  # Find all local agent files
   local -a local_agents
   if [[ ! -d "$AGENTS_DIR" ]]; then
-    log "No agents directory found. No agents to update."
+    log "No skills directory found. No skills to update."
     return 0
   fi
 
-  while IFS= read -r file; do
-    [[ -z "$file" ]] && continue
-    local agent=$(basename "$file" .md)
-    [[ "$agent" == "AGENTS_REGISTRY" ]] && continue
-    local_agents+=("$agent")
-  done < <(find "$AGENTS_DIR" -name "*.md" -type f)
+  while IFS= read -r agent; do
+    [[ -n "$agent" ]] && local_agents+=("$agent")
+  done < <(list_local_agents)
 
   if [[ ${#local_agents[@]} -eq 0 ]]; then
-    log "No agents installed locally"
+    log "No skills installed locally"
     return 0
   fi
 
-  log "Checking and updating ${#local_agents[@]} agents..."
+  log "Checking and updating ${#local_agents[@]} skills..."
 
   local updated_count=0
   local failed_count=0
   local backup_dir="${AGENTS_DIR}/.backup_$(date +%Y%m%d_%H%M%S)"
 
   for agent in "${local_agents[@]}"; do
-    local local_file="${AGENTS_DIR}/${agent}.md"
-    local remote_url="${BASE_URL}/${agent}.md"
-    local temp_file
-    temp_file=$(mktemp)
+    local local_dir
+    local_dir=$(get_skill_dir "$agent")
+    local local_file
+    local_file=$(get_skill_entrypoint_path "$agent")
+    local temp_root
+    temp_root=$(mktemp -d)
 
-    # Use fetch_with_retry to get remote file
-    if ! fetch_with_retry "$remote_url" "$temp_file"; then
+    if ! download_skill "$agent" "$temp_root" fetch_with_retry; then
       log "✗ Failed to fetch remote version of $agent"
-      rm -f "$temp_file"
-      ((failed_count++))
+      rm -rf "$temp_root"
+      ((++failed_count))
       continue
     fi
 
-    # Compare content
     local local_content
     local_content=$(cat "$local_file")
     local remote_content
-    remote_content=$(cat "$temp_file")
+    remote_content=$(cat "${temp_root}/${agent}/${ENTRYPOINT_FILENAME}")
 
     if [[ "$remote_content" != "$local_content" ]]; then
-      # Create backup directory if needed
       if [[ ! -d "$backup_dir" ]]; then
         mkdir -p "$backup_dir"
       fi
 
-      # Backup existing file before update
-      if ! cp "$local_file" "${backup_dir}/${agent}.md"; then
+      if ! cp -R "$local_dir" "${backup_dir}/${agent}"; then
         log "✗ Failed to create backup for $agent"
-        rm -f "$temp_file"
-        ((failed_count++))
+        rm -rf "$temp_root"
+        ((++failed_count))
         continue
       fi
 
       log "Updating $agent..."
-      
-      # Update the file
-      if cp "$temp_file" "$local_file"; then
+
+      rm -rf "$local_dir"
+      if cp -R "${temp_root}/${agent}" "$local_dir"; then
         log "✓ Updated $agent"
-        ((updated_count++))
+        ((++updated_count))
       else
         log "✗ Failed to update $agent"
-        # Rollback: restore from backup
-        if [[ -f "${backup_dir}/${agent}.md" ]]; then
-          cp "${backup_dir}/${agent}.md" "$local_file"
+        rm -rf "$local_dir"
+        if [[ -d "${backup_dir}/${agent}" ]]; then
+          cp -R "${backup_dir}/${agent}" "$local_dir"
           log "Restored $agent from backup"
         fi
-        ((failed_count++))
+        ((++failed_count))
       fi
     fi
 
-    # Clean up temporary file
-    rm -f "$temp_file"
+    rm -rf "$temp_root"
   done
 
-  # Summary
   log ""
   if [[ $updated_count -eq 0 ]] && [[ $failed_count -eq 0 ]]; then
-    log "All agents were already up to date ✓"
+    log "All skills were already up to date ✓"
   else
     log "Update complete: $updated_count updated, $failed_count failed"
     if [[ -d "$backup_dir" ]]; then
@@ -1427,57 +1482,49 @@ update_all_agents() {
   [[ $failed_count -eq 0 ]]
 }
 
-# Parse AGENTS_REGISTRY.md to extract agent metadata
+# Parse SKILLS_REGISTRY.md to extract skill metadata
 parse_agent_registry() {
-  local registry_file="${AGENTS_DIR}/AGENTS_REGISTRY.md"
-  
-  # If registry doesn't exist locally, try to fetch it
+  local registry_file="${AGENTS_DIR}/${REGISTRY_FILENAME}"
+
   if [[ ! -f "$registry_file" ]]; then
-    log "Agent registry not found locally, attempting to fetch..."
+    log "Skills registry not found locally, attempting to fetch..."
     mkdir -p "$AGENTS_DIR"
-    local registry_url="${BASE_URL}/AGENTS_REGISTRY.md"
-    
-    # Use fetch_with_cache with 1-hour cache expiry
+    local registry_url="${BASE_URL}/${REGISTRY_FILENAME}"
+
     if fetch_with_cache "$registry_url" "$registry_file" 3600; then
-      log "✓ Successfully fetched agent registry"
+      log "✓ Successfully fetched skills registry"
     else
-      log "✗ Failed to fetch agent registry. Using built-in metadata."
+      log "✗ Failed to fetch skills registry. Using built-in metadata."
       return 1
     fi
   fi
-  
+
   local current_agent=""
   local in_agent_section=false
-  
+
   while IFS= read -r line; do
-    # Parse agent headers (#### N. agent-name)
     if [[ $line =~ ^####[[:space:]]+[0-9]+\.[[:space:]]+(.+)$ ]]; then
       current_agent="${BASH_REMATCH[1]}"
       in_agent_section=true
       continue
     fi
-    
-    # Exit agent section when we hit a new major section
+
     if [[ $line =~ ^##[[:space:]]+ ]] && [[ ! $line =~ ^####[[:space:]]+ ]]; then
       in_agent_section=false
       current_agent=""
       continue
     fi
-    
-    # Only parse metadata if we're in an agent section
+
     if [[ -n "$current_agent" ]] && [[ "$in_agent_section" == true ]]; then
-      # Parse category
-      if [[ $line =~ ^\*\*Category\*\*:[[:space:]]+(.+)$ ]]; then
+      if [[ $line =~ ^-?[[:space:]]*\*\*Category\*\*:[[:space:]]+(.+)$ ]]; then
         AGENT_CATEGORIES[$current_agent]="${BASH_REMATCH[1]}"
       fi
-      
-      # Parse description
-      if [[ $line =~ ^\*\*Description\*\*:[[:space:]]+(.+)$ ]]; then
+
+      if [[ $line =~ ^-?[[:space:]]*\*\*Description\*\*:[[:space:]]+(.+)$ ]]; then
         AGENT_DESCRIPTIONS[$current_agent]="${BASH_REMATCH[1]}"
       fi
-      
-      # Parse use cases
-      if [[ $line =~ ^\*\*Use\ for\*\*:[[:space:]]+(.+)$ ]]; then
+
+      if [[ $line =~ ^-?[[:space:]]*\*\*Use\ for\*\*:[[:space:]]+(.+)$ ]]; then
         AGENT_USE_CASES[$current_agent]="${BASH_REMATCH[1]}"
       fi
     fi
@@ -1966,11 +2013,11 @@ load_pattern_file() {
       AGENT_PATTERNS[$agent_name]="$pattern_buffer"
     fi
 
-    ((loaded_count++))
+    ((++loaded_count))
   done
 
   if [[ ${VERBOSE:-false} == true ]]; then
-    log "  Loaded $loaded_count agent(s) from $(basename "$pattern_file")"
+    log "  Loaded $loaded_count skill pattern set(s) from $(basename "$pattern_file")"
   fi
 
   return 0
@@ -2012,9 +2059,9 @@ load_pattern_files() {
     fi
 
     if load_pattern_file "$pattern_file"; then
-      ((loaded_files++))
+      ((++loaded_files))
     else
-      ((failed_files++))
+      ((++failed_files))
       echo "Warning: Failed to load pattern file: $pattern_file" >&2
     fi
   done
@@ -2676,10 +2723,10 @@ validate_pattern_weights() {
     
     if [[ $max_weight -eq 0 ]]; then
       echo "Warning: Agent '$agent' has zero total pattern weight" >&2
-      ((errors++))
+      ((++errors))
     elif [[ $max_weight -lt 0 ]]; then
       echo "Error: Agent '$agent' has negative total pattern weight: $max_weight" >&2
-      ((errors++))
+      ((++errors))
     fi
   done
   
@@ -2901,43 +2948,43 @@ fi
 # Load detection patterns (from YAML or fallback to hardcoded)
 safe_load_patterns
 
-# Handle import mode - skip detection and install agents from profile (Task 9)
+# Handle import mode - skip detection and install skills from profile (Task 9)
 if [[ -n "$IMPORT_FILE" ]]; then
   mkdir -p "$AGENTS_DIR"
 
   # Define fetch_agent function here for import mode
   fetch_agent() {
     local agent="$1"
-    local url="${BASE_URL}/${agent}.md"
-    local dest="${AGENTS_DIR}/${agent}.md"
+    local dest
+    dest=$(get_skill_dir "$agent")
 
-    if [[ -f "$dest" && $FORCE == false ]]; then
+    if [[ -f "${dest}/${ENTRYPOINT_FILENAME}" && $FORCE == false ]]; then
       log "Skipping ${agent} (already exists). Use --force to redownload."
       return
     fi
 
-    log "Downloading ${agent} from ${url}"
-    if ! curl -fsSL "$url" -o "$dest"; then
-      echo "Failed to download ${agent} from ${url}" >&2
+    log "Downloading ${agent}"
+    if ! download_skill "$agent" "$AGENTS_DIR" fetch_with_retry; then
+      echo "Failed to download ${agent}" >&2
       return 1
     fi
   }
 
-  # Parse agent registry before importing
+  # Parse skills registry before importing
   parse_agent_registry
 
-  # Import and install agents from profile
+  # Import and install skills from profile
   import_profile "$IMPORT_FILE"
 
   # Always include the registry for reference
-  REGISTRY_DEST="${AGENTS_DIR}/AGENTS_REGISTRY.md"
+  REGISTRY_DEST="${AGENTS_DIR}/${REGISTRY_FILENAME}"
   if [[ ! -f "$REGISTRY_DEST" || $FORCE == true ]]; then
-    REGISTRY_URL="${BASE_URL}/AGENTS_REGISTRY.md"
-    log "Downloading agent registry"
+    REGISTRY_URL="${BASE_URL}/${REGISTRY_FILENAME}"
+    log "Downloading skills registry"
     curl -fsSL "$REGISTRY_URL" -o "$REGISTRY_DEST"
   fi
 
-  log "All done! Agent prompts are located in ${AGENTS_DIR}"
+  log "All done! Skills are located in ${AGENTS_DIR}"
   exit 0
 fi
 
@@ -2954,7 +3001,7 @@ if [[ $CHECK_UPDATES == true ]] || [[ $UPDATE_ALL == true ]]; then
   fi
 fi
 
-# Parse agent registry for metadata
+# Parse skills registry for metadata
 parse_agent_registry
 
 # Run detection for all agents
@@ -3110,7 +3157,7 @@ if [[ ${#recommended_agents[@]} -gt 0 ]]; then
     display_categorized_results
   fi
 else
-  log "No agents met the confidence threshold of ${MIN_CONFIDENCE}%"
+  log "No skills met the confidence threshold of ${MIN_CONFIDENCE}%"
 fi
 
 # Verbose mode: show detailed detection patterns
@@ -3178,16 +3225,16 @@ mkdir -p "$AGENTS_DIR"
 
 fetch_agent() {
   local agent="$1"
-  local url="${BASE_URL}/${agent}.md"
-  local dest="${AGENTS_DIR}/${agent}.md"
+  local dest
+  dest=$(get_skill_dir "$agent")
 
-  if [[ -f "$dest" && $FORCE == false ]]; then
+  if [[ -f "${dest}/${ENTRYPOINT_FILENAME}" && $FORCE == false ]]; then
     log "Skipping ${agent} (already exists). Use --force to redownload."
     return
   fi
 
   log "Downloading ${agent}..."
-  if ! fetch_with_retry "$url" "$dest"; then
+  if ! download_skill "$agent" "$AGENTS_DIR" fetch_with_retry; then
     echo "Failed to download ${agent}" >&2
     echo "You can try again with --force to retry failed downloads" >&2
     return 1
@@ -3201,17 +3248,17 @@ for agent in "${recommended_agents[@]}"; do
 done
 
 # Always include the registry for reference
-REGISTRY_DEST="${AGENTS_DIR}/AGENTS_REGISTRY.md"
+REGISTRY_DEST="${AGENTS_DIR}/${REGISTRY_FILENAME}"
 if [[ ! -f "$REGISTRY_DEST" || $FORCE == true ]]; then
-  REGISTRY_URL="${BASE_URL}/AGENTS_REGISTRY.md"
-  log "Downloading agent registry..."
+  REGISTRY_URL="${BASE_URL}/${REGISTRY_FILENAME}"
+  log "Downloading skills registry..."
   if ! fetch_with_retry "$REGISTRY_URL" "$REGISTRY_DEST"; then
-    echo "Warning: Failed to download agent registry" >&2
+    echo "Warning: Failed to download skills registry" >&2
   else
-    log "Successfully downloaded agent registry"
+    log "Successfully downloaded skills registry"
   fi
 else
-  log "Agent registry already present. Use --force to redownload."
+  log "Skills registry already present. Use --force to redownload."
 fi
 
-log "All done! Agent prompts are located in ${AGENTS_DIR}"
+log "All done! Skills are located in ${AGENTS_DIR}"

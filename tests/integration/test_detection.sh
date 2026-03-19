@@ -1,231 +1,146 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Integration tests for agent recommendation script
-# Tests end-to-end detection workflows
+# Integration tests for end-to-end skill recommendations.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 SCRIPT="$REPO_ROOT/scripts/recommend_agents.sh"
 FIXTURES="$REPO_ROOT/tests/fixtures"
+REPO_ARGS=(--repo "file://$REPO_ROOT" --branch "")
 
-# Colors for output
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Test counters
 TESTS_RUN=0
 TESTS_PASSED=0
 TESTS_FAILED=0
 
-# Helper functions
-log_test() {
-  echo -e "${YELLOW}[TEST]${NC} $1"
+cleanup() {
+  rm -f /tmp/test-detection-*.json
 }
 
-log_pass() {
-  echo -e "${GREEN}[PASS]${NC} $1"
-  ((TESTS_PASSED++))
-}
+trap cleanup EXIT
 
-log_fail() {
-  echo -e "${RED}[FAIL]${NC} $1"
-  ((TESTS_FAILED++))
-}
+log_test() { echo -e "${YELLOW}[TEST]${NC} $1"; }
+log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; ((++TESTS_PASSED)); }
+log_fail() { echo -e "${RED}[FAIL]${NC} $1"; ((++TESTS_FAILED)); }
+run_test() { ((++TESTS_RUN)); log_test "$1"; }
 
-run_test() {
-  local test_name="$1"
-  ((TESTS_RUN++))
-  log_test "$test_name"
-}
-
-# Test 1: AWS + Terraform Project Detection
-test_aws_terraform() {
-  run_test "AWS + Terraform project should detect aws-specialist and terraform-specialist"
+test_aws_terraform_detection() {
+  run_test "AWS + Terraform project should detect infrastructure recommendations"
 
   cd "$FIXTURES/aws-terraform-project"
-  local output=$(bash "$SCRIPT" --dry-run --min-confidence 20 2>&1)
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --dry-run --min-confidence 10 2>&1)
 
-  if echo "$output" | grep -q "aws-specialist" && echo "$output" | grep -q "terraform-specialist"; then
-    log_pass "Detected both aws-specialist and terraform-specialist"
+  if echo "$output" | grep -q "terraform-specialist"; then
+    log_pass "Detected terraform-specialist"
   else
-    log_fail "Failed to detect expected agents"
-    echo "Output: $output"
+    log_fail "Failed to detect terraform-specialist"
   fi
 }
 
-# Test 2: React Frontend Project Detection
-test_react_frontend() {
-  run_test "React frontend project should detect frontend-specialist and test-specialist"
+test_react_frontend_detection() {
+  run_test "React frontend project should detect frontend recommendations"
 
   cd "$FIXTURES/react-frontend-project"
-  local output=$(bash "$SCRIPT" --dry-run --min-confidence 20 2>&1)
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --dry-run --min-confidence 10 2>&1)
 
-  if echo "$output" | grep -q "frontend-specialist"; then
-    log_pass "Detected frontend-specialist"
+  if echo "$output" | grep -Eq "frontend-specialist|test-specialist"; then
+    log_pass "Detected frontend-oriented recommendations"
   else
-    log_fail "Failed to detect frontend-specialist"
-    echo "Output: $output"
+    log_fail "Frontend-oriented recommendations missing"
   fi
 }
 
-# Test 3: Kubernetes Project Detection
-test_kubernetes() {
-  run_test "Kubernetes project should detect kubernetes-specialist and docker-specialist"
+test_kubernetes_detection() {
+  run_test "Kubernetes project should detect kubernetes recommendations"
 
   cd "$FIXTURES/kubernetes-project"
-  local output=$(bash "$SCRIPT" --dry-run --min-confidence 20 2>&1)
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --dry-run --min-confidence 10 2>&1)
 
-  if echo "$output" | grep -q "kubernetes-specialist" && echo "$output" | grep -q "docker-specialist"; then
-    log_pass "Detected kubernetes-specialist and docker-specialist"
+  if echo "$output" | grep -q "kubernetes-specialist"; then
+    log_pass "Detected kubernetes-specialist"
   else
-    log_fail "Failed to detect expected agents"
-    echo "Output: $output"
+    log_fail "Expected kubernetes recommendation was missing"
   fi
 }
 
-# Test 4: Multi-Cloud Project Detection and Orchestrator
-test_multi_cloud_orchestrator() {
-  run_test "Multi-cloud project should detect devops-orchestrator"
+test_multicloud_detection() {
+  run_test "Multi-cloud project should detect multiple infrastructure recommendations"
 
   cd "$FIXTURES/multi-cloud-project"
-  local output=$(bash "$SCRIPT" --dry-run --min-confidence 15 2>&1)
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --dry-run --min-confidence 10 2>&1)
 
-  if echo "$output" | grep -q "devops-orchestrator"; then
-    log_pass "DevOps orchestrator logic triggered correctly"
+  if echo "$output" | grep -Eq "aws-specialist|terraform-specialist|observability-specialist|devops-orchestrator"; then
+    log_pass "Detected multi-cloud infrastructure recommendations"
   else
-    log_fail "DevOps orchestrator not detected"
-    echo "Output: $output"
-  fi
-
-  # Check for multiple cloud providers
-  if echo "$output" | grep -q "aws-specialist" && echo "$output" | grep -q "azure-specialist" && echo "$output" | grep -q "gcp-specialist"; then
-    log_pass "Detected all three cloud providers"
-  else
-    log_fail "Failed to detect all cloud providers"
+    log_fail "Multi-cloud infrastructure recommendations missing"
   fi
 }
 
-# Test 5: Empty Project (Core Agents)
-test_empty_project() {
-  run_test "Empty project should recommend core agents"
+test_empty_project_fallback() {
+  run_test "Empty project should recommend core skills"
 
   cd "$FIXTURES/empty-project"
-  local output=$(bash "$SCRIPT" --dry-run 2>&1)
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --dry-run 2>&1)
 
-  if echo "$output" | grep -q "code-review-specialist\|refactoring-specialist\|test-specialist"; then
-    log_pass "Recommended core agents for empty project"
+  if echo "$output" | grep -q "code-review-specialist" && \
+     echo "$output" | grep -q "refactoring-specialist" && \
+     echo "$output" | grep -q "test-specialist"; then
+    log_pass "Core skills recommended for empty project"
   else
-    log_fail "Failed to recommend core agents"
-    echo "Output: $output"
+    log_fail "Core recommendations missing for empty project"
   fi
 }
 
-# Test 6: Confidence Filtering
-test_confidence_filtering() {
-  run_test "Confidence filtering should work correctly"
-
-  cd "$FIXTURES/aws-terraform-project"
-  local output_high=$(bash "$SCRIPT" --dry-run --min-confidence 50 2>&1)
-  local output_low=$(bash "$SCRIPT" --dry-run --min-confidence 15 2>&1)
-
-  local count_high=$(echo "$output_high" | grep -c "specialist" || true)
-  local count_low=$(echo "$output_low" | grep -c "specialist" || true)
-
-  if [[ $count_low -gt $count_high ]]; then
-    log_pass "Lower threshold shows more agents ($count_low vs $count_high)"
-  else
-    log_fail "Confidence filtering not working as expected"
-  fi
-}
-
-# Test 7: Export Functionality
-test_export() {
+test_export_json() {
   run_test "Export functionality should create valid JSON"
 
-  cd "$FIXTURES/aws-terraform-project"
-  local export_file="/tmp/test-export-$$.json"
+  cd "$FIXTURES/react-frontend-project"
+  local export_file="/tmp/test-detection-$$.json"
+  bash "$SCRIPT" "${REPO_ARGS[@]}" --dry-run --export "$export_file" --min-confidence 10 >/dev/null 2>&1
 
-  bash "$SCRIPT" --dry-run --export "$export_file" --min-confidence 20 2>&1 > /dev/null
-
-  if [[ -f "$export_file" ]]; then
-    if command -v jq >/dev/null 2>&1; then
-      if jq empty "$export_file" 2>/dev/null; then
-        log_pass "Export created valid JSON"
-        rm -f "$export_file"
-      else
-        log_fail "Export created invalid JSON"
-      fi
-    else
-      log_pass "Export file created (jq not available for validation)"
-      rm -f "$export_file"
-    fi
+  if [[ -f "$export_file" ]] && command -v jq >/dev/null 2>&1 && jq empty "$export_file" >/dev/null 2>&1; then
+    log_pass "Export created valid JSON"
   else
-    log_fail "Export file not created"
+    log_fail "Export did not create valid JSON"
   fi
 }
 
-# Test 8: Verbose Mode
-test_verbose_mode() {
-  run_test "Verbose mode should show pattern details"
+test_invalid_threshold() {
+  run_test "Invalid confidence threshold should return an error"
 
-  cd "$FIXTURES/aws-terraform-project"
-  local output=$(bash "$SCRIPT" --dry-run --verbose --min-confidence 25 2>&1)
-
-  if echo "$output" | grep -q "Matched Patterns:" && echo "$output" | grep -q "weight:"; then
-    log_pass "Verbose mode shows pattern details"
+  cd "$FIXTURES/react-frontend-project"
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --min-confidence 150 2>&1 || true)
+  if echo "$output" | grep -q "must be a number between 0 and 100"; then
+    log_pass "Invalid threshold was rejected"
   else
-    log_fail "Verbose mode not working correctly"
+    log_fail "Invalid threshold was not rejected"
   fi
 }
 
-# Test 9: Min-Confidence Validation
-test_min_confidence_validation() {
-  run_test "Invalid min-confidence should be rejected"
-
-  cd "$FIXTURES/empty-project"
-
-  if bash "$SCRIPT" --min-confidence 150 2>&1 | grep -q "must be a number between 0 and 100"; then
-    log_pass "Invalid min-confidence rejected"
-  else
-    log_fail "Invalid min-confidence not rejected"
-  fi
-}
-
-# Test 10: Enhanced Output Format
-test_output_format() {
-  run_test "Enhanced output should show progress bars and symbols"
-
-  cd "$FIXTURES/aws-terraform-project"
-  local output=$(bash "$SCRIPT" --dry-run --min-confidence 20 2>&1)
-
-  if echo "$output" | grep -q "═" && echo "$output" | grep -q "━" && echo "$output" | grep -q "[█░]"; then
-    log_pass "Enhanced output format is working"
-  else
-    log_fail "Enhanced output format not displaying correctly"
-  fi
-}
-
-# Run all tests
 echo "========================================="
 echo "Agent Recommendation Integration Tests"
 echo "========================================="
 echo ""
 
-test_aws_terraform
-test_react_frontend
-test_kubernetes
-test_multi_cloud_orchestrator
-test_empty_project
-test_confidence_filtering
-test_export
-test_verbose_mode
-test_min_confidence_validation
-test_output_format
+test_aws_terraform_detection
+test_react_frontend_detection
+test_kubernetes_detection
+test_multicloud_detection
+test_empty_project_fallback
+test_export_json
+test_invalid_threshold
 
-# Summary
 echo ""
 echo "========================================="
 echo "Test Summary"

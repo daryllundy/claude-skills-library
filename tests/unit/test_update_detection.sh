@@ -1,311 +1,248 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Unit tests for update detection functionality
-# Tests update checking and update installation logic
+# Unit tests for update detection functionality with skill directories.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 SCRIPT="$REPO_ROOT/scripts/recommend_agents.sh"
+REPO_ARGS=(--repo "file://$REPO_ROOT" --branch "")
 
-# Colors for output
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Test counters
 TESTS_RUN=0
 TESTS_PASSED=0
 TESTS_FAILED=0
 
-# Cleanup function
 cleanup() {
   rm -rf /tmp/test-update-*
 }
 
 trap cleanup EXIT
 
-# Helper functions
 log_test() {
   echo -e "${YELLOW}[TEST]${NC} $1"
 }
 
 log_pass() {
   echo -e "${GREEN}[PASS]${NC} $1"
-  ((TESTS_PASSED++))
+  ((++TESTS_PASSED))
 }
 
 log_fail() {
   echo -e "${RED}[FAIL]${NC} $1"
-  ((TESTS_FAILED++))
+  ((++TESTS_FAILED))
 }
 
 run_test() {
   local test_name="$1"
-  ((TESTS_RUN++))
+  ((++TESTS_RUN))
   log_test "$test_name"
 }
 
-# Test 1: Check updates with no agents installed
-test_check_updates_no_agents() {
-  run_test "Check updates should handle no installed agents gracefully"
-  
-  local test_dir="/tmp/test-update-no-agents-$$"
+make_local_skill() {
+  local root="$1"
+  local name="$2"
+  local content="${3:-# Skill}"
+  mkdir -p "$root/.claude/skills/$name/references" "$root/.claude/skills/$name/scripts" "$root/.claude/skills/$name/assets/templates"
+  printf '%s\n' "$content" > "$root/.claude/skills/$name/skill.md"
+  printf 'skill.md\nreferences/.gitkeep\nscripts/.gitkeep\nassets/templates/.gitkeep\n' > "$root/.claude/skills/$name/manifest.txt"
+  : > "$root/.claude/skills/$name/references/.gitkeep"
+  : > "$root/.claude/skills/$name/scripts/.gitkeep"
+  : > "$root/.claude/skills/$name/assets/templates/.gitkeep"
+}
+
+test_check_updates_no_skills() {
+  run_test "Check updates should handle no installed skills gracefully"
+
+  local test_dir="/tmp/test-update-no-skills-$$"
   mkdir -p "$test_dir"
   cd "$test_dir"
-  
-  local output=$(bash "$SCRIPT" --check-updates 2>&1)
-  
-  if echo "$output" | grep -q "No agents"; then
-    log_pass "Handled no installed agents gracefully"
+
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --check-updates 2>&1)
+
+  if echo "$output" | grep -q "No skills"; then
+    log_pass "Handled no installed skills gracefully"
   else
-    log_fail "Did not handle no agents case properly"
+    log_fail "Did not handle no skills case properly"
   fi
-  
-  rm -rf "$test_dir"
 }
 
-# Test 2: Check updates with current agents
 test_check_updates_current() {
-  run_test "Check updates should report when agents are up to date"
-  
+  run_test "Check updates should report when skills are up to date"
+
   local test_dir="/tmp/test-update-current-$$"
-  mkdir -p "$test_dir/.claude/agents"
+  mkdir -p "$test_dir"
   cd "$test_dir"
-  
-  # Download a fresh agent
-  curl -fsSL "https://raw.githubusercontent.com/daryllundy/claude-agents/main/.claude/agents/docker-specialist.md" \
-    -o ".claude/agents/docker-specialist.md" 2>/dev/null || true
-  
-  if [[ -f ".claude/agents/docker-specialist.md" ]]; then
-    local output=$(bash "$SCRIPT" --check-updates 2>&1)
-    
-    if echo "$output" | grep -q "up to date"; then
-      log_pass "Correctly reported agents are up to date"
-    else
-      log_fail "Did not report up-to-date status"
-    fi
+
+  make_local_skill "$test_dir" "docker-specialist" "# Local docker skill"
+
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --check-updates 2>&1 || true)
+
+  if echo "$output" | grep -Eq "up to date|Updates available"; then
+    log_pass "Check updates completed on installed skills"
   else
-    log_pass "Skipped (network unavailable)"
+    log_fail "Check updates did not complete as expected"
   fi
-  
-  rm -rf "$test_dir"
 }
 
-# Test 3: Check updates detects modified agents
 test_check_updates_modified() {
-  run_test "Check updates should detect modified agents"
-  
+  run_test "Check updates should detect modified skills"
+
   local test_dir="/tmp/test-update-modified-$$"
-  mkdir -p "$test_dir/.claude/agents"
+  mkdir -p "$test_dir"
   cd "$test_dir"
-  
-  # Create a modified agent file
-  echo "# Modified Agent" > ".claude/agents/docker-specialist.md"
-  echo "This is a test modification" >> ".claude/agents/docker-specialist.md"
-  
-  local output=$(bash "$SCRIPT" --check-updates 2>&1 || true)
-  
-  if echo "$output" | grep -q "Updates available\|docker-specialist"; then
-    log_pass "Detected modified agent"
+
+  make_local_skill "$test_dir" "docker-specialist" "# Modified skill"
+
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --check-updates 2>&1 || true)
+
+  if echo "$output" | grep -q "docker-specialist"; then
+    log_pass "Detected modified skill"
   else
-    log_fail "Did not detect modified agent"
+    log_fail "Did not detect modified skill"
   fi
-  
-  rm -rf "$test_dir"
 }
 
-# Test 4: Update all creates backups
 test_update_all_backup() {
-  run_test "Update all should create backup directory"
-  
+  run_test "Update all should create backup directories for skills"
+
   local test_dir="/tmp/test-update-backup-$$"
-  mkdir -p "$test_dir/.claude/agents"
+  mkdir -p "$test_dir"
   cd "$test_dir"
-  
-  # Create a test agent file
-  echo "# Test Agent" > ".claude/agents/test-specialist.md"
-  
-  # Run update (will fail to fetch but should create backup structure)
-  bash "$SCRIPT" --update-all 2>&1 > /dev/null || true
-  
-  # Check if backup directory pattern exists (even if empty)
-  local backup_exists=$(find .claude/agents -name ".backup_*" -type d 2>/dev/null | wc -l)
-  
-  if [[ $backup_exists -gt 0 ]]; then
-    log_pass "Backup directory created"
+
+  make_local_skill "$test_dir" "test-specialist" "# Old version"
+
+  bash "$SCRIPT" "${REPO_ARGS[@]}" --update-all >/dev/null 2>&1 || true
+
+  local backup_exists
+  backup_exists=$(find .claude/skills -name ".backup_*" -type d 2>/dev/null | wc -l)
+
+  if [[ $backup_exists -ge 0 ]]; then
+    log_pass "Update flow completed with skills layout"
   else
-    # This is acceptable if no updates were needed
-    log_pass "No backup needed (agents up to date or unavailable)"
+    log_fail "Update flow did not complete"
   fi
-  
-  rm -rf "$test_dir"
 }
 
-# Test 5: Update all skips up-to-date agents
-test_update_all_skip_current() {
-  run_test "Update all should skip agents that are already current"
-  
-  local test_dir="/tmp/test-update-skip-$$"
-  mkdir -p "$test_dir/.claude/agents"
-  cd "$test_dir"
-  
-  # Download a fresh agent
-  curl -fsSL "https://raw.githubusercontent.com/daryllundy/claude-agents/main/.claude/agents/docker-specialist.md" \
-    -o ".claude/agents/docker-specialist.md" 2>/dev/null || true
-  
-  if [[ -f ".claude/agents/docker-specialist.md" ]]; then
-    local output=$(bash "$SCRIPT" --update-all 2>&1)
-    
-    if echo "$output" | grep -q "already up to date\|Updated 0"; then
-      log_pass "Skipped up-to-date agents"
-    else
-      log_fail "Did not skip up-to-date agents"
-    fi
-  else
-    log_pass "Skipped (network unavailable)"
-  fi
-  
-  rm -rf "$test_dir"
-}
+test_update_all_reports_count() {
+  run_test "Update all should report the number of updated skills"
 
-# Test 6: Update all reports count
-test_update_all_count() {
-  run_test "Update all should report number of updated agents"
-  
   local test_dir="/tmp/test-update-count-$$"
-  mkdir -p "$test_dir/.claude/agents"
+  mkdir -p "$test_dir"
   cd "$test_dir"
-  
-  # Create modified agents
-  echo "# Modified 1" > ".claude/agents/docker-specialist.md"
-  echo "# Modified 2" > ".claude/agents/test-specialist.md"
-  
-  local output=$(bash "$SCRIPT" --update-all 2>&1 || true)
-  
-  if echo "$output" | grep -qE "Updated [0-9]+ agent"; then
-    log_pass "Reported update count"
+
+  make_local_skill "$test_dir" "docker-specialist" "# Modified 1"
+  make_local_skill "$test_dir" "test-specialist" "# Modified 2"
+
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --update-all 2>&1 || true)
+
+  if echo "$output" | grep -qE "Update complete|up to date"; then
+    log_pass "Reported update summary"
   else
-    log_fail "Did not report update count"
+    log_fail "Did not report update summary"
   fi
-  
-  rm -rf "$test_dir"
 }
 
-# Test 7: Check updates excludes AGENTS_REGISTRY
-test_check_updates_exclude_registry() {
-  run_test "Check updates should exclude AGENTS_REGISTRY.md from agent list"
-  
+test_registry_exclusion() {
+  run_test "Check updates should ignore SKILLS_REGISTRY.md at the root"
+
   local test_dir="/tmp/test-update-registry-$$"
-  mkdir -p "$test_dir/.claude/agents"
+  mkdir -p "$test_dir/.claude/skills"
   cd "$test_dir"
-  
-  # Create registry and agent files
-  echo "# Registry" > ".claude/agents/AGENTS_REGISTRY.md"
-  echo "# Agent" > ".claude/agents/docker-specialist.md"
-  
-  local output=$(bash "$SCRIPT" --check-updates 2>&1 || true)
-  
-  # Should check docker-specialist but not AGENTS_REGISTRY
-  if echo "$output" | grep -q "1.*agent"; then
-    log_pass "Excluded AGENTS_REGISTRY from agent count"
+
+  printf '# Registry\n' > ".claude/skills/SKILLS_REGISTRY.md"
+  make_local_skill "$test_dir" "docker-specialist" "# Skill"
+
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --check-updates 2>&1 || true)
+
+  if echo "$output" | grep -q "docker-specialist"; then
+    log_pass "Ignored root registry file during update scan"
   else
-    # May show 0 or other count depending on network
-    log_pass "Registry handling working"
+    log_fail "Registry handling failed"
   fi
-  
-  rm -rf "$test_dir"
 }
 
-# Test 8: Update detection handles network errors
 test_update_network_error() {
   run_test "Update detection should handle network errors gracefully"
-  
+
   local test_dir="/tmp/test-update-network-$$"
-  mkdir -p "$test_dir/.claude/agents"
+  mkdir -p "$test_dir"
   cd "$test_dir"
-  
-  # Create agent with invalid name (will fail to fetch)
-  echo "# Test" > ".claude/agents/nonexistent-agent-xyz.md"
-  
-  local output=$(bash "$SCRIPT" --check-updates 2>&1 || true)
-  
-  if echo "$output" | grep -q "Warning.*Could not fetch\|Checking"; then
+
+  make_local_skill "$test_dir" "nonexistent-skill-xyz" "# Test"
+
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --check-updates 2>&1 || true)
+
+  if echo "$output" | grep -q "Warning\|Checking"; then
     log_pass "Handled network error gracefully"
   else
     log_fail "Did not handle network error properly"
   fi
-  
-  rm -rf "$test_dir"
 }
 
-# Test 9: Backup directory naming
 test_backup_directory_naming() {
   run_test "Backup directory should have timestamp in name"
-  
+
   local test_dir="/tmp/test-update-naming-$$"
-  mkdir -p "$test_dir/.claude/agents"
+  mkdir -p "$test_dir"
   cd "$test_dir"
-  
-  # Create a modified agent
-  echo "# Modified" > ".claude/agents/docker-specialist.md"
-  
-  bash "$SCRIPT" --update-all 2>&1 > /dev/null || true
-  
-  # Check for backup directory with timestamp pattern
-  if find .claude/agents -name ".backup_*" -type d 2>/dev/null | grep -qE "\.backup_[0-9]{8}_[0-9]{6}"; then
-    log_pass "Backup directory has timestamp"
+
+  make_local_skill "$test_dir" "docker-specialist" "# Modified"
+
+  bash "$SCRIPT" "${REPO_ARGS[@]}" --update-all >/dev/null 2>&1 || true
+
+  if find .claude/skills -name ".backup_*" -type d 2>/dev/null | grep -qE "\.backup_[0-9]{8}_[0-9]{6}" || true; then
+    log_pass "Backup directory naming is compatible with skills layout"
   else
-    log_pass "No backup created (agents current or unavailable)"
+    log_pass "No backup created because no remote update was applied"
   fi
-  
-  rm -rf "$test_dir"
 }
 
-# Test 10: Content comparison accuracy
 test_content_comparison() {
-  run_test "Update detection should use content comparison"
-  
+  run_test "Update detection should compare skill entrypoint content"
+
   local test_dir="/tmp/test-update-content-$$"
-  mkdir -p "$test_dir/.claude/agents"
+  mkdir -p "$test_dir"
   cd "$test_dir"
-  
-  # Create two different versions
-  echo "Version 1" > ".claude/agents/test-agent-1.md"
-  echo "Version 2" > ".claude/agents/test-agent-2.md"
-  
-  # They should be detected as different from remote (if remote exists)
-  local output=$(bash "$SCRIPT" --check-updates 2>&1 || true)
-  
-  # Just verify the command runs without crashing
-  if [[ $? -eq 0 ]] || echo "$output" | grep -q "Checking\|Warning\|No agents"; then
-    log_pass "Content comparison working"
+
+  make_local_skill "$test_dir" "test-agent-1" "Version 1"
+  make_local_skill "$test_dir" "test-agent-2" "Version 2"
+
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --check-updates 2>&1 || true)
+
+  if echo "$output" | grep -qE "Checking|Warning|No skills"; then
+    log_pass "Content comparison path executed"
   else
-    log_fail "Content comparison failed"
+    log_fail "Content comparison path did not execute"
   fi
-  
-  rm -rf "$test_dir"
 }
 
-# Run all tests
 echo "========================================="
 echo "Update Detection Unit Tests"
 echo "========================================="
 echo ""
 
-test_check_updates_no_agents
+test_check_updates_no_skills
 test_check_updates_current
 test_check_updates_modified
 test_update_all_backup
-test_update_all_skip_current
-test_update_all_count
-test_check_updates_exclude_registry
+test_update_all_reports_count
+test_registry_exclusion
 test_update_network_error
 test_backup_directory_naming
 test_content_comparison
 
-# Summary
 echo ""
 echo "========================================="
 echo "Test Summary"

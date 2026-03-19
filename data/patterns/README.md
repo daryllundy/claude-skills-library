@@ -68,7 +68,7 @@ agents:                     # Required: Array of agents
 
 ### Default Patterns
 
-Pattern files are automatically loaded from this directory by the agent recommendation script:
+Pattern files are automatically loaded from this directory by the skill recommendation script:
 
 ```bash
 ./scripts/recommend_agents.sh
@@ -98,7 +98,7 @@ export AGENT_PATTERNS_DIR=/path/to/custom/patterns
 
 2. **Define your agents**
    - Use kebab-case for agent names
-   - Match names to agent files in `.claude/agents/`
+   - Match names to agent files in `.claude/skills/`
    - Add clear descriptions
 
 3. **Add detection patterns**
