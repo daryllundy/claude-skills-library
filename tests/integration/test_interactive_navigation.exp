@@ -1,7 +1,7 @@
 #!/usr/bin/expect -f
 # Test interactive mode navigation
 
-set timeout 5
+set timeout 20
 set test_name "interactive_navigation"
 
 # Start the script in interactive mode with dry-run

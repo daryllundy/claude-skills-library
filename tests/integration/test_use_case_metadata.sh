@@ -19,13 +19,14 @@ TESTS_FAILED=0
 
 # Source the main script functions
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Source only the functions we need, avoiding main execution
 export VERBOSE=false
 
 # Temporarily disable errexit for sourcing
 set +e
-source "${SCRIPT_DIR}/scripts/recommend_agents.sh" 2>/dev/null
+source "${REPO_ROOT}/scripts/recommend_agents.sh" 2>/dev/null
 source_result=$?
 set -e
 
@@ -186,7 +187,8 @@ test_format_use_case_cached() {
   # First call - should cache
   local result1
   set +e
-  result1=$(format_use_case_cached "$text" 40 0 2>/dev/null)
+  result1=$(format_use_case "$text" 40 0 2>/dev/null)
+  format_use_case_cached "$text" 40 0 >/dev/null 2>&1
   set -e
 
   # Check cache was populated
@@ -197,10 +199,7 @@ test_format_use_case_cached() {
   fi
 
   # Second call - should use cache
-  local result2
-  set +e
-  result2=$(format_use_case_cached "$text" 40 0 2>/dev/null)
-  set -e
+  local result2="${USE_CASE_WRAP_CACHE[$cache_key]}"
 
   if [[ "$result1" == "$result2" ]]; then
     test_pass

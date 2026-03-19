@@ -805,7 +805,7 @@ render_agent_list() {
   local -n categories_ref=$5
   local -n use_cases_ref=$6
   
-  clear
+  clear 2>/dev/null || printf '\033[2J\033[H'
   echo "═══════════════════════════════════════════════════════════════════════"
   echo "            Agent Recommendation - Interactive Mode"
   echo "═══════════════════════════════════════════════════════════════════════"
@@ -817,7 +817,7 @@ render_agent_list() {
   declare -A category_agents
   for agent in "${agents_ref[@]}"; do
     local category="${categories_ref[$agent]:-Uncategorized}"
-    if [[ -z "${category_agents[$category]}" ]]; then
+    if [[ -z "${category_agents[$category]:-}" ]]; then
       category_agents[$category]="$agent"
     else
       category_agents[$category]="${category_agents[$category]} $agent"
@@ -828,9 +828,9 @@ render_agent_list() {
   local -a categories=("Infrastructure (Cloud)" "Infrastructure (IaC)" "Infrastructure (Platform)" "Infrastructure (Containers)" "Infrastructure (Monitoring)" "Development" "Quality" "Operations" "Productivity" "Business" "Specialized" "Uncategorized")
   
   for category in "${categories[@]}"; do
-    if [[ -n "${category_agents[$category]}" ]]; then
+    if [[ -n "${category_agents[$category]:-}" ]]; then
       # Count agents in category
-      IFS=' ' read -ra agents <<< "${category_agents[$category]}"
+      IFS=' ' read -ra agents <<< "${category_agents[$category]:-}"
       local category_count=${#agents[@]}
       
       render_category_header "$category" "$category_count"
@@ -1095,7 +1095,7 @@ interactive_selection() {
     esac
   done
 
-  clear
+  clear 2>/dev/null || printf '\033[2J\033[H'
 
   # Return selected agents by updating recommended_agents array using new function
   recommended_agents=()
@@ -1156,7 +1156,8 @@ EOF
     fi
 
     # Escape use case for JSON
-    local use_case_escaped=$(echo "$use_case" | sed 's/"/\\"/g' | sed 's/\\/\\\\/g')
+    local use_case_escaped
+    use_case_escaped=$(printf '%s' "$use_case" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
     cat >> "$output_file" <<EOF
       {
@@ -1515,15 +1516,15 @@ parse_agent_registry() {
     fi
 
     if [[ -n "$current_agent" ]] && [[ "$in_agent_section" == true ]]; then
-      if [[ $line =~ ^\*\*Category\*\*:[[:space:]]+(.+)$ ]]; then
+      if [[ $line =~ ^-?[[:space:]]*\*\*Category\*\*:[[:space:]]+(.+)$ ]]; then
         AGENT_CATEGORIES[$current_agent]="${BASH_REMATCH[1]}"
       fi
 
-      if [[ $line =~ ^\*\*Description\*\*:[[:space:]]+(.+)$ ]]; then
+      if [[ $line =~ ^-?[[:space:]]*\*\*Description\*\*:[[:space:]]+(.+)$ ]]; then
         AGENT_DESCRIPTIONS[$current_agent]="${BASH_REMATCH[1]}"
       fi
 
-      if [[ $line =~ ^\*\*Use\ for\*\*:[[:space:]]+(.+)$ ]]; then
+      if [[ $line =~ ^-?[[:space:]]*\*\*Use\ for\*\*:[[:space:]]+(.+)$ ]]; then
         AGENT_USE_CASES[$current_agent]="${BASH_REMATCH[1]}"
       fi
     fi

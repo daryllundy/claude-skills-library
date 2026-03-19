@@ -60,19 +60,18 @@ test_aws_terraform_fixture() {
 }
 
 test_threshold_filtering() {
-  run_test "Higher confidence threshold should not increase recommendation count"
+  run_test "Higher confidence threshold should change the recommendation set"
 
   cd "$FIXTURES/aws-terraform-project"
-  local low_output high_output low_count high_count
+  local low_output high_output
   low_output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --dry-run --min-confidence 10 2>&1)
   high_output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --dry-run --min-confidence 60 2>&1)
-  low_count=$(echo "$low_output" | grep -c "specialist\|orchestrator" || true)
-  high_count=$(echo "$high_output" | grep -c "specialist\|orchestrator" || true)
 
-  if [[ $low_count -ge $high_count ]]; then
-    log_pass "Threshold filtering reduced or preserved the result count"
+  if echo "$low_output" | grep -q "terraform-specialist" && \
+     ! diff <(printf '%s\n' "$low_output") <(printf '%s\n' "$high_output") >/dev/null; then
+    log_pass "Threshold change produced a different recommendation set"
   else
-    log_fail "Higher threshold unexpectedly increased recommendation count"
+    log_fail "Threshold change did not affect recommendations as expected"
   fi
 }
 

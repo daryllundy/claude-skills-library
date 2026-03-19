@@ -32,16 +32,16 @@ failed_test_names=()
 for test_file in "$SCRIPT_DIR"/*.exp; do
   if [[ -f "$test_file" ]]; then
     test_name=$(basename "$test_file" .exp)
-    ((total_tests++))
+    ((++total_tests))
     
     echo "Running $test_name..."
     
     if expect "$test_file" > /dev/null 2>&1; then
       echo "  ✓ PASS"
-      ((passed_tests++))
+      ((++passed_tests))
     else
       echo "  ✗ FAIL"
-      ((failed_tests++))
+      ((++failed_tests))
       failed_test_names+=("$test_name")
     fi
     echo ""

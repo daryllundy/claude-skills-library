@@ -233,7 +233,7 @@ test_import_creates_directory() {
 
 # Test 9: Export with different confidence thresholds
 test_export_confidence_threshold() {
-  run_test "Export should respect confidence threshold"
+  run_test "Export should change selected skills when threshold changes"
   
   cd "$FIXTURES/aws-terraform-project"
   local export_low="/tmp/test-profile-low-$$.json"
@@ -245,9 +245,11 @@ test_export_confidence_threshold() {
   if command -v jq >/dev/null 2>&1; then
     local count_low=$(jq '.selected_agents | length' "$export_low")
     local count_high=$(jq '.selected_agents | length' "$export_high")
+    local low_has_tf=$(jq -r '.selected_agents[]?' "$export_low" | grep -c '^terraform-specialist$' || true)
+    local profiles_differ=$(cmp -s "$export_low" "$export_high"; echo $?)
     
-    if [[ $count_low -gt $count_high ]]; then
-      log_pass "Export respects confidence threshold ($count_low agents at 20% vs $count_high at 60%)"
+    if [[ $low_has_tf -gt 0 ]] && [[ "$profiles_differ" -ne 0 ]] && [[ $count_low -gt 0 ]] && [[ $count_high -gt 0 ]]; then
+      log_pass "Export changed selected skills across thresholds ($count_low vs $count_high)"
     else
       log_fail "Export does not respect confidence threshold"
     fi

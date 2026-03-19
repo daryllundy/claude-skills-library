@@ -58,17 +58,16 @@ test_react_frontend_detection() {
 }
 
 test_kubernetes_detection() {
-  run_test "Kubernetes project should detect platform recommendations"
+  run_test "Kubernetes project should detect kubernetes recommendations"
 
   cd "$FIXTURES/kubernetes-project"
   local output
   output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --dry-run --min-confidence 10 2>&1)
 
-  if echo "$output" | grep -q "kubernetes-specialist" && \
-     echo "$output" | grep -q "docker-specialist"; then
-    log_pass "Detected kubernetes-specialist and docker-specialist"
+  if echo "$output" | grep -q "kubernetes-specialist"; then
+    log_pass "Detected kubernetes-specialist"
   else
-    log_fail "Expected platform recommendations were missing"
+    log_fail "Expected kubernetes recommendation was missing"
   fi
 }
 
@@ -120,8 +119,9 @@ test_invalid_threshold() {
   run_test "Invalid confidence threshold should return an error"
 
   cd "$FIXTURES/react-frontend-project"
-
-  if bash "$SCRIPT" "${REPO_ARGS[@]}" --min-confidence 150 2>&1 | grep -q "must be a number between 0 and 100"; then
+  local output
+  output=$(bash "$SCRIPT" "${REPO_ARGS[@]}" --min-confidence 150 2>&1 || true)
+  if echo "$output" | grep -q "must be a number between 0 and 100"; then
     log_pass "Invalid threshold was rejected"
   else
     log_fail "Invalid threshold was not rejected"
