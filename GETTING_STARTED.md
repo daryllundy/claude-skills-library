@@ -7,14 +7,14 @@ This repository now uses the official Claude skill directory format. If you want
 1. Clone this repository somewhere accessible.
 
 ```bash
-git clone https://github.com/daryllundy/claude-agents.git
-cd claude-agents
+git clone https://github.com/daryllundy/claude-skills-library.git
+cd claude-skills-library
 ```
 
 2. From the root of the project you want to enhance, run the recommender.
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/daryllundy/claude-agents/main/scripts/recommend_agents.sh | bash
+curl -sSL https://raw.githubusercontent.com/daryllundy/claude-skills-library/main/scripts/recommend_skills.sh | bash
 ```
 
 3. Verify the installed files under `.claude/skills/`.
@@ -37,23 +37,25 @@ Expected structure:
 
 ```bash
 # Show recommendations only
-bash scripts/recommend_agents.sh --dry-run
+bash scripts/recommend_skills.sh --dry-run
 
 # Choose skills interactively
-bash scripts/recommend_agents.sh --interactive
+bash scripts/recommend_skills.sh --interactive
 
 # Export the recommended skill set
-bash scripts/recommend_agents.sh --dry-run --export my-project-profile.json
+bash scripts/recommend_skills.sh --dry-run --export my-project-profile.json
 
 # Import a saved skill set
-bash scripts/recommend_agents.sh --import my-project-profile.json
+bash scripts/recommend_skills.sh --import my-project-profile.json
 
 # Check for updates
-bash scripts/recommend_agents.sh --check-updates
+bash scripts/recommend_skills.sh --check-updates
 
 # Apply updates
-bash scripts/recommend_agents.sh --update-all
+bash scripts/recommend_skills.sh --update-all
 ```
+
+Migration note: `scripts/recommend_agents.sh` remains available as a temporary wrapper. Legacy `CLAUDE_AGENTS_*` env vars and `~/.cache/claude-agents` are still read during the transition, but the canonical names are now `CLAUDE_SKILLS_*` and `~/.cache/claude-skills-library`.
 
 ## How the Skills Are Organized
 

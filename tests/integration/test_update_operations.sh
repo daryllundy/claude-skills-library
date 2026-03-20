@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# Integration tests for update operations in recommend_agents.sh
+# Integration tests for update operations in recommend_skills.sh
 
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-SCRIPT="$REPO_ROOT/scripts/recommend_agents.sh"
+SCRIPT="$REPO_ROOT/scripts/recommend_skills.sh"
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -46,7 +46,7 @@ source_script_functions() {
   export CACHE_EXPIRY_SECONDS=3600
   export FORCE_REFRESH=false
   export VERBOSE=false
-  export BASE_URL="https://raw.githubusercontent.com/daryllundy/claude-agents/main/.claude/skills"
+  export BASE_URL="https://raw.githubusercontent.com/daryllundy/claude-skills-library/main/.claude/skills"
   export REGISTRY_FILENAME="SKILLS_REGISTRY.md"
   export ENTRYPOINT_FILENAME="skill.md"
   export MANIFEST_FILENAME="manifest.txt"

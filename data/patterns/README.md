@@ -71,7 +71,7 @@ agents:                     # Required: Array of agents
 Pattern files are automatically loaded from this directory by the skill recommendation script:
 
 ```bash
-./scripts/recommend_agents.sh
+./scripts/recommend_skills.sh
 ```
 
 ### Custom Patterns
@@ -80,11 +80,11 @@ Override default patterns or add project-specific agents:
 
 ```bash
 # Via environment variable
-export AGENT_PATTERNS_DIR=/path/to/custom/patterns
-./scripts/recommend_agents.sh
+export SKILL_PATTERNS_DIR=/path/to/custom/patterns
+./scripts/recommend_skills.sh
 
 # Via command-line flag
-./scripts/recommend_agents.sh --patterns-dir=/path/to/custom/patterns
+./scripts/recommend_skills.sh --patterns-dir=/path/to/custom/patterns
 ```
 
 ## Creating Custom Patterns
@@ -117,7 +117,7 @@ export AGENT_PATTERNS_DIR=/path/to/custom/patterns
 5. **Test against projects**
    ```bash
    cd /path/to/test/project
-   AGENT_PATTERNS_DIR=/path/to/my-patterns ../scripts/recommend_agents.sh
+   SKILL_PATTERNS_DIR=/path/to/my-patterns ../scripts/recommend_skills.sh
    ```
 
 6. **Refine weights**

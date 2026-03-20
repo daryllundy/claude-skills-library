@@ -37,9 +37,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Integration Guide**: How to add new patterns and extend the system
 
 #### Script Enhancements
-- **YAML Pattern Loading**: Updated `recommend_agents.sh` to load patterns from YAML files
+- **YAML Pattern Loading**: Updated `recommend_skills.sh` to load patterns from YAML files
 - **Backward Compatibility**: Maintains all existing functionality while using new pattern system
-- **Use Case Display**: Shows relevant use cases and examples in agent recommendations
+- **Use Case Display**: Shows relevant use cases and examples in skill recommendations
 - **Pattern Source Tracking**: Tracks which YAML file each pattern comes from
 
 ### Changed
@@ -78,7 +78,7 @@ agents:
 
 ## [2.0.0] - 2024-11-11
 
-### Added - Agent Recommendation Script Enhancements
+### Added - Skill Recommendation Script Enhancements
 
 #### Intelligent Detection System
 - **Comprehensive Pattern Detection**: Added detection patterns for all 30 agents across 9 categories
@@ -128,7 +128,7 @@ agents:
 - **Cache Control Flags**: `--force-refresh`, `--clear-cache`, `--cache-dir`, `--cache-expiry`
 - **Update Safety**: Automatic backup and rollback for update operations
 - **Verbose Logging**: `--verbose` flag shows detailed network operations and cache behavior
-- **Cache Location**: `$XDG_CACHE_HOME/claude-agents` or `~/.cache/claude-agents`
+- **Cache Location**: `$XDG_CACHE_HOME/claude-skills-library` or `~/.cache/claude-skills-library`
 
 #### Documentation
 - **Network Operations Guide**: Comprehensive documentation in `docs/NETWORK_OPERATIONS.md`
@@ -140,7 +140,7 @@ agents:
 - **CI/CD Integration**: Examples for GitHub Actions, GitLab CI, and Jenkins
 - **Updated README**: Added "Network Operations & Caching" section with quick reference
 - **Updated GETTING_STARTED**: Added network features overview and link to detailed guide
-- **Updated CLAUDE_CODE_USAGE**: Added agent recommendation script section with cache control examples
+- **Updated CLAUDE_CODE_USAGE**: Added skill recommendation script section with cache control examples
 
 #### Interactive Selection Mode
 - **Keyboard Navigation**: Arrow keys to navigate, Space to toggle, Enter to confirm
@@ -162,7 +162,7 @@ agents:
 
 #### Update Detection
 - **Update Checking**: `--check-updates` flag to check for agent updates
-- **Content Comparison**: Compares local and remote agent files to detect changes
+- **Content Comparison**: Compares local and remote skill files to detect changes
 - **Update Listing**: Shows which agents have updates available
 - **Batch Updates**: `--update-all` flag to update all agents at once
 - **Automatic Backups**: Creates timestamped backup directory before updating
@@ -201,7 +201,7 @@ agents:
   - `--force`: Redownload existing agents
   - `-h, --help`: Show help message
 
-#### Agent Registry Integration
+#### Skill Registry Integration
 - **Metadata Parsing**: Extracts agent categories, descriptions, and use cases from SKILLS_REGISTRY.md
 - **Automatic Fetching**: Downloads registry if not present locally
 - **Fallback Support**: Works with built-in metadata if registry unavailable
@@ -296,7 +296,7 @@ Calculation:
 - 7 Claude Code Skills for auto-discovery
 - E-Commerce Orchestration System
 - DevOps Orchestration System
-- Basic agent recommendation script
+- Basic skill recommendation script
 - Comprehensive documentation
 
 ### Agent Categories
@@ -322,5 +322,5 @@ Calculation:
 
 ## Version History
 
-- **2.0.0** (2024-11-11): Major enhancement to agent recommendation script with intelligent detection, confidence scoring, interactive mode, profile management, and update detection
+- **2.0.0** (2024-11-11): Major enhancement to skill recommendation script with intelligent detection, confidence scoring, interactive mode, profile management, and update detection
 - **1.0.0** (2024-10-15): Initial release with 31 agents, 7 skills, and orchestration systems

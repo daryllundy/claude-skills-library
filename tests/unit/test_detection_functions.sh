@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Unit tests for detection functions in recommend_agents.sh
+# Unit tests for detection functions in recommend_skills.sh
 # Tests individual functions in isolation
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -44,16 +44,16 @@ run_test() {
 # We'll extract just the functions we need for testing
 source_detection_functions() {
   # Extract has_file function
-  eval "$(sed -n '/^has_file() {/,/^}/p' "$REPO_ROOT/scripts/recommend_agents.sh")"
+  eval "$(sed -n '/^has_file() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
   
   # Extract has_path function
-  eval "$(sed -n '/^has_path() {/,/^}/p' "$REPO_ROOT/scripts/recommend_agents.sh")"
+  eval "$(sed -n '/^has_path() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
   
   # Extract file_contains function
-  eval "$(sed -n '/^file_contains() {/,/^}/p' "$REPO_ROOT/scripts/recommend_agents.sh")"
+  eval "$(sed -n '/^file_contains() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
   
   # Extract search_contents function
-  eval "$(sed -n '/^search_contents() {/,/^}/p' "$REPO_ROOT/scripts/recommend_agents.sh")"
+  eval "$(sed -n '/^search_contents() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
 }
 
 source_detection_functions

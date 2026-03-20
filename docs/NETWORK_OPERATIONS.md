@@ -14,7 +14,7 @@ This document provides comprehensive information about the network operations, r
 
 ## Overview
 
-The skill recommendation script (`scripts/recommend_agents.sh`) implements robust network handling to ensure reliability across various network conditions:
+The skill recommendation script (`scripts/recommend_skills.sh`) implements robust network handling to ensure reliability across various network conditions:
 
 - **Automatic Retry**: All network operations retry on failure with exponential backoff
 - **Intelligent Caching**: Downloaded files are cached locally to reduce network requests
@@ -36,18 +36,18 @@ Every network operation uses the `fetch_with_retry` function, which implements:
 ### Retry Behavior Example
 
 ```
-[agent-setup] Attempt 1/3: Downloading https://example.com/agent.md
-[agent-setup] Attempt 1 failed (HTTP 503). Retrying in 1s...
-[agent-setup] Attempt 2/3: Downloading https://example.com/agent.md
-[agent-setup] Attempt 2 failed (HTTP 503). Retrying in 2s...
-[agent-setup] Attempt 3/3: Downloading https://example.com/agent.md
-[agent-setup] Attempt 3 failed (HTTP 503). No more retries.
+[skill-setup] Attempt 1/3: Downloading https://example.com/skill.md
+[skill-setup] Attempt 1 failed (HTTP 503). Retrying in 1s...
+[skill-setup] Attempt 2/3: Downloading https://example.com/skill.md
+[skill-setup] Attempt 2 failed (HTTP 503). Retrying in 2s...
+[skill-setup] Attempt 3/3: Downloading https://example.com/skill.md
+[skill-setup] Attempt 3 failed (HTTP 503). No more retries.
 
-Error: Failed to download from https://example.com/agent.md after 3 attempts
+Error: Failed to download from https://example.com/skill.md after 3 attempts
 
 Troubleshooting:
   1. Check your internet connection
-  2. Verify the URL is accessible: curl -I https://example.com/agent.md
+  2. Verify the URL is accessible: curl -I https://example.com/skill.md
   3. Check if you're behind a proxy or firewall
   4. Try again later if the server is temporarily unavailable
 ```
@@ -55,10 +55,10 @@ Troubleshooting:
 ### When Retry Activates
 
 Retry logic activates for:
-- **Agent Downloads**: Fetching agent markdown files
-- **Update Checks**: Comparing local vs remote agent versions
-- **Registry Fetches**: Downloading the agent registry
-- **Update Operations**: Applying updates to local agents
+- **Skill Downloads**: Fetching skill markdown files
+- **Update Checks**: Comparing local vs remote skill versions
+- **Registry Fetches**: Downloading the skill registry
+- **Update Operations**: Applying updates to local skills
 
 ### Retry Configuration
 
@@ -75,14 +75,14 @@ The retry mechanism uses these defaults:
 
 Default cache directory:
 ```bash
-$XDG_CACHE_HOME/claude-agents
+$XDG_CACHE_HOME/claude-skills-library
 # or if XDG_CACHE_HOME is not set:
-~/.cache/claude-agents
+~/.cache/claude-skills-library
 ```
 
 Override with `--cache-dir` flag:
 ```bash
-bash scripts/recommend_agents.sh --cache-dir=/tmp/my-cache
+bash scripts/recommend_skills.sh --cache-dir=/tmp/my-cache
 ```
 
 ### Cache Strategy
@@ -100,28 +100,28 @@ Different operations use different cache expiry times:
 
 | Operation | Default Expiry | Rationale |
 |-----------|---------------|-----------|
-| Agent Downloads | 24 hours | Agents change infrequently |
+| Skill Downloads | 24 hours | Skills change infrequently |
 | Update Checks | 1 hour | Balance freshness vs network load |
 | Registry Fetches | 1 hour | Registry updates periodically |
 
 Override with `--cache-expiry` flag:
 ```bash
 # 1 hour
-bash scripts/recommend_agents.sh --cache-expiry=3600
+bash scripts/recommend_skills.sh --cache-expiry=3600
 
 # 1 day (default)
-bash scripts/recommend_agents.sh --cache-expiry=86400
+bash scripts/recommend_skills.sh --cache-expiry=86400
 
 # 1 week
-bash scripts/recommend_agents.sh --cache-expiry=604800
+bash scripts/recommend_skills.sh --cache-expiry=604800
 ```
 
 ### Cache File Format
 
 Cache files are stored with hashed filenames:
 ```
-~/.cache/claude-agents/
-├── a3f2b8c9d1e4f5a6  # Cached agent file (hash of URL)
+~/.cache/claude-skills-library/
+├── a3f2b8c9d1e4f5a6  # Cached skill file (hash of URL)
 ├── b4e3c9d2f5a6b7c8  # Another cached file
 └── c5f4d3e2a6b7c8d9  # Registry cache
 ```
@@ -145,11 +145,11 @@ The hash is generated from the URL using MD5 (or fallback to cksum if MD5 unavai
 Bypass cache and fetch fresh data from network.
 
 ```bash
-bash scripts/recommend_agents.sh --force-refresh
+bash scripts/recommend_skills.sh --force-refresh
 ```
 
 **Use cases**:
-- Ensure you have the latest agent versions
+- Ensure you have the latest skill versions
 - Troubleshoot cache-related issues
 - After known upstream changes
 
@@ -158,13 +158,13 @@ bash scripts/recommend_agents.sh --force-refresh
 Remove all cached files and exit.
 
 ```bash
-bash scripts/recommend_agents.sh --clear-cache
+bash scripts/recommend_skills.sh --clear-cache
 ```
 
 **Output**:
 ```
-[agent-setup] Clearing cache directory: /home/user/.cache/claude-agents
-[agent-setup] Successfully cleared 15 cached file(s)
+[skill-setup] Clearing cache directory: /home/user/.cache/claude-skills-library
+[skill-setup] Successfully cleared 15 cached file(s)
 ```
 
 **Use cases**:
@@ -177,7 +177,7 @@ bash scripts/recommend_agents.sh --clear-cache
 Specify custom cache directory.
 
 ```bash
-bash scripts/recommend_agents.sh --cache-dir=/tmp/my-cache
+bash scripts/recommend_skills.sh --cache-dir=/tmp/my-cache
 ```
 
 **Use cases**:
@@ -192,19 +192,19 @@ Set custom cache expiry time.
 
 ```bash
 # 30 minutes
-bash scripts/recommend_agents.sh --cache-expiry=1800
+bash scripts/recommend_skills.sh --cache-expiry=1800
 
 # 1 hour
-bash scripts/recommend_agents.sh --cache-expiry=3600
+bash scripts/recommend_skills.sh --cache-expiry=3600
 
 # 1 day (default)
-bash scripts/recommend_agents.sh --cache-expiry=86400
+bash scripts/recommend_skills.sh --cache-expiry=86400
 
 # 1 week
-bash scripts/recommend_agents.sh --cache-expiry=604800
+bash scripts/recommend_skills.sh --cache-expiry=604800
 
 # Never expire (use with caution)
-bash scripts/recommend_agents.sh --cache-expiry=999999999
+bash scripts/recommend_skills.sh --cache-expiry=999999999
 ```
 
 **Use cases**:
@@ -218,17 +218,17 @@ Flags can be combined for complex scenarios:
 
 ```bash
 # Use custom cache with 1-week expiry
-bash scripts/recommend_agents.sh \
+bash scripts/recommend_skills.sh \
   --cache-dir=/project/.cache \
   --cache-expiry=604800
 
 # Force refresh with verbose output
-bash scripts/recommend_agents.sh \
+bash scripts/recommend_skills.sh \
   --force-refresh \
   --verbose
 
 # Interactive mode with custom cache
-bash scripts/recommend_agents.sh \
+bash scripts/recommend_skills.sh \
   --interactive \
   --cache-dir=/tmp/agents-cache
 ```
@@ -239,44 +239,44 @@ bash scripts/recommend_agents.sh \
 
 1. **Initial Download**: Run script while online to populate cache
    ```bash
-   bash scripts/recommend_agents.sh
+   bash scripts/recommend_skills.sh
    ```
 
 2. **Verify Cache**: Check cached files
    ```bash
-   ls -lh ~/.cache/claude-agents
+   ls -lh ~/.cache/claude-skills-library
    ```
 
 3. **Work Offline**: Script automatically uses cached data
    ```bash
    # Network unavailable - uses cache
-   bash scripts/recommend_agents.sh
+   bash scripts/recommend_skills.sh
    ```
 
 ### Offline Workflow Example
 
 ```bash
 # Day 1: Online - download and cache
-$ bash scripts/recommend_agents.sh
-[agent-setup] Fetching agent registry...
-[agent-setup] Cache miss or stale, fetching https://...
-[agent-setup] Successfully downloaded registry
-[agent-setup] Recommended agents: docker-specialist, kubernetes-specialist
-[agent-setup] Downloaded 2 agents
+$ bash scripts/recommend_skills.sh
+[skill-setup] Fetching skill registry...
+[skill-setup] Cache miss or stale, fetching https://...
+[skill-setup] Successfully downloaded registry
+[skill-setup] Recommended skills: docker-specialist, kubernetes-specialist
+[skill-setup] Downloaded 2 skills
 
 # Day 2: Offline - uses cache (within 24 hours)
-$ bash scripts/recommend_agents.sh
-[agent-setup] Using cached version of https://...
-[agent-setup] Recommended agents: docker-specialist, kubernetes-specialist
-[agent-setup] All agents already installed
+$ bash scripts/recommend_skills.sh
+[skill-setup] Using cached version of https://...
+[skill-setup] Recommended skills: docker-specialist, kubernetes-specialist
+[skill-setup] All skills already installed
 
 # Day 3: Still offline - cache expired but falls back gracefully
-$ bash scripts/recommend_agents.sh
-[agent-setup] Cache miss or stale, fetching https://...
-[agent-setup] Attempt 1 failed (HTTP 000). Retrying in 1s...
-[agent-setup] Attempt 2 failed (HTTP 000). Retrying in 2s...
-[agent-setup] Attempt 3 failed (HTTP 000). No more retries.
-[agent-setup] Warning: Failed to fetch registry, using local agents
+$ bash scripts/recommend_skills.sh
+[skill-setup] Cache miss or stale, fetching https://...
+[skill-setup] Attempt 1 failed (HTTP 000). Retrying in 1s...
+[skill-setup] Attempt 2 failed (HTTP 000). Retrying in 2s...
+[skill-setup] Attempt 3 failed (HTTP 000). No more retries.
+[skill-setup] Warning: Failed to fetch registry, using local skills
 ```
 
 ### CI/CD Caching
@@ -286,7 +286,7 @@ Integrate with CI/CD cache systems:
 #### GitHub Actions
 
 ```yaml
-name: Setup Agents
+name: Setup Skills
 
 on: [push]
 
@@ -296,16 +296,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Cache agent files
+      - name: Cache skill files
         uses: actions/cache@v3
         with:
-          path: ~/.cache/claude-agents
-          key: claude-agents-${{ runner.os }}-${{ hashFiles('scripts/recommend_agents.sh') }}
+          path: ~/.cache/claude-skills-library
+          key: claude-skills-library-${{ runner.os }}-${{ hashFiles('scripts/recommend_skills.sh') }}
           restore-keys: |
-            claude-agents-${{ runner.os }}-
+            claude-skills-library-${{ runner.os }}-
       
       - name: Recommend agents
-        run: bash scripts/recommend_agents.sh --cache-expiry=604800
+        run: bash scripts/recommend_skills.sh --cache-expiry=604800
 ```
 
 #### GitLab CI
@@ -313,12 +313,12 @@ jobs:
 ```yaml
 setup_agents:
   cache:
-    key: claude-agents-cache
+    key: claude-skills-library-cache
     paths:
-      - .cache/claude-agents
+      - .cache/claude-skills-library
   script:
     - export XDG_CACHE_HOME=$CI_PROJECT_DIR/.cache
-    - bash scripts/recommend_agents.sh --cache-expiry=604800
+    - bash scripts/recommend_skills.sh --cache-expiry=604800
 ```
 
 #### Jenkins
@@ -327,17 +327,17 @@ setup_agents:
 pipeline {
   agent any
   stages {
-    stage('Setup Agents') {
+    stage('Setup Skills') {
       steps {
         cache(maxCacheSize: 100, caches: [
           arbitraryFileCache(
-            path: '.cache/claude-agents',
-            cacheValidityDecidingFile: 'scripts/recommend_agents.sh'
+            path: '.cache/claude-skills-library',
+            cacheValidityDecidingFile: 'scripts/recommend_skills.sh'
           )
         ]) {
           sh '''
             export XDG_CACHE_HOME=$WORKSPACE/.cache
-            bash scripts/recommend_agents.sh --cache-expiry=604800
+            bash scripts/recommend_skills.sh --cache-expiry=604800
           '''
         }
       }
@@ -430,13 +430,13 @@ Attempt 1 failed (HTTP 404). Retrying in 1s...
 **Solutions**:
 ```bash
 # Force refresh
-bash scripts/recommend_agents.sh --force-refresh
+bash scripts/recommend_skills.sh --force-refresh
 
 # Clear cache
-bash scripts/recommend_agents.sh --clear-cache
+bash scripts/recommend_skills.sh --clear-cache
 
 # Reduce expiry
-bash scripts/recommend_agents.sh --cache-expiry=3600
+bash scripts/recommend_skills.sh --cache-expiry=3600
 ```
 
 #### Symptom: Cache not being used
@@ -449,17 +449,17 @@ bash scripts/recommend_agents.sh --cache-expiry=3600
 **Solutions**:
 ```bash
 # Check cache directory
-ls -la ~/.cache/claude-agents
+ls -la ~/.cache/claude-skills-library
 
 # Check permissions
-ls -ld ~/.cache/claude-agents
+ls -ld ~/.cache/claude-skills-library
 
 # Recreate cache directory
-mkdir -p ~/.cache/claude-agents
+mkdir -p ~/.cache/claude-skills-library
 
 # Clear and rebuild cache
-bash scripts/recommend_agents.sh --clear-cache
-bash scripts/recommend_agents.sh
+bash scripts/recommend_skills.sh --clear-cache
+bash scripts/recommend_skills.sh
 ```
 
 #### Symptom: Cache directory full
@@ -471,13 +471,13 @@ bash scripts/recommend_agents.sh
 **Solutions**:
 ```bash
 # Check cache size
-du -sh ~/.cache/claude-agents
+du -sh ~/.cache/claude-skills-library
 
 # Clear cache
-bash scripts/recommend_agents.sh --clear-cache
+bash scripts/recommend_skills.sh --clear-cache
 
 # Use custom cache location
-bash scripts/recommend_agents.sh --cache-dir=/tmp/agents-cache
+bash scripts/recommend_skills.sh --cache-dir=/tmp/agents-cache
 ```
 
 ### Performance Issues
@@ -505,13 +505,13 @@ bash scripts/recommend_agents.sh --cache-dir=/tmp/agents-cache
 **Solutions**:
 ```bash
 # Increase cache expiry
-bash scripts/recommend_agents.sh --cache-expiry=604800
+bash scripts/recommend_skills.sh --cache-expiry=604800
 
 # Verify cache is working
-bash scripts/recommend_agents.sh --verbose
+bash scripts/recommend_skills.sh --verbose
 
 # Don't use --force-refresh unless needed
-bash scripts/recommend_agents.sh  # Uses cache
+bash scripts/recommend_skills.sh  # Uses cache
 ```
 
 ## Advanced Usage
@@ -528,7 +528,7 @@ max_script_retries=3
 attempt=1
 
 while [[ $attempt -le $max_script_retries ]]; do
-  if bash scripts/recommend_agents.sh "$@"; then
+  if bash scripts/recommend_skills.sh "$@"; then
     echo "Success on attempt $attempt"
     exit 0
   fi
@@ -553,10 +553,10 @@ Pre-populate cache for offline use:
 echo "Warming cache for offline use..."
 
 # Download all agents
-bash scripts/recommend_agents.sh --force-refresh
+bash scripts/recommend_skills.sh --force-refresh
 
 # Verify cache
-cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/claude-agents"
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/claude-skills-library"
 file_count=$(find "$cache_dir" -type f | wc -l)
 
 echo "Cache warmed: $file_count files cached"
@@ -572,7 +572,7 @@ Monitor cache usage over time:
 #!/bin/bash
 # monitor_cache.sh
 
-cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/claude-agents"
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/claude-skills-library"
 
 echo "Cache Statistics"
 echo "================"
@@ -590,16 +590,16 @@ Share cache across team members:
 
 ```bash
 # Setup shared cache directory
-export SHARED_CACHE="/shared/team/claude-agents-cache"
+export SHARED_CACHE="/shared/team/claude-skills-library-cache"
 mkdir -p "$SHARED_CACHE"
 chmod 775 "$SHARED_CACHE"
 
 # Use shared cache
-bash scripts/recommend_agents.sh --cache-dir="$SHARED_CACHE"
+bash scripts/recommend_skills.sh --cache-dir="$SHARED_CACHE"
 
 # Add to team's .bashrc or .zshrc
-echo 'export CLAUDE_AGENTS_CACHE="/shared/team/claude-agents-cache"' >> ~/.bashrc
-echo 'alias recommend-agents="bash scripts/recommend_agents.sh --cache-dir=\$CLAUDE_AGENTS_CACHE"' >> ~/.bashrc
+echo 'export CLAUDE_SKILLS_CACHE="/shared/team/claude-skills-library-cache"' >> ~/.bashrc
+echo 'alias recommend-agents="bash scripts/recommend_skills.sh --cache-dir=\$CLAUDE_SKILLS_CACHE"' >> ~/.bashrc
 ```
 
 ### Cache Cleanup Automation
@@ -608,13 +608,13 @@ Automate cache cleanup with cron:
 
 ```bash
 # Add to crontab (run weekly)
-0 0 * * 0 bash /path/to/scripts/recommend_agents.sh --clear-cache
+0 0 * * 0 bash /path/to/scripts/recommend_skills.sh --clear-cache
 
 # Or use a cleanup script
 #!/bin/bash
 # cleanup_old_cache.sh
 
-cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/claude-agents"
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/claude-skills-library"
 max_age_days=7
 
 find "$cache_dir" -type f -mtime +$max_age_days -delete
@@ -646,3 +646,4 @@ The network operations and caching system provides:
 - **Diagnostics**: Detailed error messages and troubleshooting guidance
 
 For most users, the default configuration works well. Use the flags and advanced features when you need more control over network behavior and caching strategy.
+Compatibility note: the canonical cache path is `~/.cache/claude-skills-library`. During the transition, the script still reads legacy cache contents from `~/.cache/claude-agents` and honors `CLAUDE_AGENTS_*` env vars with deprecation warnings.

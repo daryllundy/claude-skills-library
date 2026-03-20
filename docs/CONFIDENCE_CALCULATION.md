@@ -1,6 +1,6 @@
 # Confidence Score Calculation
 
-This document explains how confidence scores are calculated for agent recommendations.
+This document explains how confidence scores are calculated for skill recommendations.
 
 ## Overview
 
@@ -85,7 +85,7 @@ The new dynamic calculation ensures:
 See the maximum possible weight for all agents:
 
 ```bash
-./scripts/recommend_agents.sh --show-max-weights
+./scripts/recommend_skills.sh --show-max-weights
 ```
 
 ### Debug Specific Agent
@@ -93,7 +93,7 @@ See the maximum possible weight for all agents:
 See detailed calculation for a specific agent:
 
 ```bash
-./scripts/recommend_agents.sh --debug-confidence terraform-specialist
+./scripts/recommend_skills.sh --debug-confidence terraform-specialist
 ```
 
 This shows:
@@ -108,7 +108,7 @@ This shows:
 See detailed calculations for all agents:
 
 ```bash
-./scripts/recommend_agents.sh --debug-confidence
+./scripts/recommend_skills.sh --debug-confidence
 ```
 
 ## Pattern Weights
@@ -131,7 +131,7 @@ If an agent has unexpectedly low confidence:
 
 1. Check what patterns the agent looks for:
    ```bash
-   ./scripts/recommend_agents.sh --debug-confidence agent-name
+   ./scripts/recommend_skills.sh --debug-confidence agent-name
    ```
 
 2. Verify your project has the expected files/patterns
@@ -144,7 +144,7 @@ If an agent has unexpectedly high confidence:
 
 1. Check which patterns matched:
    ```bash
-   ./scripts/recommend_agents.sh --debug-confidence agent-name
+   ./scripts/recommend_skills.sh --debug-confidence agent-name
    ```
 
 2. Verify the patterns aren't too generic

@@ -152,17 +152,17 @@ agents:
 
 ### Load Default Patterns
 ```bash
-./scripts/recommend_agents.sh
+./scripts/recommend_skills.sh
 ```
 
 ### Load Custom Patterns
 ```bash
 # Environment variable
-export AGENT_PATTERNS_DIR=/path/to/patterns
-./scripts/recommend_agents.sh
+export SKILL_PATTERNS_DIR=/path/to/patterns
+./scripts/recommend_skills.sh
 
 # Command-line flag
-./scripts/recommend_agents.sh --patterns-dir=/path/to/patterns
+./scripts/recommend_skills.sh --patterns-dir=/path/to/patterns
 ```
 
 ### Validate YAML Syntax

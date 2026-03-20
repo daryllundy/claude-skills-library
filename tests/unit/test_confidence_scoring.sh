@@ -6,7 +6,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 FIXTURES="$REPO_ROOT/tests/fixtures"
-SCRIPT="$REPO_ROOT/scripts/recommend_agents.sh"
+SCRIPT="$REPO_ROOT/scripts/recommend_skills.sh"
 REPO_ARGS=(--repo "file://$REPO_ROOT" --branch "")
 
 GREEN='\033[0;32m'

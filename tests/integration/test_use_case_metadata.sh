@@ -26,13 +26,13 @@ export VERBOSE=false
 
 # Temporarily disable errexit for sourcing
 set +e
-source "${REPO_ROOT}/scripts/recommend_agents.sh" 2>/dev/null
+source "${REPO_ROOT}/scripts/recommend_skills.sh" 2>/dev/null
 source_result=$?
 set -e
 
 # The script will return 0 from the source guard, which is expected
 if [[ $source_result -ne 0 ]] && [[ $source_result -ne 1 ]]; then
-  echo "Error: Could not source recommend_agents.sh (exit code: $source_result)" >&2
+  echo "Error: Could not source recommend_skills.sh (exit code: $source_result)" >&2
   exit 1
 fi
 
@@ -338,7 +338,7 @@ test_json_escaping_of_use_case() {
 test_profile_import_with_use_cases() {
   test_start "Profile import handles use cases"
 
-  # This test would require more complex setup with actual agent files
+  # This test would require more complex setup with actual skill files
   # For now, verify the import function exists and handles JSON
   if declare -f import_profile >/dev/null; then
     test_pass

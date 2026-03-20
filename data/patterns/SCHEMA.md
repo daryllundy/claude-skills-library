@@ -374,10 +374,10 @@ Users can create custom pattern files to override defaults or add project-specif
 ### Custom File Location
 ```bash
 # Via environment variable
-export AGENT_PATTERNS_DIR=/path/to/custom/patterns
+export SKILL_PATTERNS_DIR=/path/to/custom/patterns
 
 # Via command-line flag
-./scripts/recommend_agents.sh --patterns-dir=/path/to/custom/patterns
+./scripts/recommend_skills.sh --patterns-dir=/path/to/custom/patterns
 ```
 
 ### Custom File Requirements

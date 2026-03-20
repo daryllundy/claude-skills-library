@@ -4,7 +4,7 @@ if [[ -x /opt/homebrew/bin/bash ]]; then
 fi
 set -uo pipefail
 
-# Master test runner for all agent recommendation tests
+# Master test runner for all skill recommendation tests
 # Runs both unit and integration tests
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -22,7 +22,7 @@ SUITES_PASSED=0
 SUITES_FAILED=0
 
 echo "========================================="
-echo "Claude Code Agents - Test Suite"
+echo "Claude Skills Library - Test Suite"
 echo "========================================="
 echo ""
 
@@ -79,6 +79,7 @@ run_suite "Update Operations" "$SCRIPT_DIR/integration/test_update_operations.sh
 run_suite "Pattern Loading" "$SCRIPT_DIR/integration/test_pattern_loading.sh"
 run_suite "Use Case Metadata" "$SCRIPT_DIR/integration/test_use_case_metadata.sh"
 run_suite "Use Case Simple" "$SCRIPT_DIR/integration/test_use_case_simple.sh"
+run_suite "CLI Compatibility" "$SCRIPT_DIR/integration/test_cli_compatibility.sh"
 
 # Run interactive tests if expect is available
 if command -v expect &> /dev/null; then

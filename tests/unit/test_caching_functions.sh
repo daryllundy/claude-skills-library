@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Unit tests for caching functions in recommend_agents.sh
+# Unit tests for caching functions in recommend_skills.sh
 # Tests cache path generation, freshness checking, and fetch_with_cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -52,21 +52,31 @@ source_cache_functions() {
   # Set cache directory for tests
   export CACHE_DIR="$TEST_DIR/cache"
   export CACHE_EXPIRY_SECONDS=3600
+  export CACHE_DIR_DEPRECATION_NOTIFIED=false
   
+  # Source resolve_env_value
+  eval "$(sed -n '/^resolve_env_value() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
+
+  # Source resolve_cache_dir
+  eval "$(sed -n '/^resolve_cache_dir() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
+
   # Source init_cache
-  eval "$(sed -n '/^init_cache() {/,/^}/p' "$REPO_ROOT/scripts/recommend_agents.sh")"
+  eval "$(sed -n '/^init_cache() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
   
   # Source get_cache_path
-  eval "$(sed -n '/^get_cache_path() {/,/^}/p' "$REPO_ROOT/scripts/recommend_agents.sh")"
+  eval "$(sed -n '/^get_cache_path() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
+
+  # Source get_legacy_cache_path
+  eval "$(sed -n '/^get_legacy_cache_path() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
   
   # Source is_cache_fresh
-  eval "$(sed -n '/^is_cache_fresh() {/,/^}/p' "$REPO_ROOT/scripts/recommend_agents.sh")"
+  eval "$(sed -n '/^is_cache_fresh() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
   
   # Source fetch_with_cache
-  eval "$(sed -n '/^fetch_with_cache() {/,/^}/p' "$REPO_ROOT/scripts/recommend_agents.sh")"
+  eval "$(sed -n '/^fetch_with_cache() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
   
   # Source fetch_with_retry (needed by fetch_with_cache)
-  eval "$(sed -n '/^fetch_with_retry() {/,/^}/p' "$REPO_ROOT/scripts/recommend_agents.sh")"
+  eval "$(sed -n '/^fetch_with_retry() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
 }
 
 source_cache_functions
@@ -433,6 +443,111 @@ test_custom_cache_expiry() {
   fi
 }
 
+# Test 13: legacy env vars still resolve
+test_legacy_env_var_fallback() {
+  run_test "resolve_env_value should honor legacy env vars with new names taking precedence"
+
+  unset CLAUDE_SKILLS_BRANCH CLAUDE_AGENTS_BRANCH
+
+  local default_value="main"
+  local resolved
+
+  export CLAUDE_AGENTS_BRANCH="legacy-branch"
+  resolved=$(resolve_env_value CLAUDE_SKILLS_BRANCH CLAUDE_AGENTS_BRANCH "$default_value" 2>/dev/null)
+  if [[ "$resolved" != "legacy-branch" ]]; then
+    log_fail "Legacy env var was not honored"
+    unset CLAUDE_AGENTS_BRANCH
+    return
+  fi
+
+  export CLAUDE_SKILLS_BRANCH="canonical-branch"
+  resolved=$(resolve_env_value CLAUDE_SKILLS_BRANCH CLAUDE_AGENTS_BRANCH "$default_value" 2>/dev/null)
+
+  if [[ "$resolved" == "canonical-branch" ]]; then
+    log_pass "Canonical env vars take precedence and legacy env vars still work"
+  else
+    log_fail "Canonical env var did not take precedence"
+  fi
+
+  unset CLAUDE_SKILLS_BRANCH CLAUDE_AGENTS_BRANCH
+}
+
+# Test 14: resolve_cache_dir prioritizes canonical inputs
+test_resolve_cache_dir_precedence() {
+  run_test "resolve_cache_dir should prefer explicit and canonical cache settings"
+
+  unset CACHE_DIR CLAUDE_SKILLS_CACHE CLAUDE_AGENTS_CACHE XDG_CACHE_HOME
+
+  local resolved
+  export CLAUDE_AGENTS_CACHE="$TEST_DIR/legacy-cache-env"
+  resolved=$(resolve_cache_dir 2>/dev/null)
+  if [[ "$resolved" != "$TEST_DIR/legacy-cache-env" ]]; then
+    log_fail "Legacy cache env var was not honored"
+    unset CLAUDE_AGENTS_CACHE
+    return
+  fi
+
+  export CLAUDE_SKILLS_CACHE="$TEST_DIR/canonical-cache-env"
+  resolved=$(resolve_cache_dir 2>/dev/null)
+  if [[ "$resolved" != "$TEST_DIR/canonical-cache-env" ]]; then
+    log_fail "Canonical cache env var did not override legacy cache env var"
+    unset CLAUDE_SKILLS_CACHE CLAUDE_AGENTS_CACHE
+    return
+  fi
+
+  export CACHE_DIR="$TEST_DIR/explicit-cache"
+  resolved=$(resolve_cache_dir 2>/dev/null)
+  if [[ "$resolved" == "$TEST_DIR/explicit-cache" ]]; then
+    log_pass "Explicit and canonical cache settings take precedence correctly"
+  else
+    log_fail "Explicit CACHE_DIR did not take precedence"
+  fi
+
+  unset CACHE_DIR CLAUDE_SKILLS_CACHE CLAUDE_AGENTS_CACHE XDG_CACHE_HOME
+}
+
+# Test 15: legacy cache files are reused
+test_fetch_with_cache_reads_legacy_cache() {
+  run_test "fetch_with_cache should read a fresh legacy cache entry and migrate it"
+
+  unset CACHE_DIR CLAUDE_SKILLS_CACHE CLAUDE_AGENTS_CACHE
+  export XDG_CACHE_HOME="$TEST_DIR/xdg"
+  export CACHE_DIR="${XDG_CACHE_HOME}/claude-skills-library"
+  export FORCE_REFRESH=false
+
+  init_cache
+
+  local url="http://example.com/legacy-cache.txt"
+  local output="$TEST_DIR/output_legacy.txt"
+  local cache_file legacy_cache_file
+  cache_file=$(get_cache_path "$url")
+  legacy_cache_file=$(get_legacy_cache_path "$url")
+
+  mkdir -p "$(dirname "$legacy_cache_file")"
+  echo "legacy cached content" > "$legacy_cache_file"
+  touch "$legacy_cache_file"
+  rm -f "$cache_file"
+
+  fetch_with_retry() {
+    echo "ERROR: fetch_with_retry should not be called when legacy cache is fresh" >&2
+    return 1
+  }
+  export -f fetch_with_retry
+
+  if fetch_with_cache "$url" "$output" 3600 2>/dev/null; then
+    if [[ "$(cat "$output")" == "legacy cached content" ]] && [[ -f "$cache_file" ]] && [[ "$(cat "$cache_file")" == "legacy cached content" ]]; then
+      log_pass "Legacy cache entry was reused and migrated to the canonical cache"
+    else
+      log_fail "Legacy cache entry was not reused correctly"
+    fi
+  else
+    log_fail "fetch_with_cache failed when only legacy cache existed"
+  fi
+
+  unset XDG_CACHE_HOME
+  source_cache_functions
+}
+
 # Run all tests
 echo "========================================="
 echo "Caching Functions Unit Tests"
@@ -451,6 +566,9 @@ test_fetch_with_cache_cache_miss
 test_fetch_with_cache_fetch_failure
 test_init_cache_creates_directory
 test_custom_cache_expiry
+test_legacy_env_var_fallback
+test_resolve_cache_dir_precedence
+test_fetch_with_cache_reads_legacy_cache
 
 # Summary
 echo ""

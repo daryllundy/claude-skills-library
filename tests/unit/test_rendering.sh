@@ -2,7 +2,7 @@
 
 # Unit tests for rendering functions
 
-# Define the functions we're testing (extracted from recommend_agents.sh)
+# Define the functions we're testing (extracted from recommend_skills.sh)
 
 draw_progress_bar() {
   local confidence="$1"

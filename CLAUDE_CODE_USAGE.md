@@ -51,13 +51,13 @@ Likely relevant skills:
 Use the bundled CLI when you want automatic detection instead of manual copying:
 
 ```bash
-bash scripts/recommend_agents.sh --dry-run
-bash scripts/recommend_agents.sh --interactive
-bash scripts/recommend_agents.sh --export profile.json
-bash scripts/recommend_agents.sh --import profile.json
+bash scripts/recommend_skills.sh --dry-run
+bash scripts/recommend_skills.sh --interactive
+bash scripts/recommend_skills.sh --export profile.json
+bash scripts/recommend_skills.sh --import profile.json
 ```
 
-The script still keeps its historical filename, but it now installs skill directories under `.claude/skills/`.
+The canonical CLI is now `scripts/recommend_skills.sh`. The legacy `scripts/recommend_agents.sh` filename still works temporarily as a compatibility wrapper while existing setups migrate.
 
 ## Registry and References
 

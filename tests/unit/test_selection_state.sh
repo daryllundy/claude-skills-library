@@ -3,7 +3,7 @@
 
 set -o pipefail
 
-# Define the functions we're testing (extracted from recommend_agents.sh)
+# Define the functions we're testing (extracted from recommend_skills.sh)
 
 # Global selection state
 declare -A SELECTION_STATE

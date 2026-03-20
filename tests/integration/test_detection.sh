@@ -5,7 +5,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-SCRIPT="$REPO_ROOT/scripts/recommend_agents.sh"
+SCRIPT="$REPO_ROOT/scripts/recommend_skills.sh"
 FIXTURES="$REPO_ROOT/tests/fixtures"
 REPO_ARGS=(--repo "file://$REPO_ROOT" --branch "")
 
@@ -129,7 +129,7 @@ test_invalid_threshold() {
 }
 
 echo "========================================="
-echo "Agent Recommendation Integration Tests"
+echo "Skill Recommendation Integration Tests"
 echo "========================================="
 echo ""
 

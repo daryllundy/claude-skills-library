@@ -9,7 +9,7 @@ Use it to speed up project setup with reusable specialist prompts, install-by-de
 ## Why AI builders care
 
 - **38 reusable skills** covering build, infra, testing, security, docs, commerce, and orchestration workflows.
-- **Project-aware recommendations** via `scripts/recommend_agents.sh`, which scans a repo and suggests the skills that fit its stack.
+- **Project-aware recommendations** via `scripts/recommend_skills.sh`, which scans a repo and suggests the skills that fit its stack.
 - **Progressive disclosure by design**: each skill starts with a short `skill.md` entrypoint and links out to deeper references only when needed.
 - **Install and update flow included** with dry-run, interactive selection, profile export/import, and local update checks.
 
@@ -18,27 +18,29 @@ Use it to speed up project setup with reusable specialist prompts, install-by-de
 Clone the repo if you want the full catalog locally:
 
 ```bash
-git clone https://github.com/daryllundy/claude-agents.git
-cd claude-agents
+git clone https://github.com/daryllundy/claude-skills-library.git
+cd claude-skills-library
 ```
 
 Or run the recommender directly from the project you want to enhance:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/daryllundy/claude-agents/main/scripts/recommend_agents.sh | bash
+curl -sSL https://raw.githubusercontent.com/daryllundy/claude-skills-library/main/scripts/recommend_skills.sh | bash
 ```
 
 Preview recommendations without writing files:
 
 ```bash
-bash scripts/recommend_agents.sh --dry-run
+bash scripts/recommend_skills.sh --dry-run
 ```
 
 Install the recommended skills into the current project:
 
 ```bash
-bash scripts/recommend_agents.sh
+bash scripts/recommend_skills.sh
 ```
+
+Migration note: `scripts/recommend_agents.sh` still works as a deprecated wrapper for now. Legacy `CLAUDE_AGENTS_*` env vars and the old `~/.cache/claude-agents` cache location are still honored during the transition, but new setups should use `CLAUDE_SKILLS_*` and `~/.cache/claude-skills-library`.
 
 Example result for a repo with Docker, Kubernetes, Terraform, and GitHub Actions:
 
@@ -152,7 +154,7 @@ Repository shape:
 
 - `.claude/skills/`: canonical skill directories
 - `.claude/skills/SKILLS_REGISTRY.md`: shipped skill catalog
-- `scripts/recommend_agents.sh`: standalone recommender and installer CLI
+- `scripts/recommend_skills.sh`: standalone recommender and installer CLI
 - `data/agent_patterns.yaml`: detection rules used by the recommender
 
 Contribution expectations:

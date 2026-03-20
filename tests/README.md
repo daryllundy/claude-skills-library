@@ -1,4 +1,4 @@
-# Agent Recommendation Tests
+# Skill Recommendation Tests
 
 Comprehensive test suite for the skill recommendation script enhancements.
 
@@ -111,7 +111,7 @@ Tests complete detection workflows:
 - React frontend project detection
 - Kubernetes project detection
 - Multi-cloud orchestrator detection
-- Empty project core agent recommendation
+- Empty project core skill recommendation
 - Confidence filtering behavior
 - Export functionality
 - Verbose mode output
@@ -255,7 +255,7 @@ chmod +x tests/**/*.sh
 ```
 
 ### Network-dependent tests fail
-Some tests require internet access to fetch remote agent files. These tests gracefully skip if network is unavailable.
+Some tests require internet access to fetch remote skill files. These tests gracefully skip if network is unavailable.
 
 ### Permission errors
 Ensure you have write permissions in `/tmp/` directory where test artifacts are created.

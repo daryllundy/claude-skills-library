@@ -18,7 +18,7 @@ TESTS_FAILED=0
 # Source the main script functions
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-source "${REPO_ROOT}/scripts/recommend_agents.sh" 2>/dev/null || true
+source "${REPO_ROOT}/scripts/recommend_skills.sh" 2>/dev/null || true
 
 # Override log function for tests
 log() {

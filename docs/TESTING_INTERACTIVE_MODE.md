@@ -181,7 +181,7 @@ Example:
 set timeout 5
 set test_name "my_test"
 
-spawn bash scripts/recommend_agents.sh --interactive --dry-run
+spawn bash scripts/recommend_skills.sh --interactive --dry-run
 
 expect "Interactive Mode"
 send "a"  # Select all

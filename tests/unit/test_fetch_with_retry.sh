@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Unit tests for fetch_with_retry function in recommend_agents.sh
+# Unit tests for fetch_with_retry function in recommend_skills.sh
 # Tests retry logic, timeout handling, and error reporting
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -49,7 +49,7 @@ log() {
 
 # Source the fetch_with_retry function
 source_fetch_function() {
-  eval "$(sed -n '/^fetch_with_retry() {/,/^}/p' "$REPO_ROOT/scripts/recommend_agents.sh")"
+  eval "$(sed -n '/^fetch_with_retry() {/,/^}/p' "$REPO_ROOT/scripts/recommend_skills.sh")"
 }
 
 source_fetch_function
