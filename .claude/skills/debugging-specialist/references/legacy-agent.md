@@ -111,6 +111,7 @@ When debugging through MCP servers, **write code to interact with debugging tool
 
 ### Code Structure Pattern
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import debug_mcp
 from collections import Counter
 import re
@@ -153,6 +154,7 @@ with open('./debug/stack-traces.json', 'w') as f:
 
 ### Example: Automated Bug Reproduction
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import debug_mcp
 import asyncio
 
@@ -214,6 +216,7 @@ if failed:
 
 ### Example: Stack Trace Analysis
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import debug_mcp
 import re
 from collections import defaultdict
@@ -265,6 +268,7 @@ for version, count in sorted(crash_by_version.items(), key=lambda x: x[1], rever
 
 ### Example: Race Condition Detection
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import debug_mcp
 import asyncio
 import time
@@ -325,6 +329,7 @@ await test_race_condition()
 
 ### Example: Memory Leak Detection
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import debug_mcp
 import asyncio
 import statistics
@@ -392,6 +397,7 @@ await detect_memory_leak()
 
 ### Example: Distributed Trace Debugging
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import debug_mcp
 from collections import defaultdict
 

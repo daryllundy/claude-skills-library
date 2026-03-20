@@ -883,6 +883,7 @@ When working with infrastructure and cloud services through MCP servers, **write
 
 ### Code Structure Pattern
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import cloud_mcp
 import datetime
 
@@ -916,6 +917,7 @@ print(f"Potential monthly savings: ${total_savings:.2f}")
 
 ### Example: Multi-Region Deployment
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import cloud_mcp
 import asyncio
 
@@ -971,6 +973,7 @@ for r in results:
 
 ### Example: Cost Analysis
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import cloud_mcp
 from datetime import datetime, timedelta
 import json
@@ -1023,6 +1026,7 @@ with open('./reports/cost-analysis.json', 'w') as f:
 
 ### Example: Security Audit
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import cloud_mcp
 
 # Audit security groups across all regions

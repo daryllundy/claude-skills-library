@@ -112,6 +112,7 @@ When performing security analysis through MCP servers, **write code to interact 
 
 ### Code Structure Pattern
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import security_mcp
 
 # Scan codebase for vulnerabilities
@@ -146,6 +147,7 @@ with open('./security/scan-report.json', 'w') as f:
 
 ### Example: Authentication Log Analysis
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import security_mcp
 from datetime import datetime, timedelta
 from collections import defaultdict
@@ -212,6 +214,7 @@ with open('./security/auth-analysis.json', 'w') as f:
 
 ### Example: Dependency Vulnerability Audit
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import security_mcp
 import json
 
@@ -262,6 +265,7 @@ for pkg, version in sorted(upgrades.items())[:10]:
 
 ### Example: Secrets Detection
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import security_mcp
 import re
 import hashlib
@@ -316,6 +320,7 @@ with open('./security/secrets-report.json', 'w') as f:
 
 ### Example: API Security Audit
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import security_mcp
 
 # Analyze API endpoints for security issues

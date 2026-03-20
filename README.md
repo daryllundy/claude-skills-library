@@ -1,24 +1,34 @@
-# Claude Skills for AI Builders
+# Claude Skills Library
 
-A plug-in library of Claude skills for coding, infra, security, docs, and multi-step agent workflows.
+A repository of reusable Claude Code skills plus the tooling to recommend and install them into other projects.
 
-Use it to speed up project setup with reusable specialist prompts, install-by-detection, and a skill format Claude can discover directly from your repo.
+It currently ships:
 
-[Quick start](#start-here-in-60-seconds) • [Browse skills](./.claude/skills/SKILLS_REGISTRY.md) • [See examples](./examples/README.md)
+- 38 skill directories in the canonical `.claude/skills/` format
+- a Bash-based recommender/installer CLI in `scripts/recommend_skills.sh`
+- declarative YAML detection patterns under `data/patterns/`
+- docs, examples, and a shell test suite for the recommender workflow
 
-## Why AI builders care
+[Getting started](./GETTING_STARTED.md) • [Skills registry](./.claude/skills/SKILLS_REGISTRY.md) • [Examples](./examples/README.md) • [Docs](./docs/README.md)
 
-- **38 reusable skills** covering build, infra, testing, security, docs, commerce, and orchestration workflows.
-- **Project-aware recommendations** via `scripts/recommend_skills.sh`, which scans a repo and suggests the skills that fit its stack.
-- **Progressive disclosure by design**: each skill starts with a short `skill.md` entrypoint and links out to deeper references only when needed.
-- **Install and update flow included** with dry-run, interactive selection, profile export/import, and local update checks.
+## What is in this repo
 
-## Start here in 60 seconds
+The main catalog lives under `.claude/skills/`. Each skill is packaged as a directory with:
+
+- `SKILL.md`: the discovery-oriented entrypoint Claude reads first
+- `references/`: longer-form guidance migrated from older prompt assets
+- `scripts/`: optional helper scripts
+- `assets/`: templates and supporting artifacts when a skill needs them
+- `manifest.txt`: the file list used for install/update operations
+
+The recommender scans a target project, matches it against weighted detection patterns, then suggests or installs the most relevant skills into that project's `.claude/skills/` directory.
+
+## Quick start
 
 Clone the repo if you want the full catalog locally:
 
 ```bash
-git clone https://github.com/daryllundy/claude-skills-library.git
+git clone git@github-daryllundy:daryllundy/claude-skills-library.git
 cd claude-skills-library
 ```
 
@@ -40,140 +50,77 @@ Install the recommended skills into the current project:
 bash scripts/recommend_skills.sh
 ```
 
-Migration note: `scripts/recommend_agents.sh` still works as a deprecated wrapper for now. Legacy `CLAUDE_AGENTS_*` env vars and the old `~/.cache/claude-agents` cache location are still honored during the transition, but new setups should use `CLAUDE_SKILLS_*` and `~/.cache/claude-skills-library`.
+Use interactive selection when you want to override the automatic picks:
 
-Example result for a repo with Docker, Kubernetes, Terraform, and GitHub Actions:
+```bash
+bash scripts/recommend_skills.sh --interactive
+```
+
+## Recommender capabilities
+
+`scripts/recommend_skills.sh` supports:
+
+- confidence-based recommendations with `--min-confidence`
+- interactive selection with keyboard navigation
+- profile export/import with `--export` and `--import`
+- update checks with `--check-updates` and `--update-all`
+- network retry and caching controls such as `--force-refresh`, `--clear-cache`, and `--cache-expiry`
+- custom pattern sources through `--patterns-dir` or `SKILL_PATTERNS_DIR`
+
+The legacy `scripts/recommend_agents.sh` entrypoint still exists as a deprecation wrapper around `scripts/recommend_skills.sh`.
+
+## Detection patterns
+
+Detection logic is no longer just embedded in shell code.
+
+- `data/patterns/*.yml` contains the current modular YAML pattern library by category
+- `data/patterns/SCHEMA.md` documents the pattern schema
+- `data/patterns/QUICK_REFERENCE.md` provides a short authoring guide
+- `data/agent_patterns.yaml` remains in the repo as legacy consolidated pattern data used during the transition
+
+These patterns drive weighted confidence scores for infrastructure, development, quality, operations, productivity, business, and specialized skills.
+
+## Repository layout
 
 ```text
-Recommended skills:
-  - docker-specialist
-  - kubernetes-specialist
-  - terraform-specialist
-  - cicd-specialist
-  - devops-orchestrator
+.claude/skills/              Canonical shipped skill catalog
+scripts/                     Recommender and compatibility wrapper
+data/patterns/               Modular YAML detection patterns and docs
+docs/                        Technical docs for caching, testing, and scoring
+examples/                    Prompt-shaped usage examples
+tests/                       Unit and integration tests for the CLI
+archive/                     Legacy setup scripts and archived Python implementation
 ```
 
-## How it works
-
-```mermaid
-flowchart LR
-    A["Scan project"] --> B["Match stack patterns"]
-    B --> C["Recommend skills"]
-    C --> D["Install into .claude/skills/"]
-    D --> E["Claude reads skill.md"]
-    E --> F["Open references/ only when needed"]
-```
-
-The repository ships canonical skill directories under `.claude/skills/`. Each one is structured for discovery first, depth second:
-
-- `skill.md`: short entrypoint for automatic discovery
-- `references/`: longer guidance and examples
-- `scripts/`: helper automation stubs or utilities
-- `assets/templates/`: reusable templates and artifacts
-- `manifest.txt`: installer manifest for syncing the full skill directory
-
-## What builders can do with it
-
-**Ship infra**
+## Example use cases
 
 ```text
-"Use the devops-orchestrator to coordinate Docker, Terraform, Kubernetes, and monitoring setup for this service."
+"Use the docker-specialist to create a production-ready multi-stage Dockerfile."
+"Use the security-specialist to review src/auth/ for vulnerabilities."
+"Use the architecture-specialist to design an API, then hand off to database, test, and documentation specialists."
 ```
 
-**Audit security**
+More examples live in [examples/README.md](./examples/README.md).
 
-```text
-"Use the security-specialist to review the authentication flow in src/auth/ and identify vulnerabilities."
-```
+## Testing
 
-**Generate tests**
-
-```text
-"Use the test-specialist to create unit and integration tests for the UserService class in src/services/user.service.ts."
-```
-
-**Design frontend**
-
-```text
-"Use the frontend-specialist to build a responsive dashboard component with React hooks and TypeScript."
-```
-
-**Coordinate a new API feature**
-
-```text
-"Use the architecture-specialist to design a REST API for user profile management, then hand implementation to scaffolding, database, test, and documentation specialists."
-```
-
-**Modernize legacy code**
-
-```text
-"Use the refactoring-specialist to modernize src/legacy/auth/ to async/await and then use the performance-specialist to validate regressions."
-```
-
-More prompt-shaped examples live in [examples/README.md](./examples/README.md).
-
-## Featured workflows
-
-**API feature workflow**
-
-1. `architecture-specialist` designs the endpoint and data flow.
-2. `scaffolding-specialist` creates the implementation structure.
-3. `database-specialist` handles schema and query work.
-4. `test-specialist` adds coverage for happy-path and failure cases.
-5. `documentation-specialist` writes API docs.
-
-**Production deployment workflow**
-
-1. `docker-specialist` creates production-ready container assets.
-2. `cicd-specialist` wires deployment automation.
-3. `security-specialist` hardens the container and deployment posture.
-4. `observability-specialist` adds monitoring and alerting.
-
-**Code modernization workflow**
-
-1. `code-review-specialist` identifies technical debt and risks.
-2. `refactoring-specialist` modernizes the target module.
-3. `test-specialist` adds regression coverage.
-4. `performance-specialist` validates runtime impact.
-
-## Popular skill categories
-
-| Category | Examples |
-| --- | --- |
-| Build | `frontend-specialist`, `mobile-specialist`, `database-specialist`, `scaffolding-specialist` |
-| Infra | `aws-specialist`, `azure-specialist`, `gcp-specialist`, `docker-specialist`, `kubernetes-specialist`, `terraform-specialist`, `cicd-specialist` |
-| Quality | `code-review-specialist`, `security-specialist`, `test-specialist`, `performance-specialist`, `refactoring-specialist` |
-| Commerce / Marketing | `shopify-specialist`, `web-design-specialist`, `instagram-specialist`, `tiktok-strategist`, `social-media-specialist`, `zapier-specialist` |
-| Coordination | `devops-orchestrator`, `e-commerce-orchestrator`, `e-commerce-coordinator`, `architecture-specialist` |
-
-Browse the full catalog in [`.claude/skills/SKILLS_REGISTRY.md`](./.claude/skills/SKILLS_REGISTRY.md).
-
-## For contributors
-
-Repository shape:
-
-- `.claude/skills/`: canonical skill directories
-- `.claude/skills/SKILLS_REGISTRY.md`: shipped skill catalog
-- `scripts/recommend_skills.sh`: standalone recommender and installer CLI
-- `data/agent_patterns.yaml`: detection rules used by the recommender
-
-Contribution expectations:
-
-- Keep `skill.md` under 200 lines and focused on discovery.
-- Move detailed guidance into `references/` instead of growing the entrypoint.
-- Preserve empty `scripts/` and `assets/templates/` folders with `.gitkeep`.
-- Keep `manifest.txt` current when files are added or removed from a skill.
-
-## Testing and limitations
-
-Run the repository test suite with:
+Run the full recommender test suite with:
 
 ```bash
 bash tests/run_all_tests.sh
 ```
 
-This repo does **not** ship MCP servers or MCP tool implementations. If a skill references MCP-backed workflows, treat that as an external prerequisite already configured in the user environment.
+The suite covers detection, confidence scoring, rendering, caching, retry behavior, profile import/export, update flows, YAML parsing, and interactive mode. Interactive tests run only when `expect` is available.
 
-The test suite covers detection logic, interactive selection, profile export/import, caching, and skill update flows.
+## Migration notes
 
-Migration note: the legacy `.claude/agents/` surface is gone. The canonical format in this repo is `.claude/skills/{name}/`, with `skill.md` as the entrypoint and detailed material split into linked references.
+- The canonical surface is `.claude/skills/`, not `.claude/agents/`
+- Skill entrypoints in this repo are named `SKILL.md`
+- `CLAUDE_SKILLS_*` environment variables are the preferred names
+- legacy `CLAUDE_AGENTS_*` environment variables and `~/.cache/claude-agents` are still honored temporarily for compatibility
+
+## Limitations
+
+This repository does not bundle MCP servers or external integrations. If a skill reference mentions MCP-backed workflows, treat those as prerequisites that must already exist in the user environment.
+
+Archived material under `archive/` is kept for reference and migration context; the active implementation is the Bash recommender plus the current `.claude/skills/` catalog.

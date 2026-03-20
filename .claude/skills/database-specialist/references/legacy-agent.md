@@ -89,6 +89,7 @@ When working with databases through MCP servers, **write code to interact with d
 
 ### Code Structure Pattern
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import database_mcp
 
 # Execute query and get large result set
@@ -112,6 +113,7 @@ print(f"Total active users: {sum(active_by_region.values())}")
 
 ### Example: Data Migration
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import database_mcp
 import json
 
@@ -149,6 +151,7 @@ print(f"Migrated {len(transformed)} customers successfully")
 
 ### Example: Query Analysis
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import database_mcp
 
 # Analyze query performance

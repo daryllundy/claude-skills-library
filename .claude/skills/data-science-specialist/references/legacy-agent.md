@@ -121,6 +121,7 @@ print(f"Processed {len(filtered)} records, extracted {len(features)} features")
 ### Example: Data Pipeline
 ```python
 import pandas as pd
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import database_mcp
 import ml_models
 

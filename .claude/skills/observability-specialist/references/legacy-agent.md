@@ -99,6 +99,7 @@ When working with observability data through MCP servers, **write code to intera
 
 ### Code Structure Pattern
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import observability_mcp
 from datetime import datetime, timedelta
 
@@ -125,6 +126,7 @@ print(f"Top 5 error types: {sorted_errors[:5]}")
 
 ### Example: Incident Analysis
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import observability_mcp
 import json
 
@@ -175,6 +177,7 @@ with open('./incidents/incident-123-analysis.json', 'w') as f:
 
 ### Example: Custom Metric Computation
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import observability_mcp
 import statistics
 
@@ -209,6 +212,7 @@ print(f"  Anomalies detected: {len(anomalies)} ({len(anomalies)/len(values)*100:
 
 ### Example: Alert Rule Validation
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import observability_mcp
 
 # Test alert rules against historical data
