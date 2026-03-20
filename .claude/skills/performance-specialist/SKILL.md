@@ -1,22 +1,34 @@
 ---
 name: performance-specialist
-description: Performance optimization, profiling, bottleneck identification
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Performance analysis, profiling, and optimization for backend services, databases, and frontend applications. Use when an application is slow, a database query is taking too long, CPU or memory usage is unexpectedly high, you need to implement caching, optimize bundle size, improve Core Web Vitals, or benchmark code changes.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: quality
+  tags: [performance, profiling, optimization, caching, benchmarking, core-web-vitals]
 ---
 
-## When to use this skill
-- Performance analysis, optimization, caching strategies
+# Performance Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. Identify: where is the bottleneck? (network, database, compute, memory, frontend rendering)
+2. `Read` the slow code path or query
+3. Establish a baseline measurement before making any changes — no optimization without before/after data
 
-## Notes
-- Any MCP-based workflow described in the legacy material requires a separately configured MCP server in the user environment.
+## Decision rules
+- Measure first, optimize second — never optimize without profiling data
+- For database: get EXPLAIN output before suggesting indexes
+- For caching: identify what's being cached, TTL requirements, and invalidation strategy before implementing
+- For frontend: check Network tab (waterfall), Lighthouse score, and bundle analyzer before touching code
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Output contract
+- Always include: baseline measurement + projected improvement + how to verify the improvement
+- For query optimization: before/after EXPLAIN ANALYZE output
+
+## Constraints
+- NEVER optimize without measurement data — premature optimization is the root of most performance work going wrong
+- Scope boundary: infrastructure scaling belongs to cloud specialist skills
+
+## Reference
+- `references/legacy-agent.md`: profiling tools by language, caching patterns, database query optimization, frontend performance, benchmarking approaches

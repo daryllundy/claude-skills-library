@@ -1,22 +1,44 @@
 ---
 name: security-specialist
-description: Security auditing, vulnerability scanning, secure coding practices
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Security auditing, vulnerability identification, secure coding practices, and secrets management. Use when asked to audit code for security vulnerabilities, review IAM permissions, check for hardcoded secrets, implement authentication or authorization, fix a CVE, set up secrets management (Vault, AWS Secrets Manager), review network security rules, or assess OWASP Top 10 exposure.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: quality
+  tags: [security, vulnerabilities, iam, secrets-management, owasp, authentication, cve]
 ---
 
-## When to use this skill
-- Security reviews, vulnerability fixes, secure authentication
+# Security Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. `Grep` for common secret patterns: `password`, `secret`, `api_key`, `token`, `private_key` in source files
+2. `Glob('**/.env*', '**/config/**', '**/secrets/**')` — find config and secrets files
+3. Identify the security scope: code review, infrastructure audit, IAM review, or secrets management
 
-## Notes
-- Any MCP-based workflow described in the legacy material requires a separately configured MCP server in the user environment.
+## Decision rules
+- CRITICAL findings (hardcoded secrets, SQL injection, RCE vectors): surface immediately before completing any other review
+- Severity order: CRITICAL → HIGH → MEDIUM → LOW → INFORMATIONAL
+- For IAM: apply least-privilege; flag any wildcard (`*`) actions or resources in production policies
+- For authentication: flag any custom auth implementation and recommend proven libraries instead
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Output contract
+- Findings formatted as: `[SEVERITY] Category — Description — Risk — Remediation`
+- For code findings: include the file path and line number
+- Always include a remediation step, not just the finding
+
+## Constraints
+- NEVER include actual secret values in output — redact them
+- Scope boundary: application logic fixes belong to the relevant language skill; IAM/cloud config fixes belong to cloud specialist skills
+
+## Examples
+
+### Example 1: AWS account security scan
+User says: "Scan my AWS infrastructure for security issues"
+Actions:
+1. Write Python/boto3 script checking: public S3 buckets, open security group ports (22/3389 to 0.0.0.0/0), IAM users without MFA, unencrypted EBS volumes, disabled CloudTrail
+2. Output grouped by severity
+Result: Security audit script with prioritized findings JSON
+
+## Reference
+- `references/legacy-agent.md`: OWASP Top 10, secure coding patterns, IAM hardening, secrets management implementations, network security, compliance security controls
