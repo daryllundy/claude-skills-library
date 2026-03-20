@@ -1,22 +1,35 @@
 ---
 name: azure-specialist
-description: Azure cloud services, ARM templates, Bicep, and Azure best practices
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Azure cloud services, infrastructure, ARM templates, Bicep, and Azure best practices. Use when asked to deploy to Azure, set up Azure VMs or App Service or AKS, configure Azure AD or RBAC, write ARM templates or Bicep files, set up Azure Functions, work with Azure Key Vault, configure Azure Monitor, or design Azure network topology.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: infrastructure-cloud
+  tags: [azure, cloud, arm, bicep, aks, azure-ad, azure-functions]
 ---
 
-## When to use this skill
-- Azure infrastructure, VMs, App Service, Functions, AKS, SQL Database, Blob Storage, Azure Monitor, RBAC
+# Azure Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. `Glob('**/*.bicep', '**/*.arm.json', '**/azuredeploy.json', '**/main.bicep')` — find existing IaC
+2. Identify: subscription context, resource group structure, whether Azure AD / Entra ID is in scope
+3. Confirm IaC approach preference: Bicep (preferred for Azure-native) vs ARM JSON vs Terraform
 
-## Notes
-- Any MCP-based workflow described in the legacy material requires a separately configured MCP server in the user environment.
+## Decision rules
+- If Terraform files exist: use terraform-specialist for provisioning; use this skill for Azure service knowledge
+- For new IaC: default to Bicep over ARM JSON (cleaner syntax, same capability)
+- For identity: use Managed Identities for service-to-service auth; never use service principal credentials in code
+- For secrets: all secrets go through Azure Key Vault
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Output contract
+- Primary artifact: Bicep file or ARM JSON template, or Azure CLI bash script
+- Required: RBAC assignments scoped to least-privilege; Key Vault integration for any secrets
+
+## Constraints
+- NEVER use Owner or Contributor at subscription scope unless explicitly required
+- NEVER store secrets in ARM parameters files — use Key Vault references
+- Scope boundary: application code belongs to language-specific skills
+
+## Reference
+- `references/legacy-agent.md`: full service reference — VMs, App Service, AKS, Functions, SQL Database, Blob Storage, Azure Monitor, RBAC, Well-Architected Framework
