@@ -1,10 +1,10 @@
 ---
 name: e-commerce-coordinator
-description: Coordinates multi-week e-commerce improvement programs across design,
-  platform, marketing, and automation specialists. Use when an e-commerce audit is
-  complete and you need to sequence the improvement work, track progress across a
-  multi-specialist roadmap, determine which specialist to engage next, or manage dependencies
-  between design, Shopify, social media, and automation work.
+description: Post-audit e-commerce execution coordination across design, storefront,
+  marketing, and automation specialists. Use when an e-commerce audit is complete
+  and you need to sequence the improvement work, track progress across a multi-specialist
+  roadmap, determine which specialist should work next, or manage dependencies between
+  design, Shopify, social media, and automation work.
 allowed-tools:
 - Read
 - Write
@@ -28,7 +28,7 @@ metadata:
 
 ## Activation criteria
 - User language explicitly matches trigger phrases such as `coordinate the e-commerce improvements`, `sequence the work`, `what specialist should I use next`.
-- The requested work fits this skill's lane: Post-audit execution planning, sequencing specialist work, tracking e-commerce roadmap progress.
+- The requested work fits this skill's lane: post-audit execution planning, sequencing specialist work, tracking roadmap progress, and managing dependencies between workstreams.
 - The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Initial audits (use e-commerce-orchestrator); individual platform work (use platform specialist directly).
 
 ## First actions
@@ -62,7 +62,7 @@ BLOCKERS: [any] | NEXT: [recommended action]
 ## Output contract
 - Provide the current execution phase, the next recommended specialist, and the handoff artifact required for that step.
 - Keep a short roadmap summary with completed work, in-progress work, pending work, and blockers.
-- Call out any sequencing dependencies that could invalidate downstream work if ignored.
+- Call out any sequencing dependencies or prerequisite fixes that could invalidate downstream work if ignored.
 
 ## Constraints
 - NEVER run the initial audit from this skill; use e-commerce-orchestrator for audit and scoring work.

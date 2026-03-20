@@ -1,11 +1,10 @@
 ---
 name: observability-specialist
-description: Application-level instrumentation for metrics, structured logging, and
-  distributed tracing using OpenTelemetry, Prometheus client libraries, and logging
-  frameworks. Use when asked to add instrumentation to application code, implement
-  structured logging, add trace spans to a service, integrate OpenTelemetry SDK, set
-  up correlation IDs across microservices, or add custom Prometheus metrics to an
-  application.
+description: Application-level instrumentation for metrics, structured logging, trace
+  propagation, and span creation inside service code. Use when asked to add instrumentation
+  to application code, implement structured logging, add trace spans to a service,
+  integrate OpenTelemetry SDK, set up correlation IDs across microservices, or add
+  custom Prometheus metrics to an application.
 allowed-tools:
 - Read
 - Write
@@ -29,8 +28,8 @@ metadata:
 
 ## Activation criteria
 - User language explicitly matches trigger phrases such as `add tracing to my app`, `OpenTelemetry`, `structured logging`.
-- The requested work fits this skill's lane: Adding instrumentation to app code, OpenTelemetry SDK integration, structured logging setup, correlation IDs.
-- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Infrastructure monitoring config (use monitoring-specialist).
+- The requested work fits this skill's lane: adding instrumentation to application code, OpenTelemetry SDK integration, structured logging setup, correlation IDs, and in-process metrics.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: infrastructure monitoring config, dashboard authoring, scrape targets, and alert routing (use monitoring-specialist).
 
 ## First actions
 1. `Glob('**/*.py', '**/*.go', '**/*.ts', '**/*.java')` — identify application language
@@ -50,7 +49,7 @@ metadata:
 
 ## Constraints
 - NEVER log sensitive data (secrets, PII, financial data)
-- Scope boundary: infrastructure-level monitoring config (Prometheus scrape targets, Grafana dashboards) belongs to monitoring-specialist
+- Scope boundary: infrastructure-level monitoring config, scrape targets, dashboards, and alert routing belong to monitoring-specialist
 
 ## Reference
 - `references/legacy-agent.md`: OpenTelemetry SDK patterns by language, structured logging implementations, Prometheus client library usage, trace context propagation

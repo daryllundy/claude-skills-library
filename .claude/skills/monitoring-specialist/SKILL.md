@@ -1,10 +1,10 @@
 ---
 name: monitoring-specialist
-description: Observability strategy, Prometheus and Grafana setup, ELK stack, distributed
-  tracing, alerting, and SLO/SLI definition. Use when asked to set up monitoring,
+description: Infrastructure-level monitoring configuration for metrics, dashboards,
+  alerting, logging backends, and SLO/SLI policy. Use when asked to set up monitoring,
   create a Grafana dashboard, write Prometheus alerting rules, define SLOs, configure
-  Alertmanager routing, implement distributed tracing with Jaeger or Zipkin, set up
-  centralized logging with Loki or Elasticsearch, or write an on-call runbook.
+  Alertmanager routing, set up centralized logging with Loki or Elasticsearch, configure
+  tracing backends such as Jaeger or Tempo, or write an on-call runbook.
 allowed-tools:
 - Read
 - Write
@@ -32,8 +32,8 @@ metadata:
 
 ## Activation criteria
 - User language explicitly matches trigger phrases such as `set up monitoring`, `Grafana dashboard`, `Prometheus alert`.
-- The requested work fits this skill's lane: Monitoring setup, dashboard design, alert rules, SLO definition, Loki, Jaeger, runbooks.
-- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Application instrumentation code (use observability-specialist).
+- The requested work fits this skill's lane: monitoring setup, dashboard design, alert rules, SLO definition, logging backends, tracing backends, and runbooks.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: application instrumentation code and in-process metrics or tracing changes (use observability-specialist).
 
 ## First actions
 1. `Glob('**/prometheus/**', '**/grafana/**', '**/alertmanager/**', '**/monitoring/**', '**/loki/**')` — find existing monitoring config
@@ -48,11 +48,11 @@ metadata:
 
 ## Steps
 
-### Step 1: Assess current observability coverage
-Identify gaps: what metrics, logs, and traces are missing? What is the current alert coverage?
+### Step 1: Assess current monitoring coverage
+Identify gaps in scrape targets, dashboards, alert coverage, logging backends, and tracing backends.
 
-### Step 2: Design the solution
-For each observability signal: metrics (Prometheus exporters), logs (structured JSON + Loki/Elasticsearch), traces (OpenTelemetry → Jaeger/Tempo).
+### Step 2: Design the monitoring stack
+For each signal path: metrics collection, log storage and querying, tracing backend, alert routing, and SLO reporting.
 
 ### Step 3: Write configurations
 Prometheus: scrape configs, recording rules, alert rules. Grafana: dashboard JSON with proper variables for multi-environment use. Alertmanager: routing tree with correct receiver grouping.
@@ -76,7 +76,7 @@ python3 -m json.tool dashboard.json > /dev/null
 ## Constraints
 - NEVER create alerts without a runbook or at minimum a diagnostic note in the annotation
 - NEVER alert on CPU/memory alone - tie resource alerts to user-facing symptoms
-- Scope boundary: adding instrumentation to application source code belongs to observability-specialist
+- Scope boundary: adding metrics, spans, correlation IDs, or structured logging inside application source code belongs to observability-specialist
 
 ## Examples
 

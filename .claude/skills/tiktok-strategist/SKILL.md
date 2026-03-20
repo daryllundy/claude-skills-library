@@ -1,7 +1,7 @@
 ---
 name: tiktok-strategist
-description: TikTok marketing strategy, short-form video content planning, and TikTok
-  algorithm optimization. Use when asked to grow a TikTok account, develop a TikTok
+description: TikTok-specific short-form video strategy, scripting, and platform-native
+  growth optimization. Use when asked to grow a TikTok account, develop a TikTok
   content strategy, write video scripts for TikTok, identify trending sounds or formats,
   plan a TikTok creator collaboration, or audit a TikTok profile for growth opportunities.
 allowed-tools:

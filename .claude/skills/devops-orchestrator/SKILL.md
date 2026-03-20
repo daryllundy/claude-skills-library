@@ -1,11 +1,9 @@
 ---
 name: devops-orchestrator
-description: Coordinates multiple DevOps specialist skills for complex infrastructure
-  projects, multi-cloud deployments, and end-to-end infrastructure workflows. Use
-  when a task spans multiple domains (e.g., "set up a full deployment pipeline", "migrate
-  this app to Kubernetes on AWS", "build out our observability stack", "harden our
-  infrastructure"), when you're unsure which specialist to use, or when a project
-  needs phased planning across cloud + IaC + containers + CI/CD + monitoring.
+description: Multi-domain DevOps coordination for phased infrastructure delivery across
+  cloud, IaC, containers, CI/CD, security, and monitoring. Use when a task spans
+  multiple domains, when you're unsure which infrastructure specialist should lead,
+  or when a project needs an explicit phase plan with specialist handoffs.
 allowed-tools:
 - Read
 - Write
@@ -54,7 +52,7 @@ metadata:
 | git-specialist | Repository structure; branching strategy; git workflow |
 
 ## Decision rules
-- If the task is clearly single-domain (e.g., "write a Dockerfile"): route directly to the specialist, do not orchestrate
+- If the task is clearly single-domain (e.g., "write a Dockerfile"): route directly to the specialist instead of orchestrating
 - If the request is ambiguous about scope: clarify before decomposing
 - If a specialist's phase reveals new requirements: surface them before proceeding to the next phase
 - If two specialists conflict on approach: surface the trade-off to the user and get a decision
@@ -93,7 +91,7 @@ metadata:
 4. monitoring-specialist - add observability
 
 ## Output contract
-- Provide a numbered phase plan with the responsible specialist named for each phase.
+- Provide a numbered phase plan with the responsible specialist named for each phase and the sequencing rationale.
 - For every phase, define the handoff artifact, success criteria, and validation step before work begins.
 - Maintain an explicit project state block showing completed phases, pending phases, and blockers.
 

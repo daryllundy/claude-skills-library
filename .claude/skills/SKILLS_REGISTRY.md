@@ -94,7 +94,7 @@ Place the skill directories under `.claude/skills/`. Skills load automatically w
 
 #### 12. devops-orchestrator
 - **Category**: Orchestration
-- **Description**: Coordinates multiple DevOps specialist skills for complex infrastructure projects, multi-cloud deployments, and end-to-end infrastructure workflows.
+- **Description**: Multi-domain DevOps coordination for phased infrastructure delivery across cloud, IaC, containers, CI/CD, security, and monitoring.
 - **Use for**: Multi-domain projects, unclear specialist routing, phased infrastructure transformations
 - **Not for**: Single-domain tasks (route directly to specialist instead)
 - **Pairs with**: All DevOps specialists
@@ -117,7 +117,7 @@ Place the skill directories under `.claude/skills/`. Skills load automatically w
 
 #### 15. e-commerce-coordinator
 - **Category**: Orchestration
-- **Description**: Coordinates multi-week e-commerce improvement programs across design, platform, marketing, and automation specialists.
+- **Description**: Post-audit e-commerce execution coordination across design, storefront, marketing, and automation specialists.
 - **Use for**: Post-audit execution planning, sequencing specialist work, tracking e-commerce roadmap progress
 - **Not for**: Initial audits (use e-commerce-orchestrator); individual platform work (use platform specialist directly)
 - **Pairs with**: web-design-specialist, shopify-specialist, instagram-specialist, zapier-specialist
@@ -125,7 +125,7 @@ Place the skill directories under `.claude/skills/`. Skills load automatically w
 
 #### 16. e-commerce-orchestrator
 - **Category**: Commerce Orchestration
-- **Description**: Comprehensive e-commerce website auditing and strategy for Shopify, WooCommerce, and custom storefronts.
+- **Description**: E-commerce storefront auditing and improvement planning for Shopify, WooCommerce, and custom storefronts.
 - **Use for**: Full e-commerce audits, platform detection, conversion analysis, improvement roadmaps
 - **Not for**: Single-platform deep work (use shopify-specialist or web-design-specialist directly)
 - **Triggers on**: "audit my store", "analyze [URL]", "assess my e-commerce site", "conversion optimization audit", "what's wrong with my store"
@@ -153,7 +153,7 @@ Place the skill directories under `.claude/skills/`. Skills load automatically w
 
 #### 20. instagram-specialist
 - **Category**: Marketing
-- **Description**: Instagram marketing strategy, content creation, Reels and Stories planning, and Instagram Shopping setup.
+- **Description**: Instagram-specific growth, content planning, Reels and Stories strategy, and Instagram Shopping setup.
 - **Use for**: Instagram growth, Reels content strategy, Shopping setup, influencer campaigns, profile audit
 - **Not for**: Multi-platform strategy (use social-media-specialist); TikTok (use tiktok-strategist)
 - **Triggers on**: "grow on Instagram", "Reels strategy", "Instagram Shopping", "Instagram content", "influencer outreach", "Instagram audit"
@@ -187,18 +187,18 @@ Place the skill directories under `.claude/skills/`. Skills load automatically w
 
 #### 25. monitoring-specialist
 - **Category**: Infrastructure (Platform)
-- **Description**: Observability strategy, Prometheus and Grafana setup, ELK stack, distributed tracing, alerting, and SLO/SLI definition.
-- **Use for**: Monitoring setup, dashboard design, alert rules, SLO definition, Loki, Jaeger, runbooks
-- **Not for**: Application instrumentation code (use observability-specialist)
+- **Description**: Infrastructure-level monitoring configuration for metrics, dashboards, alerting, logging backends, and SLO/SLI policy.
+- **Use for**: Monitoring setup, dashboard design, alert rules, SLO definition, logging backends, tracing backends, and runbooks
+- **Not for**: Application instrumentation code and in-process metrics or tracing changes (use observability-specialist)
 - **Disambiguation**: Config files and dashboards → monitoring-specialist. App source code instrumentation → observability-specialist.
 - **Pairs with**: observability-specialist, kubernetes-specialist, cicd-specialist
 - **Triggers on**: "set up monitoring", "Grafana dashboard", "Prometheus alert", "SLO", "alerting rules", "log aggregation", "distributed tracing setup", "runbook"
 
 #### 26. observability-specialist
 - **Category**: Infrastructure
-- **Description**: Application-level instrumentation for metrics, structured logging, and distributed tracing using OpenTelemetry, Prometheus client libraries, and logging frameworks.
-- **Use for**: Adding instrumentation to app code, OpenTelemetry SDK integration, structured logging setup, correlation IDs
-- **Not for**: Infrastructure monitoring config (use monitoring-specialist)
+- **Description**: Application-level instrumentation for metrics, structured logging, trace propagation, and span creation inside service code.
+- **Use for**: Adding instrumentation to app code, OpenTelemetry SDK integration, structured logging setup, correlation IDs, and in-process metrics
+- **Not for**: Infrastructure monitoring config, dashboards, scrape targets, and alert routing (use monitoring-specialist)
 - **Disambiguation**: App source code → observability-specialist. Config files and dashboards → monitoring-specialist.
 - **Triggers on**: "add tracing to my app", "OpenTelemetry", "structured logging", "correlation IDs", "add metrics to the code", "instrument this service"
 
@@ -233,15 +233,15 @@ Place the skill directories under `.claude/skills/`. Skills load automatically w
 
 #### 31. shopify-specialist
 - **Category**: Commerce Platform
-- **Description**: Shopify store setup, Liquid theme customization, conversion optimization, app integration, and performance improvement.
+- **Description**: Shopify storefront setup, Liquid theme customization, conversion optimization, app integration, and storefront performance improvement.
 - **Use for**: Liquid theme work, product/checkout optimization, Shopify app setup, store speed
 - **Not for**: Email marketing automation (use zapier-specialist); social media (use instagram-specialist)
 - **Triggers on**: "Shopify theme", "Liquid template", "Shopify store", "checkout optimization", "Shopify app", "product page", "Shopify speed"
 
 #### 32. social-media-specialist
 - **Category**: Marketing
-- **Description**: Multi-platform social media strategy, content planning, community management, and brand presence building across Instagram, TikTok, LinkedIn, X, Pinterest, and YouTube.
-- **Use for**: Multi-platform strategy, content calendars, brand voice, community management
+- **Description**: Cross-platform social media strategy, campaign planning, and content system design across major social channels.
+- **Use for**: Multi-platform strategy, channel prioritization, content calendars, brand voice, and campaign coordination
 - **Not for**: Platform-specific deep tactics (use instagram-specialist or tiktok-strategist)
 - **Triggers on**: "social media strategy", "content calendar", "cross-platform", "brand voice", "social media audit", "content pillars"
 
@@ -261,7 +261,7 @@ Place the skill directories under `.claude/skills/`. Skills load automatically w
 
 #### 35. tiktok-strategist
 - **Category**: Marketing
-- **Description**: TikTok marketing strategy, short-form video content planning, and TikTok algorithm optimization.
+- **Description**: TikTok-specific short-form video strategy, scripting, and platform-native growth optimization.
 - **Use for**: TikTok growth, video scripts, trending sounds, creator collaboration, profile audits
 - **Not for**: Multi-platform strategy (use social-media-specialist); Instagram (use instagram-specialist)
 - **Triggers on**: "TikTok strategy", "TikTok content", "short-form video", "TikTok script", "grow on TikTok", "TikTok algorithm"

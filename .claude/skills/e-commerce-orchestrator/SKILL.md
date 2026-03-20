@@ -1,9 +1,9 @@
 ---
 name: e-commerce-orchestrator
-description: Comprehensive e-commerce website auditing and strategy for Shopify, WooCommerce,
+description: E-commerce storefront auditing and improvement planning for Shopify, WooCommerce,
   and custom storefronts. Use when given an e-commerce site URL and asked to audit
   it, assess conversion performance, identify quick wins, or create a structured improvement
-  plan.
+  plan before execution begins.
 allowed-tools:
 - Read
 - Write
@@ -26,7 +26,7 @@ metadata:
 
 ## Activation criteria
 - User language explicitly matches trigger phrases such as `audit my store`, `analyze [URL]`, `assess my e-commerce site`.
-- The requested work fits this skill's lane: Full e-commerce audits, platform detection, conversion analysis, improvement roadmaps.
+- The requested work fits this skill's lane: full storefront audits, platform detection, conversion analysis, and improvement roadmaps before execution tracking starts.
 - The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Single-platform deep work (use shopify-specialist or web-design-specialist directly).
 
 ## First actions
@@ -50,7 +50,7 @@ Score each 1–10: (1) Mobile UX, (2) Product presentation, (3) Checkout frictio
 
 ## Decision rules
 - If the user does not provide a URL or storefront context: get that first before attempting an audit.
-- If the request is a focused platform bug or implementation task rather than an audit: route directly to the relevant specialist.
+- If the request is a focused platform bug or implementation task rather than an audit: route directly to the relevant specialist instead of producing a full audit.
 - If the audit is complete and execution planning is the next step: hand off to e-commerce-coordinator with the roadmap intact.
 
 ## Coordination protocol

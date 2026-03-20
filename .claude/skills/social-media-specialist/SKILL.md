@@ -1,10 +1,10 @@
 ---
 name: social-media-specialist
-description: Multi-platform social media strategy, content planning, community management,
-  and brand presence building across Instagram, TikTok, LinkedIn, X, Pinterest, and
-  YouTube. Use when asked to develop a cross-platform social strategy, create a content
-  calendar, plan a social media campaign, audit social media performance, build a
-  brand voice guide, or coordinate content across multiple platforms.
+description: Cross-platform social media strategy, campaign planning, and content
+  system design across Instagram, TikTok, LinkedIn, X, Pinterest, and YouTube. Use
+  when asked to develop a multi-platform social strategy, create a content calendar,
+  plan a social campaign, audit channel performance across platforms, build a brand
+  voice guide, or coordinate content across multiple channels.
 allowed-tools:
 - Read
 - Write
@@ -29,7 +29,7 @@ metadata:
 
 ## Activation criteria
 - User language explicitly matches trigger phrases such as `social media strategy`, `content calendar`, `cross-platform`.
-- The requested work fits this skill's lane: Multi-platform strategy, content calendars, brand voice, community management.
+- The requested work fits this skill's lane: multi-platform strategy, channel prioritization, content calendars, brand voice, and campaign coordination.
 - The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Platform-specific deep tactics (use instagram-specialist or tiktok-strategist).
 
 ## First actions

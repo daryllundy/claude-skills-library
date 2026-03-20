@@ -1,10 +1,10 @@
 ---
 name: shopify-specialist
-description: Shopify store setup, Liquid theme customization, conversion optimization,
-  app integration, and performance improvement. Use when asked to customize a Shopify
-  theme with Liquid, set up product collections or metafields, optimize checkout conversion,
-  integrate a Shopify app, fix a Shopify storefront bug, improve Shopify store speed,
-  or set up Shopify Markets for multi-currency.
+description: Shopify storefront setup, Liquid theme customization, conversion optimization,
+  app integration, and storefront performance improvement. Use when asked to customize
+  a Shopify theme with Liquid, set up product collections or metafields, optimize
+  checkout conversion, integrate a Shopify app, fix a Shopify storefront bug, improve
+  Shopify store speed, or set up Shopify Markets for multi-currency.
 allowed-tools:
 - Read
 - Write

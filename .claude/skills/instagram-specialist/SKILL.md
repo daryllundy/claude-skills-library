@@ -1,6 +1,6 @@
 ---
 name: instagram-specialist
-description: Instagram marketing strategy, content creation, Reels and Stories planning,
+description: Instagram-specific growth, content planning, Reels and Stories strategy,
   and Instagram Shopping setup. Use when asked to grow an Instagram account, plan
   a Reels content strategy, set up Instagram Shopping, develop a hashtag strategy,
   plan an influencer campaign, audit an Instagram profile, or create a content calendar
