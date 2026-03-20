@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  app:
+    image: ${IMAGE_NAME}:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      # Use env file for secrets — never hardcode them here
+      # DATABASE_URL: loaded from .env file
+    env_file:
+      - .env.production
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+
+networks:
+  app-network:
+    driver: bridge
