@@ -1,6 +1,6 @@
-# Claude Code Agents - Usage Examples
+# Claude Skills Library - Usage Examples
 
-This directory contains real-world examples of using the specialized agents in Claude Code Pro.
+This directory contains real-world examples of using the specialized skills in Claude.
 
 ## Quick Examples
 
@@ -19,7 +19,7 @@ This directory contains real-world examples of using the specialized agents in C
 "Use the test-specialist to create comprehensive unit and integration tests for the UserService class in src/services/user.service.ts"
 ```
 
-## Multi-Agent Workflows
+## Multi-Skill Workflows
 
 ### Workflow 1: New API Endpoint
 

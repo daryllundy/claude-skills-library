@@ -1,12 +1,12 @@
-# Agent Detection Patterns
+# Skill Detection Patterns
 
-This directory contains YAML pattern files that define detection rules for agent recommendations.
+This directory contains YAML pattern files that define detection rules for skill recommendations.
 
 ## Purpose
 
 Pattern files externalize detection logic from shell code into declarative YAML configuration, making it easier to:
 - Maintain and update detection patterns
-- Add new agents without modifying code
+- Add new skills without modifying code
 - Create custom patterns for specific use cases
 - Version control pattern changes
 
@@ -18,7 +18,7 @@ Pattern files externalize detection logic from shell code into declarative YAML 
 
 ## Pattern File Structure
 
-Pattern files are organized by agent category:
+Pattern files are organized by skill category:
 
 - `infrastructure.yml` - Cloud, IaC, and Platform agents (AWS, Terraform, Kubernetes, etc.)
 - `development.yml` - Frontend, Backend, Mobile, and Database agents

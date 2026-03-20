@@ -1,6 +1,6 @@
 # Documentation
 
-This directory contains detailed technical documentation for the Claude Code Agents project.
+This directory contains detailed technical documentation for the Claude Skills Library project.
 
 ## Available Documentation
 

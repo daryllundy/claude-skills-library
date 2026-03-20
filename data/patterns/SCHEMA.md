@@ -1,8 +1,8 @@
-# Agent Detection Pattern Schema
+# Skill Detection Pattern Schema
 
 ## Overview
 
-This document defines the YAML schema for agent detection pattern files. Pattern files enable declarative configuration of agent recommendation logic without modifying shell code.
+This document defines the YAML schema for skill detection pattern files. Pattern files enable declarative configuration of skill recommendation logic without modifying shell code.
 
 ## Schema Version
 
@@ -14,10 +14,10 @@ Current version: `1.0`
 version: "1.0"              # Required: Schema version string
 category: "string"          # Optional: Category grouping for organizational purposes
 
-agents:                     # Required: Array of agent definitions
-  - name: "agent-name"      # Required: Unique agent identifier (kebab-case)
-    description: "text"     # Optional: Human-readable agent description
-    category: "text"        # Optional: Agent category for grouping
+agents:                     # Required: Array of skill definitions
+  - name: "skill-name"      # Required: Unique skill identifier (kebab-case)
+    description: "text"     # Optional: Human-readable skill description
+    category: "text"        # Optional: Skill category for grouping
     patterns:               # Required: Array of detection patterns
       - type: "file"        # Required: Pattern type (file|path|content)
         match: "pattern"    # Required: Match criteria (string or regex)
