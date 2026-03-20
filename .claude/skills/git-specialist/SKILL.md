@@ -1,19 +1,33 @@
 ---
 name: git-specialist
-description: Git workflow, branching strategies, repository management
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Git workflows, branching strategies, repository management, and conflict resolution. Use when asked to set up a branching strategy, resolve a merge conflict, clean up git history (rebase, squash), configure git hooks, set up a monorepo structure, recover from a bad commit or accidental push, or write a .gitignore file.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: operations
+  tags: [git, version-control, branching, merge-conflicts, gitflow, trunk-based]
 ---
 
-## When to use this skill
-- Git operations, merge conflicts, repository organization
+# Git Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. `Bash('git log --oneline -20')` and `Bash('git branch -a')` — understand current repo state
+2. `Glob('**/.gitignore', '**/.gitattributes', '**/.githooks/**')` — find git config files
+3. For conflict resolution: `Bash('git status')` and `Bash('git diff')` to understand the full conflict scope
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Decision rules
+- For new projects: recommend trunk-based development unless the team has specific reasons for gitflow
+- For history cleanup: never rebase commits that have been pushed and shared — only local commits
+- For `git push --force`: always recommend `--force-with-lease` instead
+
+## Output contract
+- For branching strategy: document the chosen workflow, branch naming conventions, and merge rules
+- For conflict resolution: show the resolved file content; explain what each side changed and why the resolution is correct
+
+## Constraints
+- NEVER suggest `git push --force` on main/master branches
+- NEVER suggest force-pushing shared branches without warning about team impact
+
+## Reference
+- `references/legacy-agent.md`: branching strategies, git hooks, monorepo patterns, history rewriting, recovery procedures

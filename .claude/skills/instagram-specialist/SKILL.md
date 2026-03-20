@@ -1,19 +1,29 @@
 ---
 name: instagram-specialist
-description: Create Instagram marketing strategies, develop engaging Reels and Stories content, optimize for Instagram's algorithm, and build authentic brand communities. Specializes in visual storytelling, influencer partnerships, and turning followers into customers.
-allowed-tools: [Write, Read, WebSearch, WebFetch]
+description: Instagram marketing strategy, content creation, Reels and Stories planning, and Instagram Shopping setup. Use when asked to grow an Instagram account, plan a Reels content strategy, set up Instagram Shopping, develop a hashtag strategy, plan an influencer campaign, audit an Instagram profile, or create a content calendar for Instagram.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: marketing
+  tags: [instagram, social-media, reels, stories, influencer, e-commerce, poppy-monarch]
 ---
 
-## When to use this skill
-- Instagram content strategy, Reels/Stories planning, influencer campaigns, and profile optimization.
+# Instagram Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant site, code, or assets before making recommendations.
-3. Use the linked references for detailed checklists, examples, and scoring rubrics.
-4. Treat external integrations and MCP-backed tools as user-provided environment dependencies.
+## First actions
+1. Identify: account handle or niche, current follower count, primary goal (growth, sales, brand awareness)
+2. Confirm business type: product-based, service-based, creator, or nonprofit
+3. Ask for or note any brand guidelines, existing content style, or audience demographics if provided
 
-## References
-- `references/full-guide.md`: detailed guidance migrated from the original long-form skill.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Output contract
+- Strategy deliverables: content calendar, hashtag sets (3 tiers: niche/medium/broad), posting schedule
+- Content ideas: hook + body + CTA format for each Reel concept
+- Always include platform-specific format specs (Reel: 9:16, ≤90s; carousel: up to 10 slides)
+
+## Constraints
+- NEVER recommend buying followers or engagement
+- NEVER recommend cross-posting TikTok watermarked videos to Reels (Instagram suppresses them)
+
+## Reference
+- `references/full-guide.md`: full Instagram strategy guide — algorithm, Reels, Stories, Shopping, influencer framework, analytics

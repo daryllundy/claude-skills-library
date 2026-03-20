@@ -1,22 +1,39 @@
 ---
 name: kubernetes-specialist
-description: Kubernetes orchestration, Helm charts, service mesh, and cloud-native patterns
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Kubernetes manifest writing, Helm chart development, cluster configuration, auto-scaling, and cloud-native deployment patterns. Use when asked to write Kubernetes YAML, create a Helm chart, set up HPA or VPA, configure ingress, write RBAC policies, implement network policies, set up cert-manager, debug a failing pod, configure persistent storage, or deploy to EKS/AKS/GKE.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: infrastructure-platform
+  tags: [kubernetes, k8s, helm, eks, aks, gke, hpa, rbac, ingress, kustomize]
 ---
 
-## When to use this skill
-- Kubernetes manifests, Helm charts, deployments, services, ingress, ConfigMaps, Secrets, RBAC, auto-scaling
+# Kubernetes Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. `Glob('**/k8s/**', '**/charts/**', '**/kustomize/**', '**/helmfile.yaml')` — find existing manifests
+2. `Read` existing Deployments or Helm values to understand current resource patterns
+3. Identify: cluster type (EKS/AKS/GKE/local), Kubernetes version, ingress controller in use, whether Helm or Kustomize is the IaC approach
 
-## Notes
-- Any MCP-based workflow described in the legacy material requires a separately configured MCP server in the user environment.
+## Decision rules
+- All containers must have `resources.requests` and `resources.limits` defined — never leave them unset in production
+- All Deployments must have liveness and readiness probes
+- For secrets: never put plaintext secrets in manifests — use Sealed Secrets, External Secrets Operator, or cloud-native secret injection
+- For ingress: match the existing ingress controller (NGINX, Traefik, etc.) in the cluster
+- If Helm chart already exists: extend via values override, do not fork the chart
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Steps
+
+### Step 1: Read existing manifests
+Understand naming conventions, label schemas, namespace structure, and resource patterns.
+
+### Step 2: Write manifests
+Follow label conventions: `app.kubernetes.io/name`, `app.kubernetes.io/version`, `app.kubernetes.io/component`. Set resource requests conservatively; set limits generously (avoid OOMKill).
+
+### Step 3: Validate
+```bash
+kubectl apply --dry-run=client -f manifests/
+# For Helm:
+helm lint charts/myapp/
+helm template charts/myapp/ | kubectl apply --dry-run=client -f -

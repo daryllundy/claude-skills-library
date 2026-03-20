@@ -1,19 +1,34 @@
 ---
 name: migration-specialist
-description: Database migrations, code migrations, version upgrades
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Database migrations, framework version upgrades, and data transformation workflows. Use when asked to write a database migration, upgrade a framework to a new major version, migrate data between schemas or databases, handle a breaking change in a dependency, or plan a zero-downtime schema change.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: operations
+  tags: [migration, database-migration, framework-upgrade, data-transformation, zero-downtime]
 ---
 
-## When to use this skill
-- Migrating databases, upgrading frameworks, data transformations
+# Migration Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. `Glob('**/migrations/**', '**/alembic/**', '**/flyway/**', '**/knexfile.*')` — find migration framework
+2. `Read` the latest migration file to understand naming convention and current schema state
+3. Identify: migration framework, database engine, and whether zero-downtime is required
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Decision rules
+- All migrations need both `up` and `down` functions
+- For zero-downtime column additions: add nullable first, backfill, then add constraint in a separate migration
+- For DROP operations: require explicit confirmation; always include a rollback path
+
+## Output contract
+- Migration file using the project's existing framework and naming convention
+- `up()` and `down()` both implemented
+- For large data migrations: include a dry-run mode or progress logging
+
+## Constraints
+- NEVER DROP a column or table in the same migration that removes the code using it — do it in a subsequent release
+- Scope boundary: application code changes for a migration belong to the relevant language skill
+
+## Reference
+- `references/legacy-agent.md`: migration patterns, zero-downtime strategies, data transformation, framework upgrade guides
