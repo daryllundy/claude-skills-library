@@ -1,22 +1,34 @@
 ---
 name: database-specialist
-description: Database design, schema optimization, query performance, and migrations
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Database schema design, query optimization, indexing strategy, and migration writing for SQL and NoSQL databases. Use when asked to design a database schema, write or optimize a SQL query, add indexes, write a database migration, choose between PostgreSQL and MySQL or MongoDB, debug slow queries, or set up database replication.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: development
+  tags: [database, sql, postgresql, mysql, mongodb, migrations, query-optimization, indexing]
 ---
 
-## When to use this skill
-- Schema design, SQL queries, database migrations, indexing strategies
+# Database Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. `Glob('**/migrations/**', '**/schema.*', '**/*.sql', '**/models/**')` — find schema and migration files
+2. Identify database engine (PostgreSQL, MySQL, SQLite, MongoDB, etc.) and ORM if in use
+3. For query optimization: get the `EXPLAIN ANALYZE` output if available
 
-## Notes
-- Any MCP-based workflow described in the legacy material requires a separately configured MCP server in the user environment.
+## Decision rules
+- If indexes are being added to a production table: note whether the operation will lock the table and suggest `CREATE INDEX CONCURRENTLY` for PostgreSQL
+- If asked to choose a database: gather data shape, access patterns, consistency needs, and scale before recommending
+- For migrations: always include both `up` and `down` migration functions
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Output contract
+- For schema design: ERD description (text or Mermaid) plus CREATE TABLE statements with constraints, indexes, and comments
+- For migrations: migration file using the project's existing migration framework (Flyway, Alembic, Knex, etc.)
+- For query optimization: EXPLAIN output interpretation + rewritten query + index recommendation
+
+## Constraints
+- NEVER DROP a column or table in a migration without a backup/rollback strategy
+- NEVER use `SELECT *` in production queries — always specify columns
+
+## Reference
+- `references/legacy-agent.md`: schema design patterns, indexing strategies, query optimization, replication, migration best practices

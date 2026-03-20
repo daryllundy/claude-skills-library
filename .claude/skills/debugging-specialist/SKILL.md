@@ -1,22 +1,34 @@
 ---
 name: debugging-specialist
-description: Bug detection, debugging assistance, error resolution
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Systematic bug detection, root cause analysis, and error resolution across languages and systems. Use when code is throwing an error, a test is failing unexpectedly, behavior is wrong but no error is thrown, a race condition is suspected, memory is leaking, or you need help reading a stack trace or crash log.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: productivity
+  tags: [debugging, error-analysis, troubleshooting, stack-trace, root-cause]
 ---
 
-## When to use this skill
-- Finding bugs, debugging issues, error analysis
+# Debugging Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. `Read` the error message, stack trace, or failing test output in full — do not summarize it yet
+2. `Glob` for the file(s) referenced in the stack trace
+3. `Read` the relevant source files at the line numbers indicated
 
-## Notes
-- Any MCP-based workflow described in the legacy material requires a separately configured MCP server in the user environment.
+## Decision rules
+- Start with the innermost / lowest-level error in a stack trace, not the top-level wrapper
+- If the error is intermittent: consider race conditions, timing dependencies, or shared mutable state
+- If the error only appears in production: check for environment variable differences, log level differences, or data volume differences
+- If the fix requires architectural changes: note it but don't implement — surface to architecture-specialist
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Output contract
+- Provide: root cause explanation → minimal reproduction (if helpful) → fix → test to prevent regression
+- Always explain *why* the bug occurred, not just what to change
+
+## Constraints
+- NEVER apply a fix without understanding the root cause
+- Scope boundary: if debugging reveals a security vulnerability, flag it and route to security-specialist
+
+## Reference
+- `references/legacy-agent.md`: debugging patterns, race condition detection, memory leak analysis, distributed trace debugging

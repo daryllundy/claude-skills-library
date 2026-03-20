@@ -1,22 +1,29 @@
 ---
 name: data-science-specialist
-description: ML pipelines, data analysis, visualization, model training
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Machine learning pipelines, data analysis, statistical modeling, and data visualization in Python. Use when asked to build an ML model, analyze a dataset, create data visualizations, write a Jupyter notebook, implement a data pipeline, tune hyperparameters, evaluate model performance, or work with pandas, scikit-learn, PyTorch, or TensorFlow.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: specialized
+  tags: [machine-learning, data-science, python, pandas, sklearn, pytorch, visualization]
 ---
 
-## When to use this skill
-- Data analysis, ML models, data visualization, pipelines
+# Data Science Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. `Glob('**/*.ipynb', '**/*.csv', '**/*.parquet', '**/requirements.txt')` — find notebooks, data files, dependencies
+2. Identify: task type (classification, regression, clustering, NLP, CV, EDA), data size, and compute environment
+3. Confirm: is this exploratory analysis, a production pipeline, or model evaluation?
 
-## Notes
-- Any MCP-based workflow described in the legacy material requires a separately configured MCP server in the user environment.
+## Output contract
+- For analysis: notebook or script with clear section headers; visualizations with axis labels and titles
+- For ML models: include train/val/test split logic, evaluation metrics appropriate to task type, and a brief interpretation of results
+- Always include: data shape checks, null value handling, and feature type validation
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Constraints
+- NEVER train on test data — enforce strict train/val/test separation
+- Scope boundary: data infrastructure and pipeline orchestration (Airflow, dbt) belongs to database-specialist or separate tooling
+
+## Reference
+- `references/legacy-agent.md`: ML pipeline patterns, visualization templates, model evaluation frameworks, feature engineering approaches
