@@ -1,19 +1,36 @@
 ---
 name: zapier-specialist
-description: Design and implement powerful workflow automations using Zapier, integrate 6000+ apps without code, optimize multi-step Zaps for reliability and performance, and automate business processes to save time and reduce errors. Specializes in turning repetitive tasks into automated workflows.
-allowed-tools: [Write, Read, WebSearch, WebFetch]
+description: Zapier workflow automation design, Zap configuration, and SaaS integration planning across 6000+ apps. Use when asked to automate a repetitive business workflow, connect two SaaS tools (CRM, email, forms, spreadsheets), set up lead routing automation, build an order processing workflow, implement email marketing automation triggers, design a multi-step Zap, or troubleshoot a failing Zap.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: automation
+  tags: [zapier, automation, saas-integration, workflow, no-code, crm, email-marketing]
 ---
 
-## When to use this skill
-- Workflow automation, SaaS integrations, lead routing, operational handoffs, and Zapier implementation planning.
+# Zapier Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant site, code, or assets before making recommendations.
-3. Use the linked references for detailed checklists, examples, and scoring rubrics.
-4. Treat external integrations and MCP-backed tools as user-provided environment dependencies.
+## First actions
+1. Identify: trigger app and event, action app(s) and event(s), and the business outcome being automated
+2. Map the data flow: what data from the trigger needs to reach each action?
+3. Identify any conditional logic, filters, or Paths needed
 
-## References
-- `references/full-guide.md`: detailed guidance migrated from the original long-form skill.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Decision rules
+- Put Filters as early as possible in the Zap to avoid processing unnecessary data (saves tasks)
+- Use "Find or Create" actions instead of "Create" when duplicates are a risk
+- For complex branching: use Paths over separate Zaps
+- When real-time is critical: prefer webhook triggers over polling triggers
+- If the workflow is too complex for Zapier (complex loops, bidirectional sync): note it and suggest Make (Integromat) or n8n as alternatives
+
+## Output contract
+- Zap specification: trigger → filters → actions in numbered sequence
+- For each step: app name, event type, field mappings, and any conditional logic
+- Note task consumption estimate for each Zap (relevant for plan limits)
+
+## Constraints
+- NEVER route sensitive data (SSNs, passwords, financial data) through Zapier without confirming the user understands the data sharing implications
+- Scope boundary: custom code automation for complex logic belongs outside Zapier; suggest Code by Zapier only for simple transformations
+
+## Reference
+- `references/full-guide.md`: full Zapier patterns — triggers, actions, filters, Paths, Formatter, webhooks, Code steps, best practices, troubleshooting, alternatives comparison
