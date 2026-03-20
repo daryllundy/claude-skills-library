@@ -11,6 +11,11 @@ metadata:
 
 # Zapier Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `automate this workflow`, `Zapier`, `connect these two tools`.
+- The requested work fits this skill's lane: Workflow automation, SaaS integrations, lead routing, order processing automation, Zap troubleshooting.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Custom code automation for complex logic (suggest Make or n8n instead).
+
 ## First actions
 1. Identify: trigger app and event, action app(s) and event(s), and the business outcome being automated
 2. Map the data flow: what data from the trigger needs to reach each action?

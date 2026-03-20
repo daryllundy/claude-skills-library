@@ -11,6 +11,11 @@ metadata:
 
 # GCP Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `deploy to GCP`, `Google Cloud`, `Cloud Run`.
+- The requested work fits this skill's lane: Compute Engine, Cloud Run, GKE, Cloud SQL, Cloud Storage, IAM, Cloud Monitoring.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: AWS or Azure work; Terraform HCL writing (use terraform-specialist).
+
 ## First actions
 1. `Glob('**/*.tf', '**/deployment-manager/**', '**/cloudbuild.yaml')` — find existing GCP IaC
 2. Identify: project ID, region preference, whether Workload Identity is in use for GKE

@@ -11,6 +11,11 @@ metadata:
 
 # Shopify Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `Shopify theme`, `Liquid template`, `Shopify store`.
+- The requested work fits this skill's lane: Liquid theme work, product/checkout optimization, Shopify app setup, store speed.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Email marketing automation (use zapier-specialist); social media (use instagram-specialist).
+
 ## First actions
 1. Identify: Shopify plan tier (affects available features), theme name and version, primary goal (conversion, speed, new feature)
 2. `Glob('**/*.liquid', '**/sections/**', '**/snippets/**')` — find theme files if working locally

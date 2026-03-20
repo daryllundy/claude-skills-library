@@ -11,6 +11,11 @@ metadata:
 
 # Dependency Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `update dependencies`, `version conflict`, `npm audit`.
+- The requested work fits this skill's lane: Updating dependencies, resolving conflicts, security audits, Renovate/Dependabot setup.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Application code changes caused by breaking dependency updates.
+
 ## First actions
 1. `Glob('**/package.json', '**/requirements.txt', '**/Pipfile', '**/go.mod', '**/Cargo.toml', '**/pom.xml', '**/build.gradle')` — identify package manager(s) in use
 2. `Read` the manifest file and lock file (package-lock.json, Pipfile.lock, go.sum, etc.)

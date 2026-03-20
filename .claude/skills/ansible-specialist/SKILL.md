@@ -11,6 +11,11 @@ metadata:
 
 # Ansible Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `write a playbook`, `Ansible role`, `configure servers`.
+- The requested work fits this skill's lane: Writing playbooks, Ansible roles, dynamic inventory, Ansible Vault, fleet config management.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Cloud resource provisioning (use aws/azure/gcp-specialist); container builds (use docker-specialist).
+
 ## First actions
 1. `Glob('**/*.yml', '**/*.yaml')` — find existing playbooks, roles, and inventory files
 2. `Read` the main playbook or site.yml if found; read inventory files to understand host structure

@@ -11,6 +11,11 @@ metadata:
 
 # Code Review Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `review this code`, `audit this file`, `check for issues`.
+- The requested work fits this skill's lane: PR reviews, code audits, security-focused code review, identifying bugs and anti-patterns.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Architectural changes (use architecture-specialist); refactoring (use refactoring-specialist).
+
 ## First actions
 1. `Read` the file(s) provided or `Glob` for the relevant source files
 2. Identify language, framework, and any existing linting/testing configuration

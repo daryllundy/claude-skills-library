@@ -11,6 +11,11 @@ metadata:
 
 # Debugging Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `this is throwing an error`, `why is this failing`, `help me debug`.
+- The requested work fits this skill's lane: Fixing errors, reading stack traces, diagnosing unexpected behavior, race conditions, memory leaks.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Architectural refactors; security vulnerability remediation.
+
 ## First actions
 1. `Read` the error message, stack trace, or failing test output in full — do not summarize it yet
 2. `Glob` for the file(s) referenced in the stack trace

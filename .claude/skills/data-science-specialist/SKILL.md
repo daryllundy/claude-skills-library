@@ -11,10 +11,20 @@ metadata:
 
 # Data Science Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `build a model`, `analyze this dataset`, `machine learning`.
+- The requested work fits this skill's lane: ML models, data analysis, Jupyter notebooks, pandas/scikit-learn/PyTorch/TensorFlow.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Data infrastructure/pipelines at scale (use database-specialist or dedicated tooling).
+
 ## First actions
 1. `Glob('**/*.ipynb', '**/*.csv', '**/*.parquet', '**/requirements.txt')` — find notebooks, data files, dependencies
 2. Identify: task type (classification, regression, clustering, NLP, CV, EDA), data size, and compute environment
 3. Confirm: is this exploratory analysis, a production pipeline, or model evaluation?
+
+## Decision rules
+- If the request is predictive modeling: define the target variable, evaluation metric, and validation strategy before choosing a model.
+- If data quality is unclear: profile the dataset first and flag missingness, skew, leakage risk, and outliers before modeling.
+- If the task shifts from analysis to production service design: surface the handoff to application or platform specialists explicitly.
 
 ## Output contract
 - For analysis: notebook or script with clear section headers; visualizations with axis labels and titles

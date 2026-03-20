@@ -11,6 +11,11 @@ metadata:
 
 # AWS Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `deploy to AWS`, `set up EC2`, `configure IAM`.
+- The requested work fits this skill's lane: EC2, ECS, EKS, Lambda, RDS, S3, CloudWatch, IAM, VPC, cost optimization, AWS security.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Azure or GCP work; Terraform HCL writing (use terraform-specialist); application code.
+
 ## First actions
 1. `Glob('**/*.tf', '**/*.cfn.yml', '**/*.cfn.json', '**/cdk.json', '**/samconfig.toml')` — find existing IaC
 2. `Glob('**/.aws/config', '**/aws-config*')` — find AWS config files that reveal region and profile context

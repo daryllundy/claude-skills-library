@@ -11,6 +11,11 @@ metadata:
 
 # Terraform Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `write Terraform`, `Terraform module`, `terraform plan error`.
+- The requested work fits this skill's lane: Terraform HCL writing, module development, state management, workspace strategy, import.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Cloud service selection (use cloud specialist for that context); application code.
+
 ## First actions
 1. `Glob('**/*.tf', '**/*.tfvars', '**/terraform.lock.hcl', '**/.terraform.lock.hcl')` — find existing Terraform code
 2. `Read` main.tf, variables.tf, and backend configuration to understand current structure
@@ -36,3 +41,39 @@ File structure: `main.tf` (resources), `variables.tf` (input vars), `outputs.tf`
 terraform fmt -recursive
 terraform validate
 terraform plan
+```
+All three must pass cleanly before handing back.
+
+## Output contract
+- File structure: `main.tf`, `variables.tf`, `outputs.tf`, `versions.tf` minimum
+- All resources: use consistent naming convention (`<env>-<service>-<type>`, e.g., `prod-api-sg`)
+- All sensitive outputs: marked `sensitive = true`
+- `terraform plan` shows only the intended changes - no unexpected destroys
+
+## Constraints
+- NEVER commit `.tfstate` files or `.terraform/` directories
+- NEVER use `terraform apply -auto-approve` in production environments without a review step
+- NEVER hardcode credentials in `.tf` files - use provider-level auth (IAM roles, env vars, Vault)
+- Scope boundary: cloud service selection and architecture belongs to cloud specialist skills; this skill handles HCL and Terraform mechanics
+
+## Examples
+
+### Example 1: New AWS infrastructure module
+User says: "Write a Terraform module for an ECS service with ALB and auto-scaling"
+Actions:
+1. Glob for existing Terraform modules to match conventions
+2. Write module with: ECS cluster, task definition, service, ALB, target group, security groups, auto-scaling policy
+3. Write variables.tf with all configurable parameters; outputs.tf with service URL and ARN
+Result: Complete Terraform module directory passing `terraform validate`
+
+## Troubleshooting
+**"Error: Error acquiring the state lock"**
+Cause: Previous run crashed holding DynamoDB lock
+Fix: `terraform force-unlock <LOCK_ID>` - verify no other apply is running first
+
+**Plan shows unexpected resource destroy**
+Cause: Resource name changed, moved to a module, or provider upgrade changed resource behavior
+Fix: Use `terraform state mv` to rename in state; or use `moved {}` block (Terraform 1.1+)
+
+## Reference
+- `references/legacy-agent.md`: module patterns, state management strategies, workspace management, provider configuration, import workflows, Terraform Cloud/Enterprise patterns

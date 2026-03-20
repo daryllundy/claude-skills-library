@@ -11,6 +11,11 @@ metadata:
 
 # Docker Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `write a Dockerfile`, `optimize my Docker image`, `Docker Compose`.
+- The requested work fits this skill's lane: Writing Dockerfiles, multi-stage builds, reducing image size, Docker Compose, container security.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Kubernetes manifest writing (use kubernetes-specialist); cloud registry setup (use cloud specialist).
+
 ## First actions
 1. `Glob('**/Dockerfile*', '**/docker-compose*.yml', '**/.dockerignore')` — find existing Docker files
 2. `Read` any existing Dockerfile to understand current base image, layers, and patterns in use
@@ -49,3 +54,51 @@ docker run --rm test-image echo "build ok"
 docker images test-image
 # Check for root process:
 docker run --rm test-image whoami  # should NOT be root
+```
+
+## Output contract
+- Primary artifact: `Dockerfile` (and `docker-compose.yml` + `.dockerignore` if applicable)
+- Required: non-root USER directive; HEALTHCHECK instruction; .dockerignore file
+- Security: no secrets baked into image layers; no `--privileged` flag without explicit justification
+
+## Constraints
+- NEVER use `latest` tag for base images in production Dockerfiles - pin to a specific version
+- NEVER store secrets (API keys, passwords) in ENV instructions in the Dockerfile
+- NEVER install `sudo` in a container
+- Scope boundary: Kubernetes manifest writing belongs to kubernetes-specialist; cloud registry setup belongs to aws/azure/gcp-specialist
+
+## Examples
+
+### Example 1: Node.js production Dockerfile
+User says: "Write a production Dockerfile for my Node.js Express app"
+Actions:
+1. Glob for existing Dockerfile and package.json
+2. Read package.json for node version and start script
+3. Write multi-stage Dockerfile: node:20-alpine builder -> node:20-alpine runtime
+4. Write .dockerignore excluding node_modules and .env
+Result: Optimized Dockerfile with non-root user, HEALTHCHECK, and .dockerignore
+
+### Example 2: Optimize existing Dockerfile
+User says: "My Docker image is 2GB, help me reduce the size"
+Actions:
+1. Read existing Dockerfile
+2. Identify: wrong base image, missing multi-stage build, unnecessary packages, missing .dockerignore
+3. Rewrite with multi-stage build and slim base image
+4. Show before/after size comparison commands
+Result: Refactored Dockerfile with explanation of each optimization
+
+## Troubleshooting
+**Build fails: "COPY failed: file not found"**
+Cause: File path in COPY instruction doesn't match actual file location, or .dockerignore is excluding the file
+Fix: Check build context with `docker build --no-cache .` and verify path; review .dockerignore
+
+**Container exits immediately**
+Cause: CMD/ENTRYPOINT produces an error, or process runs in background (daemon mode)
+Fix: Run `docker run --rm -it image-name /bin/sh` to inspect; ensure CMD runs process in foreground (no `&` or daemon flags)
+
+**"permission denied" errors at runtime**
+Cause: Files owned by root, container running as non-root user
+Fix: Add `chown` in Dockerfile: `COPY --chown=appuser:appuser . .`
+
+## Reference
+- `references/legacy-agent.md`: Dockerfile patterns by language, security hardening checklist, Docker Compose patterns, container networking, volume management

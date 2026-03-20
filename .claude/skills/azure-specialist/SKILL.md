@@ -11,6 +11,11 @@ metadata:
 
 # Azure Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `deploy to Azure`, `ARM template`, `Bicep`.
+- The requested work fits this skill's lane: Azure VMs, App Service, AKS, Functions, SQL Database, Blob Storage, Azure AD, RBAC.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: AWS or GCP work; Terraform HCL writing (use terraform-specialist).
+
 ## First actions
 1. `Glob('**/*.bicep', '**/*.arm.json', '**/azuredeploy.json', '**/main.bicep')` — find existing IaC
 2. Identify: subscription context, resource group structure, whether Azure AD / Entra ID is in scope

@@ -11,6 +11,11 @@ metadata:
 
 # DevOps Orchestrator
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `set up our entire deployment pipeline`, `migrate to Kubernetes`, `build out the observability stack`.
+- The requested work fits this skill's lane: Multi-domain projects, unclear specialist routing, phased infrastructure transformations.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Single-domain tasks (route directly to specialist instead).
+
 ## First actions
 1. `Glob('**/*.tf', '**/*.yml', '**/Dockerfile*', '**/.github/workflows/*.yml', '**/k8s/**')` — build a picture of what's already in place
 2. Read any existing README or architecture docs
@@ -44,3 +49,48 @@ metadata:
 2. For each phase: identify the handoff artifact and success criteria before starting.
 3. After each phase: validate output against success criteria before moving to the next phase.
 4. Maintain this project state block throughout the session:
+   ```text
+   PROJECT: [name] | PHASE: [n] of [total] | CURRENT: [specialist]
+   COMPLETED: [list] | PENDING: [list] | BLOCKERS: [list]
+   ```
+
+## Common orchestration patterns
+
+### New app deployment (6 phases)
+1. docker-specialist - containerize the application
+2. aws/azure/gcp-specialist - provision cloud infrastructure
+3. terraform-specialist - codify infrastructure as IaC
+4. kubernetes-specialist - write deployment manifests / Helm chart
+5. cicd-specialist - build deployment pipeline
+6. monitoring-specialist - set up observability and alerting
+
+### Infrastructure modernization (5 phases)
+1. security-specialist - audit current posture; identify gaps
+2. aws/azure/gcp-specialist - assess current infrastructure
+3. terraform-specialist - import and codify existing resources
+4. cicd-specialist - modernize pipelines (GitOps, security scanning)
+5. monitoring-specialist - implement modern observability stack
+
+### Homelab / portfolio project (4 phases)
+1. docker-specialist - containerize services
+2. ansible-specialist or terraform-specialist - provision and configure
+3. cicd-specialist - set up automation
+4. monitoring-specialist - add observability
+
+## Output contract
+- Provide a numbered phase plan with the responsible specialist named for each phase.
+- For every phase, define the handoff artifact, success criteria, and validation step before work begins.
+- Maintain an explicit project state block showing completed phases, pending phases, and blockers.
+
+## Constraints
+- NEVER orchestrate a task that is clearly single-domain when a direct specialist route is sufficient.
+- NEVER move to the next phase without validating the current phase output against its success criteria.
+- NEVER make architectural trade-off decisions silently when multiple specialist approaches conflict.
+
+## Escalation rules
+- If a phase reveals a new domain outside the current plan: pause, update the phase map, and surface the routing change.
+- If two specialists recommend incompatible approaches: summarize the trade-off and ask for a decision.
+- If validation fails on a handoff artifact: stop progression until the failure is resolved or explicitly accepted.
+
+## Reference
+- `references/legacy-agent.md`: coordination patterns, phase templates, specialist routing guidance, and orchestration checklists

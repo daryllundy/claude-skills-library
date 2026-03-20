@@ -11,6 +11,11 @@ metadata:
 
 # Test Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `write tests`, `unit test`, `integration test`.
+- The requested work fits this skill's lane: Unit tests, integration tests, E2E tests, TDD, fixing flaky tests, coverage improvement.
+- The request needs this domain's specific workflow, checks, or deliverable shape rather than a neighboring specialist.
+
 ## First actions
 1. `Glob('**/*.test.*', '**/*.spec.*', '**/tests/**', '**/jest.config.*', '**/pytest.ini', '**/playwright.config.*')` — identify test framework and find existing tests
 2. `Read` a few existing test files to understand patterns, naming conventions, and helper utilities

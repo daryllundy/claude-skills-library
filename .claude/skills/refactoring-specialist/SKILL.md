@@ -11,6 +11,11 @@ metadata:
 
 # Refactoring Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `refactor this`, `clean up this code`, `too much duplication`.
+- The requested work fits this skill's lane: Reducing duplication, applying SOLID, modernizing legacy code, extracting abstractions.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Adding new features while refactoring; performance optimization; security fixes.
+
 ## First actions
 1. `Read` the code to be refactored in full before suggesting any changes
 2. `Glob` for tests that cover the code — refactoring without tests is high risk

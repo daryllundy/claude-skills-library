@@ -11,6 +11,11 @@ metadata:
 
 # Architecture Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `design the system`, `architecture decision`, `should I use microservices`.
+- The requested work fits this skill's lane: System design, technology selection, ADRs, microservices vs monolith decisions, API design.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Writing implementation code; infrastructure provisioning.
+
 ## First actions
 1. `Glob('**/ADR*', '**/adr*', '**/docs/**/*.md')` — find existing architecture docs and decisions
 2. Read any existing ADRs or design docs to understand prior decisions and constraints

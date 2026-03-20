@@ -11,6 +11,11 @@ metadata:
 
 # Frontend Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `build a component`, `React hook`, `fix this CSS`.
+- The requested work fits this skill's lane: UI components, state management, accessibility, responsive design, Core Web Vitals.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Backend API design (use architecture-specialist); CI/CD (use cicd-specialist).
+
 ## First actions
 1. `Glob('**/package.json', '**/tsconfig.json', '**/vite.config.*', '**/next.config.*')` — identify framework and build tool
 2. `Read` package.json to confirm framework version, state management library, and CSS approach

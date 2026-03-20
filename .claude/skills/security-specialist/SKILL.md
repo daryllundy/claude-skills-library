@@ -11,6 +11,11 @@ metadata:
 
 # Security Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `security audit`, `hardcoded secret`, `OWASP`.
+- The requested work fits this skill's lane: Code security review, IAM hardening, secrets management, OWASP Top 10, CVE remediation.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Cloud infrastructure changes (use cloud specialist); application feature code.
+
 ## First actions
 1. `Grep` for common secret patterns: `password`, `secret`, `api_key`, `token`, `private_key` in source files
 2. `Glob('**/.env*', '**/config/**', '**/secrets/**')` — find config and secrets files

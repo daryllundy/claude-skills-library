@@ -11,6 +11,11 @@ metadata:
 
 # Git Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `resolve this merge conflict`, `git branching strategy`, `rebase`.
+- The requested work fits this skill's lane: Branching strategies, merge conflicts, git history cleanup, git hooks, monorepo git config.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: CI/CD pipeline configuration (use cicd-specialist).
+
 ## First actions
 1. `Bash('git log --oneline -20')` and `Bash('git branch -a')` — understand current repo state
 2. `Glob('**/.gitignore', '**/.gitattributes', '**/.githooks/**')` — find git config files

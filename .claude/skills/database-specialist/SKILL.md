@@ -11,6 +11,11 @@ metadata:
 
 # Database Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `design the schema`, `optimize this query`, `write a migration`.
+- The requested work fits this skill's lane: Schema design, SQL queries, database migrations, indexing strategies, database selection.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Application-level ORM code; data science/ML pipelines.
+
 ## First actions
 1. `Glob('**/migrations/**', '**/schema.*', '**/*.sql', '**/models/**')` — find schema and migration files
 2. Identify database engine (PostgreSQL, MySQL, SQLite, MongoDB, etc.) and ORM if in use

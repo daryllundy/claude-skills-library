@@ -11,6 +11,11 @@ metadata:
 
 # Web Design Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `improve the design`, `accessibility audit`, `WCAG`.
+- The requested work fits this skill's lane: Design audits, accessibility (WCAG), landing page conversion, design systems, UX feedback.
+- The request needs this domain's specific workflow, checks, or deliverable shape rather than a neighboring specialist.
+
 ## First actions
 1. Identify: is this a new design, a redesign, or an audit of existing design?
 2. For audits: `Read` existing CSS/Tailwind files to understand current design tokens (colors, typography, spacing)
@@ -25,6 +30,11 @@ metadata:
 - Design direction: annotated wireframe or component spec (text-based if no design tool available)
 - Accessibility: WCAG AA compliance noted for any color or interaction recommendations
 - For design systems: token names in CSS custom properties format
+
+## Constraints
+- NEVER trade away accessibility or readability for visual novelty.
+- NEVER treat implementation detail decisions as part of this skill when the work should be handed to frontend-specialist.
+- Scope boundary: final frontend code changes belong to the relevant implementation specialist unless explicitly combined.
 
 ## Reference
 - `references/full-guide.md`: UX best practices, conversion optimization patterns, accessibility standards, design system structure, responsive design patterns

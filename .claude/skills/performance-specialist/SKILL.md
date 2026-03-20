@@ -11,6 +11,11 @@ metadata:
 
 # Performance Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `this is slow`, `optimize performance`, `profiling`.
+- The requested work fits this skill's lane: Slow code analysis, query optimization, caching strategies, bundle size, Core Web Vitals, benchmarking.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Infrastructure scaling (use cloud specialist).
+
 ## First actions
 1. Identify: where is the bottleneck? (network, database, compute, memory, frontend rendering)
 2. `Read` the slow code path or query

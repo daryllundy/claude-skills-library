@@ -11,6 +11,11 @@ metadata:
 
 # CI/CD Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `set up a pipeline`, `GitHub Actions`, `GitLab CI`.
+- The requested work fits this skill's lane: Pipeline configuration, build automation, deployment strategies, security scanning in CI, artifact management.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Application build logic; infrastructure provisioning.
+
 ## First actions
 1. `Glob('**/.github/workflows/*.yml', '**/.gitlab-ci.yml', '**/Jenkinsfile', '**/.circleci/config.yml', '**/azure-pipelines.yml')` — identify CI platform in use
 2. Read the existing pipeline file to understand current stages, caching approach, and deployment targets

@@ -11,6 +11,11 @@ metadata:
 
 # Mobile Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `React Native`, `Flutter`, `mobile app`.
+- The requested work fits this skill's lane: Mobile screens/components, native device features, React Native/Flutter issues, mobile CI/CD.
+- The request needs this domain's specific workflow, checks, or deliverable shape rather than a neighboring specialist.
+
 ## First actions
 1. `Glob('**/package.json', '**/pubspec.yaml', '**/android/app/build.gradle', '**/ios/Podfile')` — identify mobile framework
 2. Confirm: React Native (bare/Expo), Flutter, native iOS (Swift), or native Android (Kotlin)
@@ -25,6 +30,11 @@ metadata:
 - Components follow platform-specific style conventions (iOS Human Interface Guidelines, Material Design for Android)
 - TypeScript types included for React Native components
 - Platform-specific code uses `Platform.OS` guards or `.ios.tsx` / `.android.tsx` file extensions
+
+## Constraints
+- NEVER ship secrets, API keys, or signing material inside application source or bundled assets.
+- NEVER assume parity across iOS, Android, React Native, and Flutter without checking platform-specific behavior.
+- Scope boundary: backend API design and cloud infrastructure changes belong to the relevant backend or cloud specialist.
 
 ## Reference
 - `references/legacy-agent.md`: React Native patterns, Flutter widgets, native feature integration, mobile CI/CD

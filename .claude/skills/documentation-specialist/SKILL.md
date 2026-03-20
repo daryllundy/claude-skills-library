@@ -11,10 +11,20 @@ metadata:
 
 # Documentation Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `write a README`, `document this API`, `add docstrings`.
+- The requested work fits this skill's lane: Writing READMEs, API documentation, runbooks, docstrings, architecture docs.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Fixing the code being documented.
+
 ## First actions
 1. `Glob('**/README*', '**/docs/**', '**/CONTRIBUTING*', '**/CHANGELOG*')` — find existing docs
 2. `Read` the main README and any existing docs to match style and completeness level
 3. Identify audience: end users, developers, ops team, or all three
+
+## Decision rules
+- If documentation already exists for the topic: update the existing source of truth instead of creating a competing doc.
+- If audience is unclear: infer it from the repository context and state that assumption in the document.
+- If docs and implementation disagree: treat the code and tested behavior as the source of truth and call out the mismatch.
 
 ## Output contract
 - README: must include Purpose, Prerequisites, Installation, Quick Start, Configuration reference

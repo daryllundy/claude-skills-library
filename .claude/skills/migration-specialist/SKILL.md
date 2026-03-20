@@ -11,6 +11,11 @@ metadata:
 
 # Migration Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `write a migration`, `upgrade to version X`, `migrate the schema`.
+- The requested work fits this skill's lane: Writing migrations, zero-downtime schema changes, framework version upgrades, data transformations.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Application code changes after migration (use relevant language skill).
+
 ## First actions
 1. `Glob('**/migrations/**', '**/alembic/**', '**/flyway/**', '**/knexfile.*')` — find migration framework
 2. `Read` the latest migration file to understand naming convention and current schema state

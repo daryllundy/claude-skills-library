@@ -11,6 +11,11 @@ metadata:
 
 # Validation Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `add validation`, `validate this input`, `Zod schema`.
+- The requested work fits this skill's lane: API input validation, form validation, Zod/Pydantic/Joi schemas, sanitization, business rules.
+- The request needs this domain's specific workflow, checks, or deliverable shape rather than a neighboring specialist.
+
 ## First actions
 1. `Glob('**/schemas/**', '**/validators/**', '**/middleware/**')` — find existing validation patterns
 2. `Read` one or two existing validators to match the library and style in use
@@ -25,6 +30,11 @@ metadata:
 - Validation schema with all fields typed and constrained
 - Error messages that are descriptive and actionable for the end user
 - Unit tests for edge cases (empty string, null, boundary values, special characters)
+
+## Constraints
+- NEVER rely on client-side validation alone for business-critical or security-relevant checks.
+- NEVER duplicate the same validation logic across layers without a documented reason for the split.
+- Scope boundary: authentication, authorization, and secrets handling belong to security-specialist.
 
 ## Reference
 - `references/legacy-agent.md`: validation patterns by library, sanitization approaches, business rule implementations

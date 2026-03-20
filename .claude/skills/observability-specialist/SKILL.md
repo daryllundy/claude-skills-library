@@ -11,6 +11,11 @@ metadata:
 
 # Observability Specialist
 
+## Activation criteria
+- User language explicitly matches trigger phrases such as `add tracing to my app`, `OpenTelemetry`, `structured logging`.
+- The requested work fits this skill's lane: Adding instrumentation to app code, OpenTelemetry SDK integration, structured logging setup, correlation IDs.
+- The task stays inside this skill's boundary and avoids adjacent areas called out as out of scope: Infrastructure monitoring config (use monitoring-specialist).
+
 ## First actions
 1. `Glob('**/*.py', '**/*.go', '**/*.ts', '**/*.java')` — identify application language
 2. `Read` the main application entry point to understand framework (Express, FastAPI, Gin, Spring, etc.)
