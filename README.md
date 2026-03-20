@@ -28,7 +28,7 @@ The recommender scans a target project, matches it against weighted detection pa
 Clone the repo if you want the full catalog locally:
 
 ```bash
-git clone git@github-daryllundy:daryllundy/claude-skills-library.git
+git clone https://github.com/daryllundy/claude-skills-library.git
 cd claude-skills-library
 ```
 
