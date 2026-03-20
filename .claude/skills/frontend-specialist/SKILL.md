@@ -1,19 +1,34 @@
 ---
 name: frontend-specialist
-description: Frontend development, UI/UX implementation, React, Vue, Angular
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Frontend development in React, Vue, Angular, and vanilla JavaScript/TypeScript including UI components, state management, and responsive design. Use when asked to build a UI component, implement a React hook, set up state management (Redux, Zustand, Pinia), fix a CSS layout issue, implement responsive design, add accessibility (WCAG), or optimize frontend performance (bundle size, Core Web Vitals).
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: development
+  tags: [frontend, react, vue, angular, typescript, css, accessibility, performance]
 ---
 
-## When to use this skill
-- Component development, state management, responsive design, accessibility
+# Frontend Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. `Glob('**/package.json', '**/tsconfig.json', '**/vite.config.*', '**/next.config.*')` — identify framework and build tool
+2. `Read` package.json to confirm framework version, state management library, and CSS approach
+3. Check for existing component patterns to match style
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Decision rules
+- Match the existing component patterns and naming conventions in the codebase
+- For new projects: default to React + TypeScript + Vite unless otherwise specified
+- For styling: match existing approach (CSS modules, Tailwind, styled-components, etc.)
+- Accessibility: all interactive elements need keyboard navigation and ARIA labels
+
+## Output contract
+- Components: typed props interface; exported as named export; includes basic JSDoc
+- Includes: unit test stub if testing framework is configured
+
+## Constraints
+- NEVER use `any` type in TypeScript without a comment explaining why
+- Scope boundary: backend API design belongs to architecture-specialist; CI/CD belongs to cicd-specialist
+
+## Reference
+- `references/legacy-agent.md`: component patterns, state management, accessibility checklist, performance optimization
