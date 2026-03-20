@@ -1,12 +1,27 @@
 ---
 name: devops-orchestrator
-description: Coordinates multiple DevOps specialist skills for complex infrastructure projects, multi-cloud deployments, and end-to-end infrastructure workflows. Use when a task spans multiple domains (e.g., "set up a full deployment pipeline", "migrate this app to Kubernetes on AWS", "build out our observability stack", "harden our infrastructure"), when you're unsure which specialist to use, or when a project needs phased planning across cloud + IaC + containers + CI/CD + monitoring.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Coordinates multiple DevOps specialist skills for complex infrastructure
+  projects, multi-cloud deployments, and end-to-end infrastructure workflows. Use
+  when a task spans multiple domains (e.g., "set up a full deployment pipeline", "migrate
+  this app to Kubernetes on AWS", "build out our observability stack", "harden our
+  infrastructure"), when you're unsure which specialist to use, or when a project
+  needs phased planning across cloud + IaC + containers + CI/CD + monitoring.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: orchestration
-  tags: [devops, orchestration, coordination, infrastructure, multi-specialist]
+  tags:
+  - devops
+  - orchestration
+  - coordination
+  - infrastructure
+  - multi-specialist
 ---
 
 # DevOps Orchestrator

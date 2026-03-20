@@ -1,12 +1,29 @@
 ---
 name: test-specialist
-description: Test suite writing, coverage improvement, and testing strategy for unit, integration, and end-to-end tests. Use when asked to write unit tests, add integration tests, set up end-to-end testing (Playwright, Cypress), improve test coverage, implement TDD for a new feature, mock external dependencies, or fix flaky tests.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Test suite writing, coverage improvement, and testing strategy for unit,
+  integration, and end-to-end tests. Use when asked to write unit tests, add integration
+  tests, set up end-to-end testing (Playwright, Cypress), improve test coverage, implement
+  TDD for a new feature, mock external dependencies, or fix flaky tests.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: quality
-  tags: [testing, unit-tests, integration-tests, e2e, tdd, coverage, playwright, jest, pytest]
+  tags:
+  - testing
+  - unit-tests
+  - integration-tests
+  - e2e
+  - tdd
+  - coverage
+  - playwright
+  - jest
+  - pytest
 ---
 
 # Test Specialist

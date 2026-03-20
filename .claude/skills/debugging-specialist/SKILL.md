@@ -1,12 +1,25 @@
 ---
 name: debugging-specialist
-description: Systematic bug detection, root cause analysis, and error resolution across languages and systems. Use when code is throwing an error, a test is failing unexpectedly, behavior is wrong but no error is thrown, a race condition is suspected, memory is leaking, or you need help reading a stack trace or crash log.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Systematic bug detection, root cause analysis, and error resolution across
+  languages and systems. Use when code is throwing an error, a test is failing unexpectedly,
+  behavior is wrong but no error is thrown, a race condition is suspected, memory
+  is leaking, or you need help reading a stack trace or crash log.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: productivity
-  tags: [debugging, error-analysis, troubleshooting, stack-trace, root-cause]
+  tags:
+  - debugging
+  - error-analysis
+  - troubleshooting
+  - stack-trace
+  - root-cause
 ---
 
 # Debugging Specialist

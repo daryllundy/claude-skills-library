@@ -1,12 +1,25 @@
 ---
 name: e-commerce-orchestrator
-description: Comprehensive e-commerce website auditor and strategist that analyzes URLs, scores performance across 6 dimensions, and produces prioritized improvement roadmaps. Use when given an e-commerce site URL and asked to audit it, assess conversion performance, identify quick wins, or create a structured improvement plan. Works for Shopify, WooCommerce, and custom storefronts.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Comprehensive e-commerce website auditing and strategy for Shopify, WooCommerce,
+  and custom storefronts. Use when given an e-commerce site URL and asked to audit
+  it, assess conversion performance, identify quick wins, or create a structured improvement
+  plan.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: orchestration
-  tags: [e-commerce, audit, shopify, conversion-optimization, strategy]
+  tags:
+  - e-commerce
+  - audit
+  - shopify
+  - conversion-optimization
+  - strategy
 ---
 
 # E-Commerce Orchestrator

@@ -1,12 +1,25 @@
 ---
 name: code-review-specialist
-description: Automated code review covering quality, security, performance, and best practices across any language. Use when asked to review code, audit a pull request, check for security vulnerabilities in source code, identify performance problems, find bugs or logic errors, or give feedback on code structure and maintainability.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Automated code review covering quality, security, performance, and best
+  practices across any language. Use when asked to review code, audit a pull request,
+  check for security vulnerabilities in source code, identify performance problems,
+  find bugs or logic errors, or give feedback on code structure and maintainability.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: quality
-  tags: [code-review, security, quality, bugs, best-practices]
+  tags:
+  - code-review
+  - security
+  - quality
+  - bugs
+  - best-practices
 ---
 
 # Code Review Specialist

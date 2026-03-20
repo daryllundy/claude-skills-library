@@ -1,12 +1,27 @@
 ---
 name: shopify-specialist
-description: Shopify store setup, Liquid theme customization, conversion optimization, app integration, and performance improvement. Use when asked to customize a Shopify theme with Liquid, set up product collections or metafields, optimize checkout conversion, integrate a Shopify app, fix a Shopify storefront bug, improve Shopify store speed, or set up Shopify Markets for multi-currency.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Shopify store setup, Liquid theme customization, conversion optimization,
+  app integration, and performance improvement. Use when asked to customize a Shopify
+  theme with Liquid, set up product collections or metafields, optimize checkout conversion,
+  integrate a Shopify app, fix a Shopify storefront bug, improve Shopify store speed,
+  or set up Shopify Markets for multi-currency.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: commerce-platform
-  tags: [shopify, liquid, e-commerce, conversion-optimization, shopify-apps, poppy-monarch]
+  tags:
+  - shopify
+  - liquid
+  - e-commerce
+  - conversion-optimization
+  - shopify-apps
+  - poppy-monarch
 ---
 
 # Shopify Specialist

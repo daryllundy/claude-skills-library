@@ -1,12 +1,29 @@
 ---
 name: web-design-specialist
-description: Modern, accessible, and conversion-optimized web design direction, UX guidance, and design system development. Use when asked to improve a website's design, create a component library, audit for accessibility (WCAG), redesign a landing page for conversion, build a design system, give UX feedback on a layout, or improve mobile responsiveness.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Modern, accessible, and conversion-optimized web design direction, UX
+  guidance, and design system development. Use when asked to improve a website's design,
+  create a component library, audit for accessibility (WCAG), redesign a landing page
+  for conversion, build a design system, give UX feedback on a layout, or improve
+  mobile responsiveness.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: design
-  tags: [web-design, ux, ui, accessibility, wcag, design-system, conversion-optimization, responsive]
+  tags:
+  - web-design
+  - ux
+  - ui
+  - accessibility
+  - wcag
+  - design-system
+  - conversion-optimization
+  - responsive
 ---
 
 # Web Design Specialist

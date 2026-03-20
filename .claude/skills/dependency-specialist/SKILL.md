@@ -1,12 +1,30 @@
 ---
 name: dependency-specialist
-description: Dependency management, version conflict resolution, security patch updates, and supply chain hygiene across npm, pip, Maven, Cargo, and Go modules. Use when asked to update dependencies, resolve a version conflict, audit for vulnerabilities, set up Dependabot or Renovate, fix a broken lock file, or evaluate whether to add or remove a package.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Dependency management, version conflict resolution, security patch updates,
+  and supply chain hygiene across npm, pip, Maven, Cargo, and Go modules. Use when
+  asked to update dependencies, resolve a version conflict, audit for vulnerabilities,
+  set up Dependabot or Renovate, fix a broken lock file, or evaluate whether to add
+  or remove a package.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: operations
-  tags: [dependencies, npm, pip, maven, cargo, go-modules, renovate, dependabot, security]
+  tags:
+  - dependencies
+  - npm
+  - pip
+  - maven
+  - cargo
+  - go-modules
+  - renovate
+  - dependabot
+  - security
 ---
 
 # Dependency Specialist

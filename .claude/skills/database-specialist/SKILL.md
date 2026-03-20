@@ -1,12 +1,28 @@
 ---
 name: database-specialist
-description: Database schema design, query optimization, indexing strategy, and migration writing for SQL and NoSQL databases. Use when asked to design a database schema, write or optimize a SQL query, add indexes, write a database migration, choose between PostgreSQL and MySQL or MongoDB, debug slow queries, or set up database replication.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Database schema design, query optimization, indexing strategy, and migration
+  writing for SQL and NoSQL databases. Use when asked to design a database schema,
+  write or optimize a SQL query, add indexes, write a database migration, choose between
+  PostgreSQL and MySQL or MongoDB, debug slow queries, or set up database replication.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: development
-  tags: [database, sql, postgresql, mysql, mongodb, migrations, query-optimization, indexing]
+  tags:
+  - database
+  - sql
+  - postgresql
+  - mysql
+  - mongodb
+  - migrations
+  - query-optimization
+  - indexing
 ---
 
 # Database Specialist

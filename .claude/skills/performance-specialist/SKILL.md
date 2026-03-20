@@ -1,12 +1,27 @@
 ---
 name: performance-specialist
-description: Performance analysis, profiling, and optimization for backend services, databases, and frontend applications. Use when an application is slow, a database query is taking too long, CPU or memory usage is unexpectedly high, you need to implement caching, optimize bundle size, improve Core Web Vitals, or benchmark code changes.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Performance analysis, profiling, and optimization for backend services,
+  databases, and frontend applications. Use when an application is slow, a database
+  query is taking too long, CPU or memory usage is unexpectedly high, you need to
+  implement caching, optimize bundle size, improve Core Web Vitals, or benchmark code
+  changes.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: quality
-  tags: [performance, profiling, optimization, caching, benchmarking, core-web-vitals]
+  tags:
+  - performance
+  - profiling
+  - optimization
+  - caching
+  - benchmarking
+  - core-web-vitals
 ---
 
 # Performance Specialist

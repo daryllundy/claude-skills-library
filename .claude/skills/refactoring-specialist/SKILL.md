@@ -1,12 +1,26 @@
 ---
 name: refactoring-specialist
-description: Code refactoring, technical debt reduction, and code modernization without changing external behavior. Use when asked to refactor a function or module, reduce code duplication, apply SOLID principles, modernize legacy code, break up a large class or file, improve naming and readability, or extract reusable abstractions.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Code refactoring, technical debt reduction, and code modernization without
+  changing external behavior. Use when asked to refactor a function or module, reduce
+  code duplication, apply SOLID principles, modernize legacy code, break up a large
+  class or file, improve naming and readability, or extract reusable abstractions.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: quality
-  tags: [refactoring, technical-debt, solid, clean-code, modernization, dry]
+  tags:
+  - refactoring
+  - technical-debt
+  - solid
+  - clean-code
+  - modernization
+  - dry
 ---
 
 # Refactoring Specialist

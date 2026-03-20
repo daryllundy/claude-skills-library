@@ -1,12 +1,28 @@
 ---
 name: cicd-specialist
-description: CI/CD pipeline design and configuration for GitHub Actions, GitLab CI, Jenkins, CircleCI, and Azure DevOps. Use when asked to write a pipeline, set up automated testing or deployment, configure build caching, add security scanning to CI, implement blue-green or canary deployments, set up artifact publishing, or fix a broken pipeline.
-allowed-tools: "Bash Read Write Glob Grep"
+description: CI/CD pipeline design and configuration for GitHub Actions, GitLab CI,
+  Jenkins, CircleCI, and Azure DevOps. Use when asked to write a pipeline, set up
+  automated testing or deployment, configure build caching, add security scanning
+  to CI, implement blue-green or canary deployments, set up artifact publishing, or
+  fix a broken pipeline.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: infrastructure-platform
-  tags: [cicd, github-actions, gitlab-ci, jenkins, deployment, automation, pipelines]
+  tags:
+  - cicd
+  - github-actions
+  - gitlab-ci
+  - jenkins
+  - deployment
+  - automation
+  - pipelines
 ---
 
 # CI/CD Specialist

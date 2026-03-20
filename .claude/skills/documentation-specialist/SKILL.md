@@ -1,12 +1,27 @@
 ---
 name: documentation-specialist
-description: Technical documentation writing including README files, API docs, architecture docs, runbooks, and code comments. Use when asked to write a README, generate API documentation, document a codebase, write a runbook or operational guide, create an Architecture Decision Record (ADR), add docstrings to functions, or update outdated documentation.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Technical documentation writing including README files, API docs, architecture
+  docs, runbooks, and code comments. Use when asked to write a README, generate API
+  documentation, document a codebase, write a runbook or operational guide, create
+  an Architecture Decision Record (ADR), add docstrings to functions, or update outdated
+  documentation.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: productivity
-  tags: [documentation, readme, api-docs, runbooks, docstrings, technical-writing]
+  tags:
+  - documentation
+  - readme
+  - api-docs
+  - runbooks
+  - docstrings
+  - technical-writing
 ---
 
 # Documentation Specialist

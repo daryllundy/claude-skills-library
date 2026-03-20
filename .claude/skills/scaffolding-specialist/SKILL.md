@@ -1,12 +1,27 @@
 ---
 name: scaffolding-specialist
-description: Project scaffolding, boilerplate generation, and new project setup for various languages and frameworks. Use when starting a new project from scratch, setting up a new service in a monorepo, creating a standard project structure, generating a new CLI tool skeleton, or bootstrapping a new microservice with standard tooling (linting, testing, CI).
-allowed-tools: "Bash Read Write Glob Grep"
+description: Project scaffolding, boilerplate generation, and new project setup for
+  various languages and frameworks. Use when starting a new project from scratch,
+  setting up a new service in a monorepo, creating a standard project structure, generating
+  a new CLI tool skeleton, or bootstrapping a new microservice with standard tooling
+  (linting, testing, CI).
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: productivity
-  tags: [scaffolding, boilerplate, project-setup, new-project, monorepo, cli]
+  tags:
+  - scaffolding
+  - boilerplate
+  - project-setup
+  - new-project
+  - monorepo
+  - cli
 ---
 
 # Scaffolding Specialist

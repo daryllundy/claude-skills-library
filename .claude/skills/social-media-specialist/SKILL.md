@@ -1,12 +1,28 @@
 ---
 name: social-media-specialist
-description: Multi-platform social media strategy, content planning, community management, and brand presence building across Instagram, TikTok, LinkedIn, X, Pinterest, and YouTube. Use when asked to develop a cross-platform social strategy, create a content calendar, plan a social media campaign, audit social media performance, build a brand voice guide, or coordinate content across multiple platforms.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Multi-platform social media strategy, content planning, community management,
+  and brand presence building across Instagram, TikTok, LinkedIn, X, Pinterest, and
+  YouTube. Use when asked to develop a cross-platform social strategy, create a content
+  calendar, plan a social media campaign, audit social media performance, build a
+  brand voice guide, or coordinate content across multiple platforms.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: marketing
-  tags: [social-media, content-strategy, brand, marketing, instagram, tiktok, linkedin]
+  tags:
+  - social-media
+  - content-strategy
+  - brand
+  - marketing
+  - instagram
+  - tiktok
+  - linkedin
 ---
 
 # Social Media Specialist

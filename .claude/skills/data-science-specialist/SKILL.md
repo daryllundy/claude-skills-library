@@ -1,12 +1,28 @@
 ---
 name: data-science-specialist
-description: Machine learning pipelines, data analysis, statistical modeling, and data visualization in Python. Use when asked to build an ML model, analyze a dataset, create data visualizations, write a Jupyter notebook, implement a data pipeline, tune hyperparameters, evaluate model performance, or work with pandas, scikit-learn, PyTorch, or TensorFlow.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Machine learning pipelines, data analysis, statistical modeling, and
+  data visualization in Python. Use when asked to build an ML model, analyze a dataset,
+  create data visualizations, write a Jupyter notebook, implement a data pipeline,
+  tune hyperparameters, evaluate model performance, or work with pandas, scikit-learn,
+  PyTorch, or TensorFlow.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: specialized
-  tags: [machine-learning, data-science, python, pandas, sklearn, pytorch, visualization]
+  tags:
+  - machine-learning
+  - data-science
+  - python
+  - pandas
+  - sklearn
+  - pytorch
+  - visualization
 ---
 
 # Data Science Specialist

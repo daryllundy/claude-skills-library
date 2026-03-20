@@ -1,12 +1,28 @@
 ---
 name: azure-specialist
-description: Azure cloud services, infrastructure, ARM templates, Bicep, and Azure best practices. Use when asked to deploy to Azure, set up Azure VMs or App Service or AKS, configure Azure AD or RBAC, write ARM templates or Bicep files, set up Azure Functions, work with Azure Key Vault, configure Azure Monitor, or design Azure network topology.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Azure cloud services, infrastructure, ARM templates, Bicep, and Azure
+  best practices. Use when asked to deploy to Azure, set up Azure VMs or App Service
+  or AKS, configure Azure AD or RBAC, write ARM templates or Bicep files, set up Azure
+  Functions, work with Azure Key Vault, configure Azure Monitor, or design Azure network
+  topology.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: infrastructure-cloud
-  tags: [azure, cloud, arm, bicep, aks, azure-ad, azure-functions]
+  tags:
+  - azure
+  - cloud
+  - arm
+  - bicep
+  - aks
+  - azure-ad
+  - azure-functions
 ---
 
 # Azure Specialist

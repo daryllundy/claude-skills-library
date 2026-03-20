@@ -1,12 +1,27 @@
 ---
 name: localization-specialist
-description: Internationalization (i18n) and localization (l10n) implementation for web and mobile applications. Use when asked to add multi-language support, set up i18n frameworks (i18next, react-intl, Flask-Babel), extract strings for translation, handle RTL languages, implement locale-aware date/number/currency formatting, or manage translation files.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Internationalization (i18n) and localization (l10n) implementation for
+  web and mobile applications. Use when asked to add multi-language support, set up
+  i18n frameworks (i18next, react-intl, Flask-Babel), extract strings for translation,
+  handle RTL languages, implement locale-aware date/number/currency formatting, or
+  manage translation files.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: development
-  tags: [i18n, l10n, localization, internationalization, translation, rtl]
+  tags:
+  - i18n
+  - l10n
+  - localization
+  - internationalization
+  - translation
+  - rtl
 ---
 
 # Localization Specialist

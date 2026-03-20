@@ -1,12 +1,28 @@
 ---
 name: docker-specialist
-description: Docker containerization, Dockerfile writing and optimization, multi-stage builds, and Docker Compose configuration for development and production. Use when asked to write a Dockerfile, optimize an existing Dockerfile, reduce image size, set up Docker Compose for a multi-service app, add health checks to a container, secure a container configuration, debug a Docker build error, or containerize an application before deploying it.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Docker containerization, Dockerfile writing and optimization, multi-stage
+  builds, and Docker Compose configuration for development and production. Use when
+  asked to write a Dockerfile, optimize an existing Dockerfile, reduce image size,
+  set up Docker Compose for a multi-service app, add health checks to a container,
+  secure a container configuration, debug a Docker build error, or containerize an
+  application before deploying it.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: infrastructure
-  tags: [docker, containerization, dockerfile, docker-compose, multi-stage-builds, container-security]
+  tags:
+  - docker
+  - containerization
+  - dockerfile
+  - docker-compose
+  - multi-stage-builds
+  - container-security
 ---
 
 # Docker Specialist

@@ -1,12 +1,27 @@
 ---
 name: mobile-specialist
-description: iOS, Android, React Native, and Flutter mobile app development. Use when asked to build a mobile screen or component, implement native device features (camera, GPS, push notifications, biometrics), fix a React Native or Flutter issue, set up mobile CI/CD, optimize mobile app performance, or handle platform-specific behavior differences.
-allowed-tools: "Bash Read Write Glob Grep"
+description: iOS, Android, React Native, and Flutter mobile app development. Use when
+  asked to build a mobile screen or component, implement native device features (camera,
+  GPS, push notifications, biometrics), fix a React Native or Flutter issue, set up
+  mobile CI/CD, optimize mobile app performance, or handle platform-specific behavior
+  differences.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: development
-  tags: [mobile, react-native, flutter, ios, android, expo]
+  tags:
+  - mobile
+  - react-native
+  - flutter
+  - ios
+  - android
+  - expo
 ---
 
 # Mobile Specialist

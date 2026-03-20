@@ -1,12 +1,28 @@
 ---
 name: validation-specialist
-description: Input validation, business rule implementation, and data integrity enforcement in application code. Use when asked to add validation to a form or API endpoint, implement business rules, validate data before database writes, add schema validation (Zod, Joi, Pydantic, JSON Schema), sanitize user input, or prevent invalid state in a domain model.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Input validation, business rule implementation, and data integrity enforcement
+  in application code. Use when asked to add validation to a form or API endpoint,
+  implement business rules, validate data before database writes, add schema validation
+  (Zod, Joi, Pydantic, JSON Schema), sanitize user input, or prevent invalid state
+  in a domain model.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: development
-  tags: [validation, input-sanitization, business-rules, schema-validation, zod, pydantic, joi]
+  tags:
+  - validation
+  - input-sanitization
+  - business-rules
+  - schema-validation
+  - zod
+  - pydantic
+  - joi
 ---
 
 # Validation Specialist

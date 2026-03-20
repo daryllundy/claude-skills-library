@@ -1,12 +1,26 @@
 ---
 name: ansible-specialist
-description: Ansible playbooks, roles, inventory management, and configuration automation for Linux/Unix infrastructure. Use when asked to write a playbook, create an Ansible role, manage server configuration, set up dynamic inventory for AWS/Azure/GCP, encrypt secrets with Ansible Vault, run ad-hoc commands against a fleet, or integrate Ansible with CI/CD pipelines.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Ansible playbooks, roles, inventory management, and configuration automation
+  for Linux/Unix infrastructure. Use when asked to write a playbook, create an Ansible
+  role, manage server configuration, set up dynamic inventory for AWS/Azure/GCP, encrypt
+  secrets with Ansible Vault, run ad-hoc commands against a fleet, or integrate Ansible
+  with CI/CD pipelines.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: infrastructure-iac
-  tags: [ansible, configuration-management, devops, iac, automation]
+  tags:
+  - ansible
+  - configuration-management
+  - devops
+  - iac
+  - automation
 ---
 
 # Ansible Specialist

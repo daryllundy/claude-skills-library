@@ -1,12 +1,28 @@
 ---
 name: zapier-specialist
-description: Zapier workflow automation design, Zap configuration, and SaaS integration planning across 6000+ apps. Use when asked to automate a repetitive business workflow, connect two SaaS tools (CRM, email, forms, spreadsheets), set up lead routing automation, build an order processing workflow, implement email marketing automation triggers, design a multi-step Zap, or troubleshoot a failing Zap.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Zapier workflow automation design, Zap configuration, and SaaS integration
+  planning across 6000+ apps. Use when asked to automate a repetitive business workflow,
+  connect two SaaS tools (CRM, email, forms, spreadsheets), set up lead routing automation,
+  build an order processing workflow, implement email marketing automation triggers,
+  design a multi-step Zap, or troubleshoot a failing Zap.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: automation
-  tags: [zapier, automation, saas-integration, workflow, no-code, crm, email-marketing]
+  tags:
+  - zapier
+  - automation
+  - saas-integration
+  - workflow
+  - no-code
+  - crm
+  - email-marketing
 ---
 
 # Zapier Specialist

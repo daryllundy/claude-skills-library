@@ -1,12 +1,26 @@
 ---
 name: tiktok-strategist
-description: TikTok marketing strategy, short-form video content planning, and TikTok algorithm optimization. Use when asked to grow a TikTok account, develop a TikTok content strategy, write video scripts for TikTok, identify trending sounds or formats, plan a TikTok creator collaboration, or audit a TikTok profile for growth opportunities.
-allowed-tools: "Bash Read Write Glob Grep"
+description: TikTok marketing strategy, short-form video content planning, and TikTok
+  algorithm optimization. Use when asked to grow a TikTok account, develop a TikTok
+  content strategy, write video scripts for TikTok, identify trending sounds or formats,
+  plan a TikTok creator collaboration, or audit a TikTok profile for growth opportunities.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: marketing
-  tags: [tiktok, short-form-video, content-strategy, viral, social-media, poppy-monarch]
+  tags:
+  - tiktok
+  - short-form-video
+  - content-strategy
+  - viral
+  - social-media
+  - poppy-monarch
 ---
 
 # TikTok Strategist

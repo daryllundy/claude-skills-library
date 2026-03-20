@@ -1,12 +1,28 @@
 ---
 name: security-specialist
-description: Security auditing, vulnerability identification, secure coding practices, and secrets management. Use when asked to audit code for security vulnerabilities, review IAM permissions, check for hardcoded secrets, implement authentication or authorization, fix a CVE, set up secrets management (Vault, AWS Secrets Manager), review network security rules, or assess OWASP Top 10 exposure.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Security auditing, vulnerability identification, secure coding practices,
+  and secrets management. Use when asked to audit code for security vulnerabilities,
+  review IAM permissions, check for hardcoded secrets, implement authentication or
+  authorization, fix a CVE, set up secrets management (Vault, AWS Secrets Manager),
+  review network security rules, or assess OWASP Top 10 exposure.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: quality
-  tags: [security, vulnerabilities, iam, secrets-management, owasp, authentication, cve]
+  tags:
+  - security
+  - vulnerabilities
+  - iam
+  - secrets-management
+  - owasp
+  - authentication
+  - cve
 ---
 
 # Security Specialist

@@ -1,12 +1,25 @@
 ---
 name: migration-specialist
-description: Database migrations, framework version upgrades, and data transformation workflows. Use when asked to write a database migration, upgrade a framework to a new major version, migrate data between schemas or databases, handle a breaking change in a dependency, or plan a zero-downtime schema change.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Database migrations, framework version upgrades, and data transformation
+  workflows. Use when asked to write a database migration, upgrade a framework to
+  a new major version, migrate data between schemas or databases, handle a breaking
+  change in a dependency, or plan a zero-downtime schema change.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: operations
-  tags: [migration, database-migration, framework-upgrade, data-transformation, zero-downtime]
+  tags:
+  - migration
+  - database-migration
+  - framework-upgrade
+  - data-transformation
+  - zero-downtime
 ---
 
 # Migration Specialist

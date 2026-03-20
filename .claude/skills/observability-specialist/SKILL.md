@@ -1,12 +1,28 @@
 ---
 name: observability-specialist
-description: Application-level instrumentation for metrics, structured logging, and distributed tracing using OpenTelemetry, Prometheus client libraries, and logging frameworks. Use when asked to add instrumentation to application code, implement structured logging, add trace spans to a service, integrate OpenTelemetry SDK, set up correlation IDs across microservices, or add custom Prometheus metrics to an application.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Application-level instrumentation for metrics, structured logging, and
+  distributed tracing using OpenTelemetry, Prometheus client libraries, and logging
+  frameworks. Use when asked to add instrumentation to application code, implement
+  structured logging, add trace spans to a service, integrate OpenTelemetry SDK, set
+  up correlation IDs across microservices, or add custom Prometheus metrics to an
+  application.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: infrastructure
-  tags: [observability, opentelemetry, structured-logging, tracing, prometheus-client, instrumentation]
+  tags:
+  - observability
+  - opentelemetry
+  - structured-logging
+  - tracing
+  - prometheus-client
+  - instrumentation
 ---
 
 # Observability Specialist

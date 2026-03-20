@@ -1,12 +1,26 @@
 ---
 name: git-specialist
-description: Git workflows, branching strategies, repository management, and conflict resolution. Use when asked to set up a branching strategy, resolve a merge conflict, clean up git history (rebase, squash), configure git hooks, set up a monorepo structure, recover from a bad commit or accidental push, or write a .gitignore file.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Git workflows, branching strategies, repository management, and conflict
+  resolution. Use when asked to set up a branching strategy, resolve a merge conflict,
+  clean up git history (rebase, squash), configure git hooks, set up a monorepo structure,
+  recover from a bad commit or accidental push, or write a .gitignore file.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: operations
-  tags: [git, version-control, branching, merge-conflicts, gitflow, trunk-based]
+  tags:
+  - git
+  - version-control
+  - branching
+  - merge-conflicts
+  - gitflow
+  - trunk-based
 ---
 
 # Git Specialist

@@ -1,12 +1,30 @@
 ---
 name: terraform-specialist
-description: Terraform configuration writing, module development, state management, and multi-cloud infrastructure provisioning. Use when asked to write Terraform code, create a reusable Terraform module, manage Terraform state (local, S3, Terraform Cloud), import existing infrastructure, set up workspaces for multi-environment management, or troubleshoot a Terraform plan or apply error.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Terraform configuration writing, module development, state management,
+  and multi-cloud infrastructure provisioning. Use when asked to write Terraform code,
+  create a reusable Terraform module, manage Terraform state (local, S3, Terraform
+  Cloud), import existing infrastructure, set up workspaces for multi-environment
+  management, or troubleshoot a Terraform plan or apply error.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: infrastructure-iac
-  tags: [terraform, iac, infrastructure, modules, state, aws, azure, gcp, multi-cloud]
+  tags:
+  - terraform
+  - iac
+  - infrastructure
+  - modules
+  - state
+  - aws
+  - azure
+  - gcp
+  - multi-cloud
 ---
 
 # Terraform Specialist

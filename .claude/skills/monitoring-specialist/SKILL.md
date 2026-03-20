@@ -1,12 +1,31 @@
 ---
 name: monitoring-specialist
-description: Observability strategy, Prometheus and Grafana setup, ELK stack, distributed tracing, alerting, and SLO/SLI definition. Use when asked to set up monitoring, create a Grafana dashboard, write Prometheus alerting rules, define SLOs, configure Alertmanager routing, implement distributed tracing with Jaeger or Zipkin, set up centralized logging with Loki or Elasticsearch, or write an on-call runbook.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Observability strategy, Prometheus and Grafana setup, ELK stack, distributed
+  tracing, alerting, and SLO/SLI definition. Use when asked to set up monitoring,
+  create a Grafana dashboard, write Prometheus alerting rules, define SLOs, configure
+  Alertmanager routing, implement distributed tracing with Jaeger or Zipkin, set up
+  centralized logging with Loki or Elasticsearch, or write an on-call runbook.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: infrastructure-platform
-  tags: [monitoring, prometheus, grafana, alerting, slo, sli, elk, loki, tracing, observability]
+  tags:
+  - monitoring
+  - prometheus
+  - grafana
+  - alerting
+  - slo
+  - sli
+  - elk
+  - loki
+  - tracing
+  - observability
 ---
 
 # Monitoring Specialist

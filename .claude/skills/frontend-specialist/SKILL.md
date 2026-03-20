@@ -1,12 +1,29 @@
 ---
 name: frontend-specialist
-description: Frontend development in React, Vue, Angular, and vanilla JavaScript/TypeScript including UI components, state management, and responsive design. Use when asked to build a UI component, implement a React hook, set up state management (Redux, Zustand, Pinia), fix a CSS layout issue, implement responsive design, add accessibility (WCAG), or optimize frontend performance (bundle size, Core Web Vitals).
-allowed-tools: "Bash Read Write Glob Grep"
+description: Frontend development in React, Vue, Angular, and vanilla JavaScript/TypeScript
+  including UI components, state management, and responsive design. Use when asked
+  to build a UI component, implement a React hook, set up state management (Redux,
+  Zustand, Pinia), fix a CSS layout issue, implement responsive design, add accessibility
+  (WCAG), or optimize frontend performance (bundle size, Core Web Vitals).
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: development
-  tags: [frontend, react, vue, angular, typescript, css, accessibility, performance]
+  tags:
+  - frontend
+  - react
+  - vue
+  - angular
+  - typescript
+  - css
+  - accessibility
+  - performance
 ---
 
 # Frontend Specialist

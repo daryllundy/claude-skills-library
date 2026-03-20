@@ -1,12 +1,26 @@
 ---
 name: compliance-specialist
-description: Regulatory compliance implementation for GDPR, HIPAA, SOC 2, PCI-DSS, and audit trail design. Use when asked to make a system GDPR-compliant, implement HIPAA controls, prepare for SOC 2 audit, add audit logging, implement data retention policies, build a right-to-be-forgotten feature, or assess compliance gaps.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Regulatory compliance implementation for GDPR, HIPAA, SOC 2, PCI-DSS,
+  and audit trail design. Use when asked to make a system GDPR-compliant, implement
+  HIPAA controls, prepare for SOC 2 audit, add audit logging, implement data retention
+  policies, build a right-to-be-forgotten feature, or assess compliance gaps.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: business
-  tags: [compliance, gdpr, hipaa, soc2, audit, privacy]
+  tags:
+  - compliance
+  - gdpr
+  - hipaa
+  - soc2
+  - audit
+  - privacy
 ---
 
 # Compliance Specialist

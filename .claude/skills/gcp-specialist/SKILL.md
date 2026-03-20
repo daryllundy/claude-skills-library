@@ -1,12 +1,28 @@
 ---
 name: gcp-specialist
-description: Google Cloud Platform infrastructure, services, and architecture using gcloud CLI, Deployment Manager, and Terraform. Use when asked to deploy to GCP, set up Compute Engine or Cloud Run or GKE, configure GCP IAM and service accounts, write Deployment Manager templates, set up Cloud SQL or Cloud Storage, configure Cloud Monitoring, or optimize GCP costs.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Google Cloud Platform infrastructure, services, and architecture using
+  gcloud CLI, Deployment Manager, and Terraform. Use when asked to deploy to GCP,
+  set up Compute Engine or Cloud Run or GKE, configure GCP IAM and service accounts,
+  write Deployment Manager templates, set up Cloud SQL or Cloud Storage, configure
+  Cloud Monitoring, or optimize GCP costs.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: infrastructure-cloud
-  tags: [gcp, google-cloud, gke, cloud-run, bigquery, terraform, iam]
+  tags:
+  - gcp
+  - google-cloud
+  - gke
+  - cloud-run
+  - bigquery
+  - terraform
+  - iam
 ---
 
 # GCP Specialist

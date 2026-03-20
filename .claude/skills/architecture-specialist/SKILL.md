@@ -1,12 +1,26 @@
 ---
 name: architecture-specialist
-description: Software system architecture, design patterns, and architectural decision-making for backend, distributed, and cloud-native systems. Use when asked to design a system, choose between microservices and monolith, create an architecture diagram, make a technology decision, write an ADR (Architecture Decision Record), evaluate scalability of a design, or advise on API design (REST, GraphQL, gRPC).
-allowed-tools: "Bash Read Write Glob Grep"
+description: Software system architecture, design patterns, and architectural decision-making
+  for backend, distributed, and cloud-native systems. Use when asked to design a system,
+  choose between microservices and monolith, create an architecture diagram, make
+  a technology decision, write an ADR (Architecture Decision Record), evaluate scalability
+  of a design, or advise on API design (REST, GraphQL, gRPC).
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: design
-  tags: [architecture, system-design, patterns, api-design, distributed-systems]
+  tags:
+  - architecture
+  - system-design
+  - patterns
+  - api-design
+  - distributed-systems
 ---
 
 # Architecture Specialist

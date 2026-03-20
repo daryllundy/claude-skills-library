@@ -1,12 +1,33 @@
 ---
 name: aws-specialist
-description: AWS cloud infrastructure, services, and architecture including CloudFormation, CDK, and the AWS Well-Architected Framework. Use when asked to deploy to AWS, set up EC2 or ECS or EKS, configure IAM roles or policies, create Lambda functions, set up S3 buckets or CloudFront, design a VPC, write CloudFormation or CDK code, optimize AWS costs, configure CloudWatch alarms, scan AWS account resources, or audit AWS security posture.
-allowed-tools: "Bash Read Write Glob Grep"
+description: AWS cloud infrastructure, services, and architecture including CloudFormation,
+  CDK, and the AWS Well-Architected Framework. Use when asked to deploy to AWS, set
+  up EC2 or ECS or EKS, configure IAM roles or policies, create Lambda functions,
+  set up S3 buckets or CloudFront, design a VPC, write CloudFormation or CDK code,
+  optimize AWS costs, configure CloudWatch alarms, scan AWS account resources, or
+  audit AWS security posture.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: infrastructure-cloud
-  tags: [aws, cloud, iac, cloudformation, cdk, lambda, ec2, ecs, eks, iam, s3]
+  tags:
+  - aws
+  - cloud
+  - iac
+  - cloudformation
+  - cdk
+  - lambda
+  - ec2
+  - ecs
+  - eks
+  - iam
+  - s3
 ---
 
 # AWS Specialist

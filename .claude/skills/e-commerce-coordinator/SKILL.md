@@ -1,12 +1,27 @@
 ---
 name: e-commerce-coordinator
-description: Coordinates multi-week e-commerce improvement programs across design, platform, marketing, and automation specialists. Use when an e-commerce audit is complete and you need to sequence the improvement work, track progress across a multi-specialist roadmap, determine which specialist to engage next, or manage dependencies between design, Shopify, social media, and automation work.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Coordinates multi-week e-commerce improvement programs across design,
+  platform, marketing, and automation specialists. Use when an e-commerce audit is
+  complete and you need to sequence the improvement work, track progress across a
+  multi-specialist roadmap, determine which specialist to engage next, or manage dependencies
+  between design, Shopify, social media, and automation work.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: orchestration
-  tags: [e-commerce, coordination, roadmap, shopify, social-media, poppy-monarch]
+  tags:
+  - e-commerce
+  - coordination
+  - roadmap
+  - shopify
+  - social-media
+  - poppy-monarch
 ---
 
 # E-Commerce Coordinator

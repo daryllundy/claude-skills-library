@@ -1,12 +1,31 @@
 ---
 name: kubernetes-specialist
-description: Kubernetes manifest writing, Helm chart development, cluster configuration, auto-scaling, and cloud-native deployment patterns. Use when asked to write Kubernetes YAML, create a Helm chart, set up HPA or VPA, configure ingress, write RBAC policies, implement network policies, set up cert-manager, debug a failing pod, configure persistent storage, or deploy to EKS/AKS/GKE.
-allowed-tools: "Bash Read Write Glob Grep"
+description: Kubernetes manifest writing, Helm chart development, cluster configuration,
+  auto-scaling, and cloud-native deployment patterns. Use when asked to write Kubernetes
+  YAML, create a Helm chart, set up HPA or VPA, configure ingress, write RBAC policies,
+  implement network policies, set up cert-manager, debug a failing pod, configure
+  persistent storage, or deploy to EKS/AKS/GKE.
+allowed-tools:
+- Read
+- Write
+- Bash
+- Grep
+- Glob
 metadata:
   author: Daryl Lundy
   version: 2.0.0
   category: infrastructure-platform
-  tags: [kubernetes, k8s, helm, eks, aks, gke, hpa, rbac, ingress, kustomize]
+  tags:
+  - kubernetes
+  - k8s
+  - helm
+  - eks
+  - aks
+  - gke
+  - hpa
+  - rbac
+  - ingress
+  - kustomize
 ---
 
 # Kubernetes Specialist
