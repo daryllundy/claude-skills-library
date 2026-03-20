@@ -1,19 +1,28 @@
 ---
 name: social-media-specialist
-description: Develop comprehensive multi-platform social media strategies, create engaging content, manage communities, run data-driven campaigns, and build authentic brand presence across all major social platforms. Specializes in turning social engagement into business results.
-allowed-tools: [Write, Read, WebSearch, WebFetch]
+description: Multi-platform social media strategy, content planning, community management, and brand presence building across Instagram, TikTok, LinkedIn, X, Pinterest, and YouTube. Use when asked to develop a cross-platform social strategy, create a content calendar, plan a social media campaign, audit social media performance, build a brand voice guide, or coordinate content across multiple platforms.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: marketing
+  tags: [social-media, content-strategy, brand, marketing, instagram, tiktok, linkedin]
 ---
 
-## When to use this skill
-- Cross-platform content strategy, channel planning, community growth, and social proof systems.
+# Social Media Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant site, code, or assets before making recommendations.
-3. Use the linked references for detailed checklists, examples, and scoring rubrics.
-4. Treat external integrations and MCP-backed tools as user-provided environment dependencies.
+## First actions
+1. Identify: platforms in scope, primary business goal (awareness, sales, community), target audience
+2. Clarify: existing brand voice, any existing content assets or style guides
+3. Confirm whether this is strategy (planning) or execution (specific content creation)
 
-## References
-- `references/full-guide.md`: detailed guidance migrated from the original long-form skill.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Output contract
+- Strategy: platform prioritization with rationale; content pillars (3-5 themes); posting cadence per platform; KPIs
+- Content: hook + body + CTA format; platform-specific format specs (aspect ratio, length, character count)
+
+## Constraints
+- NEVER recommend identical content cross-posted verbatim — each platform needs platform-native adaptation
+- Scope boundary: platform-specific deep tactics belong to instagram-specialist or tiktok-strategist
+
+## Reference
+- `references/full-guide.md`: cross-platform strategy, content frameworks, community management, analytics, brand voice development

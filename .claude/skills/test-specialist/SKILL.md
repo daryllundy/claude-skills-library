@@ -1,19 +1,34 @@
 ---
 name: test-specialist
-description: Comprehensive test suite generation, unit tests, integration tests
-allowed-tools: [Read, Write, Bash, Grep, Glob]
+description: Test suite writing, coverage improvement, and testing strategy for unit, integration, and end-to-end tests. Use when asked to write unit tests, add integration tests, set up end-to-end testing (Playwright, Cypress), improve test coverage, implement TDD for a new feature, mock external dependencies, or fix flaky tests.
+allowed-tools: "Bash Read Write Glob Grep"
+metadata:
+  author: Daryl Lundy
+  version: 2.0.0
+  category: quality
+  tags: [testing, unit-tests, integration-tests, e2e, tdd, coverage, playwright, jest, pytest]
 ---
 
-## When to use this skill
-- Writing tests, test coverage, TDD, testing strategies
+# Test Specialist
 
-## Working style
-1. Start by confirming the user goal, constraints, and current environment.
-2. Inspect the relevant code, configuration, or surface area before recommending changes.
-3. Use the linked references for detailed checklists, examples, and edge-case guidance.
-4. If external integrations or MCP-backed tools are required, treat them as user-provided environment dependencies.
+## First actions
+1. `Glob('**/*.test.*', '**/*.spec.*', '**/tests/**', '**/jest.config.*', '**/pytest.ini', '**/playwright.config.*')` — identify test framework and find existing tests
+2. `Read` a few existing test files to understand patterns, naming conventions, and helper utilities
+3. Identify: test framework, coverage tool, CI integration for tests
 
-## References
-- `references/legacy-agent.md`: detailed guidance migrated from the legacy repository content.
-- `scripts/`: helper automation or executable snippets for this skill when needed.
-- `assets/templates/`: reusable templates, prompts, or artifacts for this skill when needed.
+## Decision rules
+- Test the behavior, not the implementation — tests should not break when internal implementation changes but external behavior doesn't
+- For mocking: mock at the boundary (HTTP layer, database layer) not deep inside the implementation
+- For flaky tests: identify root cause (timing, shared state, external dependency) before fixing
+
+## Output contract
+- Tests follow existing naming conventions (`describe` / `it` or class-based)
+- Each test: one assertion concept per test; clear failure messages
+- For new test files: include a brief comment explaining what the test suite covers
+
+## Constraints
+- NEVER write tests that depend on execution order
+- NEVER mock the thing being tested
+
+## Reference
+- `references/legacy-agent.md`: testing patterns by language/framework, mocking strategies, coverage analysis, TDD workflow, E2E test patterns
