@@ -97,6 +97,7 @@ When performing performance analysis through MCP servers, **write code to intera
 
 ### Code Structure Pattern
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import performance_mcp
 import statistics
 
@@ -126,6 +127,7 @@ for func, time in sorted_funcs[:5]:
 
 ### Example: Performance Regression Detection
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import performance_mcp
 import json
 
@@ -166,6 +168,7 @@ with open('./benchmarks/performance-history.json', 'w') as f:
 
 ### Example: Memory Leak Detection
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import performance_mcp
 import time
 
@@ -206,6 +209,7 @@ else:
 
 ### Example: Core Web Vitals Analysis
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import performance_mcp
 import statistics
 
@@ -254,6 +258,7 @@ if scores['LCP'] != 'good':
 
 ### Example: Load Test Analysis
 ```python
+# <!-- MCP STUB - NON-FUNCTIONAL. Do not execute. Replace with real SDK calls. -->
 import performance_mcp
 import statistics
 
